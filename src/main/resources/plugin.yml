@@ -1,0 +1,6 @@
+name: RockPaperScissors
+version: '1.0'
+main: pl.pavetti.rockpaperscissors.Main
+api-version: '1.20'
+commands:
+  rps:
