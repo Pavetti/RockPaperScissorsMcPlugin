@@ -3,10 +3,12 @@ package pl.pavetti.rockpaperscissors.game;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.entity.Player;
 import pl.pavetti.rockpaperscissors.Main;
+import pl.pavetti.rockpaperscissors.config.Settings;
 import pl.pavetti.rockpaperscissors.game.model.Choice;
 import pl.pavetti.rockpaperscissors.game.model.RpsGame;
 import pl.pavetti.rockpaperscissors.game.model.RpsPlayer;
 import pl.pavetti.rockpaperscissors.util.PlayerUtil;
+import pl.pavetti.rockpaperscissors.waitingroom.WaitingRoomManager;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -17,10 +19,13 @@ public class RpsGameManager {
     private final Set<RpsGame> activeGames = new HashSet<>();
     private final GameUI gameUI;
     private final Economy economy;
+    private final WaitingRoomManager waitingRoomManager;
+    private final Settings settings = Settings.getInstance();
 
     private RpsGameManager(){
         gameUI = new GameUI();
         economy = Main.getInstance().getEconomy();
+        waitingRoomManager = Main.getInstance().getWaitingRoomManager();
     }
     public static RpsGameManager getInstance(){
         if(instance == null){
@@ -46,9 +51,12 @@ public class RpsGameManager {
 
     public void startGame(RpsGame rpsGame) {
         if(activeGames.contains(rpsGame)){
-            rpsGame.getOpponent().getPlayer().openInventory(gameUI.getInventory());
-            rpsGame.getInitiator().getPlayer().openInventory(gameUI.getInventory());
+            rpsGame.getOpponent().getPlayer().openInventory(gameUI.getMainInventory());
+            rpsGame.getInitiator().getPlayer().openInventory(gameUI.getMainInventory());
         }
+    }
+    public void startTimeToEnd(RpsGame rpsGame){
+        waitingRoomManager.getRpsChooseWR().addWaiter(rpsGame);
     }
 
     public void endGame(RpsGame rpsGame){
@@ -57,9 +65,27 @@ public class RpsGameManager {
             if(winner != null){
                 settleBet(winner);
             }else {
-                System.out.println("REMISSSS");
+                doDraw(rpsGame);
             }
         }
+        activeGames.remove(rpsGame);
+        waitingRoomManager.getRpsChooseWR().removeWaiter(rpsGame);
+    }
+
+    public void endGameByTimesUp(RpsGame rpsGame){
+        RpsPlayer winner;
+        RpsPlayer losser;
+        int bet = rpsGame.getBet();
+        //founds player who didnt choose
+        if(rpsGame.getInitiator().getChoice() == null){
+            losser = rpsGame.getInitiator();
+            winner = rpsGame.getOpponent();
+        }else {
+            losser = rpsGame.getOpponent();
+            winner = rpsGame.getInitiator();
+        }
+        losser.getPlayer().closeInventory();
+        settleBet(winner,losser,bet);
     }
 
     private RpsPlayer getWinner (RpsGame rpsGame){
@@ -74,23 +100,39 @@ public class RpsGameManager {
         else if (choice1 == Choice.PAPER && choice2 == Choice.SCISSORS) return player2;
         else if (choice1 == Choice.SCISSORS && choice2 == Choice.ROCK) return player2;
         else if (choice1 == Choice.SCISSORS && choice2 == Choice.PAPER) return player1;
-            
+
         return null;
     }
 
-    private void settleBet(RpsPlayer rpsPlayer){
-        Player winner = rpsPlayer.getPlayer();
-        Player losser;
-        RpsGame rpsGame = rpsPlayer.getRpsGame();
-        int bet = rpsPlayer.getRpsGame().getBet();
+    private void settleBet(RpsPlayer winner){
 
-        if(PlayerUtil.compare(rpsGame.getInitiator().getPlayer(),rpsPlayer.getPlayer())){
-            losser = rpsGame.getOpponent().getPlayer();
+        RpsPlayer losser;
+        RpsGame rpsGame = winner.getRpsGame();
+        int bet = winner.getRpsGame().getBet();
+
+        if(PlayerUtil.compare(rpsGame.getInitiator().getPlayer(),winner.getPlayer())){
+            losser = rpsGame.getOpponent();
         }else {
-            losser = rpsGame.getInitiator().getPlayer();
+            losser = rpsGame.getInitiator();
         }
 
-        economy.withdrawPlayer(losser,bet);
-        economy.depositPlayer(winner,bet);
+        settleBet(winner,losser,bet);
+    }
+
+    private void settleBet(RpsPlayer winner, RpsPlayer loser, int bet){
+        Player winnerPlayer = winner.getPlayer();
+        Player losserPlayer = loser.getPlayer();
+
+        economy.withdrawPlayer(losserPlayer,bet);
+        economy.depositPlayer(winnerPlayer,bet);
+
+        PlayerUtil.sendMessagePrefixed(winnerPlayer,settings.getWinMessage());
+        PlayerUtil.sendMessagePrefixed(losserPlayer,settings.getLoseMessage());
+    }
+
+    private void doDraw(RpsGame rpsGame){
+        //TODO
+        PlayerUtil.sendMessagePrefixed(rpsGame.getInitiator().getPlayer(),settings.getDrawMessage());
+        PlayerUtil.sendMessagePrefixed(rpsGame.getOpponent().getPlayer(), settings.getDrawMessage());
     }
 }

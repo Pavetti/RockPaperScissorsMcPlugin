@@ -12,15 +12,15 @@ public class RpsPlayer implements Waiter {
     private final RpsGame rpsGame;
     private Choice choice;
 
-
-
     public void choose(Choice choice){
         this.choice = choice;
         rpsGame.tryEnd();
+        rpsGame.tryStartTimeToEnd();
+        player.closeInventory();
     }
 
     @Override
-    public Object getInstance() {
+    public RpsPlayer getInstance() {
         return this;
     }
 }

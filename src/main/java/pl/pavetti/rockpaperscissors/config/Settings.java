@@ -24,7 +24,6 @@ public class  Settings {
     private int chooseTime;
 
     //gui
-    //main
     private String guiMainTitle;
     private String guiMainFillItemName;
     private Material guiMainFillItem;
@@ -34,12 +33,6 @@ public class  Settings {
     private Material guiPaperItem;
     private String guiScissorsName;
     private Material guiScissorsItem;
-    //waiting
-    private String guiWaitingLineName;
-    private Material guiWaitingLineItem;
-    private String guiWaitingFillItemName;
-    private Material guiWaitingFillItem;
-
     //messages
     private String noPermission;
     private String badUseRpsGameCmd;

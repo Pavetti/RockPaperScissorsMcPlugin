@@ -9,15 +9,15 @@ import pl.pavetti.rockpaperscissors.config.Settings;
 import pl.pavetti.rockpaperscissors.inventoryholder.RpsMenuInventoryHolder;
 
 public class GameUI {
-    private Inventory inventory;
+    private Inventory mainInventory;
 
     public GameUI() {
-        createInventory();
+        createMainInventory();
     }
 
-    public void createInventory(){
+    public void createMainInventory(){
         Settings settings = Settings.getInstance();
-        inventory = Bukkit.createInventory(new RpsMenuInventoryHolder(),27,settings.getGuiMainTitle());
+        mainInventory = Bukkit.createInventory(new RpsMenuInventoryHolder(),27,settings.getGuiMainTitle());
         //rock
         ItemStack rock = new ItemStack(settings.getGuiRockItem(),1);
         ItemMeta rockMeta = rock.getItemMeta();
@@ -37,12 +37,13 @@ public class GameUI {
         scissorsMeta.setDisplayName(settings.getGuiScissorsName());
         scissors.setItemMeta(scissorsMeta);
 
-        inventory.setItem(11,rock);
-        inventory.setItem(13,paper);
-        inventory.setItem(15,scissors);
+        mainInventory.setItem(11,rock);
+        mainInventory.setItem(13,paper);
+        mainInventory.setItem(15,scissors);
     }
 
-    public Inventory getInventory() {
-        return inventory;
+    public Inventory getMainInventory() {
+        return mainInventory;
     }
+
 }

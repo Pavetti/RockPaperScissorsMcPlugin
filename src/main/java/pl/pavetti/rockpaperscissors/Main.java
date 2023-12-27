@@ -15,6 +15,7 @@ public final class Main extends JavaPlugin {
     private static Main instance;
     @Getter
     private Economy economy;
+    @Getter
     private WaitingRoomManager waitingRoomManager;
 
 

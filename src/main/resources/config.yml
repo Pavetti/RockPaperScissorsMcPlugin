@@ -17,7 +17,6 @@ settings:
     loseBetOnLeave: true
 
   gui:
-
     main:
       title: "Chuj"
       rock:
@@ -32,14 +31,6 @@ settings:
       fillItem:
         item: GRAY_STAINED_GLASS_PANE
         name: " "
-
-    waiting:
-      waitingLine:
-        item: WHITE_STAINED_GLASS_PANE
-        name: "Waiting for opponent.."
-      fillItem:
-        item: GRAY_STAINED_GLASS_PANE
-        name: "Waiting for opponent.."
 
   messages:
     noPermission: '&cYou do not have permission to use this command'
