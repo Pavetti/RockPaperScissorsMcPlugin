@@ -40,6 +40,8 @@ public class  Settings {
     private String playerNotExist;
     private String rpsInvite;
     private String noInvitation;
+    private String alreadyPlay;
+    private String alreadyInvite;
     private String winMessage;
     private String loseMessage;
     private String drawMessage;
@@ -88,6 +90,8 @@ public class  Settings {
         playerNotExist = ChatUtil.chatColor(configuration.getString("settings.messages.playerNotExist"));
         rpsInvite = ChatUtil.chatColor(configuration.getString("settings.messages.rpsInvite"));
         noInvitation = ChatUtil.chatColor(configuration.getString("settings.messages.noInvitation"));
+        alreadyPlay = ChatUtil.chatColor(configuration.getString("settings.messages.alreadyPlay"));
+        alreadyInvite = ChatUtil.chatColor(configuration.getString("settings.messages.alreadyInvite"));
         winMessage = ChatUtil.chatColor(configuration.getString("settings.messages.winMessage"));
         loseMessage = ChatUtil.chatColor(configuration.getString("settings.messages.loseMessage"));
         drawMessage = ChatUtil.chatColor(configuration.getString("settings.messages.drawMessage"));

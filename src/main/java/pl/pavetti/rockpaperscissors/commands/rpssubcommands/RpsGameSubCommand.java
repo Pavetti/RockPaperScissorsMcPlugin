@@ -8,8 +8,12 @@ import pl.pavetti.rockpaperscissors.api.timsixth.SubCommand;
 import pl.pavetti.rockpaperscissors.config.Settings;
 import pl.pavetti.rockpaperscissors.game.RpsGameManager;
 import pl.pavetti.rockpaperscissors.game.model.RpsGame;
+import pl.pavetti.rockpaperscissors.game.model.RpsPlayer;
 import pl.pavetti.rockpaperscissors.util.PlayerUtil;
 import pl.pavetti.rockpaperscissors.waitingroom.WaitingRoomManager;
+
+import java.util.List;
+import java.util.Optional;
 
 public class RpsGameSubCommand implements SubCommand {
 
@@ -55,6 +59,25 @@ public class RpsGameSubCommand implements SubCommand {
             PlayerUtil.sendMessagePrefixed(player, settings.getNotEnoughMoney());
             return true;
         }
+
+        RpsGameManager rpsGameManager =  RpsGameManager.getInstance();
+
+        //check if already invite
+        //check if enemy player already play
+        List<RpsGame> games = rpsGameManager.getRpsGamesWhere(enemyPlayer);
+            for (RpsGame game : games) {
+                if(game.isStarted()){
+                    PlayerUtil.sendMessagePrefixed(player,settings.getAlreadyPlay().replace("{NAME}",args[1]));
+                    return true;
+                }
+                if(PlayerUtil.compare(game.getInitiator().getPlayer(), player)){
+                    PlayerUtil.sendMessagePrefixed(player,settings.getAlreadyInvite());
+                    return true;
+                }
+            }
+
+
+
         RpsGame rpsGame = new RpsGame(player,enemyPlayer,bet);
         waitingRoomManager.getRpsInviteWR().addWaiter(rpsGame.getOpponent());
         RpsGameManager.getInstance().registryGame(rpsGame);

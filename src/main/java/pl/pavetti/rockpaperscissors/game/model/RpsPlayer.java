@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.bukkit.entity.Player;
 import pl.pavetti.rockpaperscissors.waitingroom.model.Waiter;
 
+import java.util.Objects;
+
 @Getter
 @RequiredArgsConstructor
 public class RpsPlayer implements Waiter {
@@ -23,4 +25,5 @@ public class RpsPlayer implements Waiter {
     public RpsPlayer getInstance() {
         return this;
     }
+
 }

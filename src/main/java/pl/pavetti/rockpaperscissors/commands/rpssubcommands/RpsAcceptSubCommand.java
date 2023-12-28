@@ -44,13 +44,23 @@ public class RpsAcceptSubCommand implements SubCommand {
         //check if player has invitation
         List<Waiter> waiterList = waitingRoom.getWaiterListOfPlayer(opponent);
         Optional<Waiter> waiterOptional = findWaiter(waiterList,initiator);
-
         if(!waiterOptional.isPresent()){
             PlayerUtil.sendMessagePrefixed(opponent, settings.getNoInvitation().replace("{NAME}",args[1]));
             return true;
         }
-        //start game
+
         Waiter waiter = waiterOptional.get();
+        //check if initiator already play
+        // jeżeli ktoś zaczyna gre (odpala się gui) wyrejstrowuje wszytstki inne gry z nim zwiazen
+        // wiec tej gry juz nie bedzie
+        if(!(RpsGameManager.getInstance().getRpsPlayer(opponent).isPresent())){
+            PlayerUtil.sendMessagePrefixed(opponent,settings.getAlreadyPlay().replace("{NAME}",args[1]));
+            waitingRoom.removeWaiter(waiter);
+            return true;
+        }
+
+
+        //start game
         RpsGameManager.getInstance().startGame(
                 ((RpsPlayer) waiter.getInstance()).getRpsGame());
         waitingRoom.removeWaiter(waiter);

@@ -11,8 +11,10 @@ public class RpsGame implements Waiter {
     private final RpsPlayer initiator;
     private final RpsPlayer opponent;
     private final int bet;
+    private boolean isStarted;
 
     public RpsGame(Player initiator, Player oponent, int bet) {
+        isStarted = false;
         this.bet = bet;
         this.initiator = new RpsPlayer(initiator,this);
         this.opponent = new RpsPlayer(oponent,this);
@@ -37,6 +39,10 @@ public class RpsGame implements Waiter {
             return initiator;
         }
         throw new IllegalArgumentException();
+    }
+
+    public void start(){
+        isStarted = true;
     }
 
     @Override

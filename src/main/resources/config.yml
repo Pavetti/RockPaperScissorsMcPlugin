@@ -9,9 +9,9 @@ settings:
     #Minimum amount of bet
     minBet: 0
     #in seconds
-    acceptTime: 30
+    acceptTime: 300
     #czas liczy się od momętu aż ktoś wybieze
-    chooseTime: 30
+    chooseTime: 300
     timer: true
     replayOnDraw: true
     #nie wybranie w określonym czasie = leave
@@ -43,6 +43,8 @@ settings:
     notEnoughMoney: '&7You or your rival dose have enough money for this game'
     playerNotExist: '&7Player with name &f{NAME}&7 is not online or does not exist'
     noInvitation: '&7You do not have invitation from player &f{NAME}'
+    alreadyInvite: '&7You already send invitation to this player'
+    alreadyPlay: '&7Player &f{NAME}&7 is already playing rock-paper-scissors'
     winMessage: ' "&aYou won! You receive &f{bet}&a$."'
     loseMessage: '&cYou lost! You lose &f{bet}&c$"'
     drawMessage: '&fDraw!'
