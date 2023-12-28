@@ -1,6 +1,5 @@
 package pl.pavetti.rockpaperscissors.game;
 
-import com.google.gson.internal.bind.util.ISO8601Utils;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.entity.Player;
 import pl.pavetti.rockpaperscissors.Main;
@@ -37,6 +36,10 @@ public class RpsGameManager {
 
     public void registryGame(RpsGame rpsGame){
         activeGames.add(rpsGame);
+    }
+
+    public void unregistryGame(RpsGame rpsGame){
+        activeGames.remove(rpsGame);
     }
 
     public void startGame(RpsGame rpsGame) {

@@ -8,6 +8,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import pl.pavetti.rockpaperscissors.commands.RpsCommand;
 import pl.pavetti.rockpaperscissors.listener.InventoryClickListener;
 import pl.pavetti.rockpaperscissors.listener.InventoryCloseListener;
+import pl.pavetti.rockpaperscissors.listener.PlayerLeaveListener;
 import pl.pavetti.rockpaperscissors.waitingroom.WaitingRoomManager;
 
 @Getter
@@ -48,6 +49,7 @@ public final class Main extends JavaPlugin {
     private void registerListener(){
         getServer().getPluginManager().registerEvents(new InventoryClickListener(),this);
         getServer().getPluginManager().registerEvents(new InventoryCloseListener(),this);
+        getServer().getPluginManager().registerEvents(new PlayerLeaveListener(waitingRoomManager),this);
     }
 
     private void registerCommand(){
