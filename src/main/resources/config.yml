@@ -1,6 +1,6 @@
 settings:
   #Prefix that will be adding to every message sending by this plugin
-  prefix: '&2RPS &7⋙ '
+  prefix: '&2&lRPS &7⋙ '
 
   gameConfig:
     active: true
@@ -12,13 +12,14 @@ settings:
     acceptTime: 30
     #czas liczy się od momętu aż ktoś wybieze
     chooseTime: 30
+    timer: true
     replayOnDraw: true
     #nie wybranie w określonym czasie = leave
     loseBetOnLeave: true
 
   gui:
     main:
-      title: "Chuj"
+      title: "&7Choose one       "
       rock:
         item: COBBLESTONE
         name: "&7&lRock"
@@ -41,9 +42,9 @@ settings:
     rpsInvite: '&aPlayer &f{NAME}&a invites you to play &7rock-paper-scissors&a for &f{BET}&a$. To accept use command &f/&7rps accept &f<&7player&f>'
     notEnoughMoney: '&7You or your rival dose have enough money for this game'
     playerNotExist: '&7Player with name &f{NAME}&7 is not online or does not exist'
-    noInvitation: '&7You do not have invitation form player &f{NAME}'
-    winMessage: 'wygrałes'
-    loseMessage: 'przergrana'
-    drawMessage: "remis"
+    noInvitation: '&7You do not have invitation from player &f{NAME}'
+    winMessage: ' "&aYou won! You receive &f{bet}&a$."'
+    loseMessage: '&cYou lost! You lose &f{bet}&c$"'
+    drawMessage: '&fDraw!'
 
 

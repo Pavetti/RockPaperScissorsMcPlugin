@@ -31,7 +31,7 @@ public class RpsInviteWaitingRoom extends WaitingRoom {
 
 
     @Override
-    public List<Waiter> getWaiterList(Player player) {
+    public List<Waiter> getWaiterListOfPlayer(Player player) {
         return waiters.stream()
                 .filter(waiter -> PlayerUtil.compare(getPlayer(waiter),player))
                 .collect(Collectors.toList());

@@ -16,13 +16,6 @@ import java.util.Optional;
 
 public class InventoryClickListener implements Listener {
 
-    private Settings settings = Settings.getInstance();
-    private final WaitingRoomManager waitingRoomManager;
-
-    public InventoryClickListener(WaitingRoomManager waitingRoomManager) {
-        this.waitingRoomManager = waitingRoomManager;
-    }
-
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event){
 

@@ -13,7 +13,6 @@ public class  Settings {
 
     //basic
     private String prefix;
-
     //gameConfig
     private boolean active;
     private boolean replayOnDraw;
@@ -22,7 +21,6 @@ public class  Settings {
     private double minBet;
     private int acceptTime;
     private int chooseTime;
-
     //gui
     private String guiMainTitle;
     private String guiMainFillItemName;

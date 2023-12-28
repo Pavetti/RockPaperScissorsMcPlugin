@@ -42,7 +42,7 @@ public class RpsAcceptSubCommand implements SubCommand {
         Player initiator = Bukkit.getPlayerExact(args[1]);
 
         //check if player has invitation
-        List<Waiter> waiterList = waitingRoom.getWaiterList(opponent);
+        List<Waiter> waiterList = waitingRoom.getWaiterListOfPlayer(opponent);
         Optional<Waiter> waiterOptional = findWaiter(waiterList,initiator);
 
         if(!waiterOptional.isPresent()){
