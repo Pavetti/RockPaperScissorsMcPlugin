@@ -135,10 +135,6 @@ public class RpsGameManager {
 
         PlayerUtil.sendMessagePrefixed(winnerPlayer,settings.getWinMessage().replace("{BET}", String.valueOf(bet)));
         PlayerUtil.sendMessagePrefixed(losserPlayer,settings.getLoseMessage().replace("{BET}", String.valueOf(bet)));
-
-        System.out.println("gry ->"  + activeGames.size());
-        System.out.println("wr invite ->"  + waitingRoomManager.getRpsInviteWR().waiters.size());
-        System.out.println("we choose ->"  + waitingRoomManager.getRpsChooseWR().waiters.size());
     }
 
     private void doDraw(RpsGame rpsGame){

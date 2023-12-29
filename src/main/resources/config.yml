@@ -1,19 +1,24 @@
 settings:
-  #Prefix that will be adding to every message sending by this plugin
+  # Prefix that will be adding to every message sending by this plugin
   prefix: '&2&lRPS &7⋙ '
 
+  # Every options relevant to rock-paper-scissors game you can find in this section
   gameConfig:
-    active: true
-    #Maximum amount of bet (0 = no limit)
+    #Maximum amount of bet (0 = no limit, max = 2147483647)
     maxBet: 500000
     #Minimum amount of bet
     minBet: 0
-    #in seconds
-    acceptTime: 300
-    #czas liczy się od momętu aż ktoś wybieze
-    chooseTime: 300
+    # The time a player has to accept a game invitation"
+    acceptTime: 30
+    # The time a player has to make a choice. The time is measured
+    # from the moment one of the players makes a choice.
+    # If the player don't to make a choice by the end of this time,
+    # he will lose.
+    chooseTime: 30
+    # By turning on this option, the game will automatically replay if it ends in a draw.
     replayOnDraw: true
 
+  # Every options relevant to rock-paper-scissors gui you can find in this section
   gui:
     main:
       title: "&7Choose one"
@@ -31,20 +36,23 @@ settings:
         name: " "
 
   messages:
+    # Warning! Placeholders are created for specific messages.
+    # Information on how to use the appropriate placeholders can be found next to the respective message.
     noPermission: '&cYou do not have permission to use this command'
     badUseRpsGameCmd: '&7You have to give player name and bet argument &f/&7rps game &f<&7player&f> <&7bet&f>'
     badUseRpsAcceptCmd: '&7You have to give player name argument &f/&7rps accept &f<&7player&f>'
-    betOutOfRange: '&7Bet must be in the range of &f{MIN} &7$ to &f{MAX} &7$'
+    betOutOfRangeMax: '&7Bet cannot be greater than &f{MAX} &7$' #Placeholder {MAX} - value that is set in config in section 'maxBet'
+    betOutOfRangeMin: '&7Bet cannot be less than &f{MIN} &7$' #Placeholder {MIN} - value that is set in config in section 'minBet'
     myselfInvite: '&7You cannot invite yourself'
-    #Dodac placeholder $ akceptowanie po kliknęciu na czat
-    rpsInvite: '&aPlayer &f{NAME}&a invites you to play &7rock-paper-scissors&a for &f{BET}&a$. To accept use command &f/&7rps accept &f<&7player&f>'
+    rpsInvite: '&aPlayer &f{NAME}&a invites you to play &7rock-paper-scissors&a for &f{BET}&a$.' #Placeholder {NAME} - name of player that send invite, {BET} - value of bet
+    rpsInviteButton: '[Click me to accept]'
     notEnoughMoney: '&7You or your rival dose have enough money for this game'
-    playerNotExist: '&7Player with name &f{NAME}&7 is not online or does not exist'
-    noInvitation: '&7You do not have invitation from player &f{NAME}'
+    playerNotExist: '&7Player with name &f{NAME}&7 is not online or does not exist' #Placeholder {NAME} - name of player
+    noInvitation: '&7You do not have invitation from player &f{NAME}' #Placeholder {NAME} - name of the player whose invitation was attempted to be accepted.
     alreadyInvite: '&7You already send invitation to this player'
-    alreadyPlay: '&7Player &f{NAME}&7 is already playing rock-paper-scissors'
-    winMessage: ' "&aYou won! You receive &f{BET}&a$."'
-    loseMessage: '&cYou lost! You lose &f{BET}&c$"'
+    alreadyPlay: '&7Player &f{NAME}&7 is already playing rock-paper-scissors' #Placeholder {NAME} - name of player who is already playing game
+    winMessage: '&aYou won! You receive &f{BET}&a$' #Placeholder {BET} - value of bet
+    loseMessage: '&cYou lost! You lose &f{BET}&c$' #Placeholder {BET} - value of bet
     drawMessage: '&fDraw!'
 
 

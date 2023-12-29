@@ -1,5 +1,10 @@
 package pl.pavetti.rockpaperscissors.commands.rpssubcommands;
 
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -8,19 +13,19 @@ import pl.pavetti.rockpaperscissors.api.timsixth.SubCommand;
 import pl.pavetti.rockpaperscissors.config.Settings;
 import pl.pavetti.rockpaperscissors.game.RpsGameManager;
 import pl.pavetti.rockpaperscissors.game.model.RpsGame;
-import pl.pavetti.rockpaperscissors.game.model.RpsPlayer;
 import pl.pavetti.rockpaperscissors.util.PlayerUtil;
 import pl.pavetti.rockpaperscissors.waitingroom.WaitingRoomManager;
 
 import java.util.List;
-import java.util.Optional;
 
 public class RpsGameSubCommand implements SubCommand {
 
     private final Economy economy;
+    private final Settings settings;
     private final WaitingRoomManager waitingRoomManager;
 
     public RpsGameSubCommand( Economy economy, WaitingRoomManager waitingRoomManager) {
+        settings = Settings.getInstance();
         this.waitingRoomManager = waitingRoomManager;
         this.economy = economy;
     }
@@ -28,7 +33,6 @@ public class RpsGameSubCommand implements SubCommand {
     @Override
     public boolean executeCommand(CommandSender sender, String[] args) {
         Player player = (Player) sender;
-        Settings settings = Settings.getInstance();
 
         //check args
         if (args.length < 3) {
@@ -44,9 +48,16 @@ public class RpsGameSubCommand implements SubCommand {
             PlayerUtil.sendMessagePrefixed(player, settings.getBadUseRpsGameCmd());
             return true;
         }
-
+        int bet;
+        double max = settings.getMaxBet();
+        double min = settings.getMinBet();
         Player enemyPlayer = Bukkit.getPlayerExact(args[1]);
-        int bet = Integer.parseInt(args[2]);
+        try{
+            bet = Integer.parseInt(args[2]);
+        }catch (NumberFormatException e){
+            PlayerUtil.sendMessagePrefixed(player,settings.getBetOutOfRangeMax().replace("{MAX}",String.valueOf(max)));
+            return true;
+        }
 
 
         if (PlayerUtil.compare(enemyPlayer,player)) {
@@ -54,10 +65,14 @@ public class RpsGameSubCommand implements SubCommand {
             return true;
         }
         //check bet
-        double max = settings.getMaxBet();
-        double min = settings.getMinBet();
-        if(bet > max || bet < min){
-            PlayerUtil.sendMessagePrefixed(player,settings.getBetOutOfRange());
+        if(max != 0){
+            if(bet > max){
+                PlayerUtil.sendMessagePrefixed(player,settings.getBetOutOfRangeMax().replace("{MAX}",String.valueOf(max)));
+                return true;
+            }
+        }
+        if(bet < min){
+            PlayerUtil.sendMessagePrefixed(player,settings.getBetOutOfRangeMin().replace("{MIN}",String.valueOf(min)));
             return true;
         }
 
@@ -88,11 +103,25 @@ public class RpsGameSubCommand implements SubCommand {
         RpsGame rpsGame = new RpsGame(player,enemyPlayer,bet);
         waitingRoomManager.getRpsInviteWR().addWaiter(rpsGame.getOpponent());
         RpsGameManager.getInstance().registryGame(rpsGame);
-        PlayerUtil.sendMessagePrefixed(enemyPlayer,
-                settings.getRpsInvite()
-                        .replace("{NAME}", player.getName()).replace("{BET}", String.valueOf(bet)));
+        sendInvitation(enemyPlayer,player.getName(),String.valueOf(bet));
 
         return false;
+    }
+
+    private void sendInvitation(Player enemyPlayer,String initiator, String bet){
+        String command = "/rps accept " + initiator;
+        TextComponent acceptButton = new TextComponent(settings.getRpsInviteButton());
+        acceptButton.setColor(ChatColor.DARK_GREEN);
+        acceptButton.setBold(true);
+        acceptButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,command));
+        acceptButton.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("kliknij").color(ChatColor.BLUE).italic(true).create()));
+
+        PlayerUtil.sendMessagePrefixed(enemyPlayer,
+                settings.getRpsInvite()
+                        .replace("{NAME}", initiator).replace("{BET}", bet));
+        enemyPlayer.spigot().sendMessage(acceptButton);
+        enemyPlayer.sendMessage("");
+
     }
 
     @Override

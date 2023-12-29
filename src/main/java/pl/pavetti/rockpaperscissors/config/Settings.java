@@ -14,7 +14,6 @@ public class  Settings {
     //basic
     private String prefix;
     //gameConfig
-    private boolean active;
     private boolean replayOnDraw;
     private double maxBet;
     private double minBet;
@@ -36,7 +35,8 @@ public class  Settings {
     private String badUseRpsAcceptCmd;
     private String myselfInvite;
     private String notEnoughMoney;
-    private String betOutOfRange;
+    private String betOutOfRangeMax;
+    private String betOutOfRangeMin;
     private String playerNotExist;
     private String rpsInvite;
     private String noInvitation;
@@ -45,6 +45,7 @@ public class  Settings {
     private String winMessage;
     private String loseMessage;
     private String drawMessage;
+    private String rpsInviteButton;
 
     private Settings() {
         load();
@@ -63,7 +64,6 @@ public class  Settings {
         //basic
         prefix = ChatUtil.chatColor(configuration.getString("settings.prefix"));
         //gameConfig
-        active = configuration.getBoolean("settings.gameConfig.active");
         replayOnDraw = configuration.getBoolean("settings.gameConfig.replayOnDraw");
         maxBet = configuration.getDouble("settings.gameConfig.maxBet");
         minBet = configuration.getDouble("settings.gameConfig.minBet");
@@ -86,7 +86,8 @@ public class  Settings {
         badUseRpsAcceptCmd = ChatUtil.chatColor(configuration.getString("settings.messages.badUseRpsAcceptCmd"));
         myselfInvite = ChatUtil.chatColor(configuration.getString("settings.messages.myselfInvite"));
         notEnoughMoney = ChatUtil.chatColor(configuration.getString("settings.messages.notEnoughMoney"));
-        betOutOfRange = ChatUtil.chatColor(configuration.getString("settings.messages.betOutOfRange"));
+        betOutOfRangeMax = ChatUtil.chatColor(configuration.getString("settings.messages.betOutOfRangeMax"));
+        betOutOfRangeMin = ChatUtil.chatColor(configuration.getString("settings.messages.betOutOfRangeMin"));
         playerNotExist = ChatUtil.chatColor(configuration.getString("settings.messages.playerNotExist"));
         rpsInvite = ChatUtil.chatColor(configuration.getString("settings.messages.rpsInvite"));
         noInvitation = ChatUtil.chatColor(configuration.getString("settings.messages.noInvitation"));
@@ -95,6 +96,7 @@ public class  Settings {
         winMessage = ChatUtil.chatColor(configuration.getString("settings.messages.winMessage"));
         loseMessage = ChatUtil.chatColor(configuration.getString("settings.messages.loseMessage"));
         drawMessage = ChatUtil.chatColor(configuration.getString("settings.messages.drawMessage"));
+        rpsInviteButton = ChatUtil.chatColor(configuration.getString("settings.messages.rpsInviteButton"));
     }
 
     private Material getMaterialOf(String string){
