@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.bukkit.entity.Player;
 import pl.pavetti.rockpaperscissors.waitingroom.model.Waiter;
 
-import java.util.Objects;
 
 @Getter
 @RequiredArgsConstructor

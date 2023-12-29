@@ -12,14 +12,11 @@ settings:
     acceptTime: 300
     #czas liczy się od momętu aż ktoś wybieze
     chooseTime: 300
-    timer: true
     replayOnDraw: true
-    #nie wybranie w określonym czasie = leave
-    loseBetOnLeave: true
 
   gui:
     main:
-      title: "&7Choose one       "
+      title: "&7Choose one"
       rock:
         item: COBBLESTONE
         name: "&7&lRock"
@@ -37,6 +34,7 @@ settings:
     noPermission: '&cYou do not have permission to use this command'
     badUseRpsGameCmd: '&7You have to give player name and bet argument &f/&7rps game &f<&7player&f> <&7bet&f>'
     badUseRpsAcceptCmd: '&7You have to give player name argument &f/&7rps accept &f<&7player&f>'
+    betOutOfRange: '&7Bet must be in the range of &f{MIN} &7$ to &f{MAX} &7$'
     myselfInvite: '&7You cannot invite yourself'
     #Dodac placeholder $ akceptowanie po kliknęciu na czat
     rpsInvite: '&aPlayer &f{NAME}&a invites you to play &7rock-paper-scissors&a for &f{BET}&a$. To accept use command &f/&7rps accept &f<&7player&f>'
@@ -45,8 +43,8 @@ settings:
     noInvitation: '&7You do not have invitation from player &f{NAME}'
     alreadyInvite: '&7You already send invitation to this player'
     alreadyPlay: '&7Player &f{NAME}&7 is already playing rock-paper-scissors'
-    winMessage: ' "&aYou won! You receive &f{bet}&a$."'
-    loseMessage: '&cYou lost! You lose &f{bet}&c$"'
+    winMessage: ' "&aYou won! You receive &f{BET}&a$."'
+    loseMessage: '&cYou lost! You lose &f{BET}&c$"'
     drawMessage: '&fDraw!'
 
 

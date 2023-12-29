@@ -53,6 +53,13 @@ public class RpsGameSubCommand implements SubCommand {
             PlayerUtil.sendMessagePrefixed(player, settings.getMyselfInvite());
             return true;
         }
+        //check bet
+        double max = settings.getMaxBet();
+        double min = settings.getMinBet();
+        if(bet > max || bet < min){
+            PlayerUtil.sendMessagePrefixed(player,settings.getBetOutOfRange());
+            return true;
+        }
 
         //economy check
         if (economy.getBalance(player) < bet || economy.getBalance(enemyPlayer) < bet) {

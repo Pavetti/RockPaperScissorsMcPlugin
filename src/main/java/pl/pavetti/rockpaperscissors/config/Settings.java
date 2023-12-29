@@ -16,7 +16,6 @@ public class  Settings {
     //gameConfig
     private boolean active;
     private boolean replayOnDraw;
-    private boolean loseBetOnLeave;
     private double maxBet;
     private double minBet;
     private int acceptTime;
@@ -37,6 +36,7 @@ public class  Settings {
     private String badUseRpsAcceptCmd;
     private String myselfInvite;
     private String notEnoughMoney;
+    private String betOutOfRange;
     private String playerNotExist;
     private String rpsInvite;
     private String noInvitation;
@@ -65,7 +65,6 @@ public class  Settings {
         //gameConfig
         active = configuration.getBoolean("settings.gameConfig.active");
         replayOnDraw = configuration.getBoolean("settings.gameConfig.replayOnDraw");
-        loseBetOnLeave = configuration.getBoolean("settings.gameConfig.loseBetOnLeave");
         maxBet = configuration.getDouble("settings.gameConfig.maxBet");
         minBet = configuration.getDouble("settings.gameConfig.minBet");
         acceptTime = configuration.getInt("settings.gameConfig.acceptTime");
@@ -87,6 +86,7 @@ public class  Settings {
         badUseRpsAcceptCmd = ChatUtil.chatColor(configuration.getString("settings.messages.badUseRpsAcceptCmd"));
         myselfInvite = ChatUtil.chatColor(configuration.getString("settings.messages.myselfInvite"));
         notEnoughMoney = ChatUtil.chatColor(configuration.getString("settings.messages.notEnoughMoney"));
+        betOutOfRange = ChatUtil.chatColor(configuration.getString("settings.messages.betOutOfRange"));
         playerNotExist = ChatUtil.chatColor(configuration.getString("settings.messages.playerNotExist"));
         rpsInvite = ChatUtil.chatColor(configuration.getString("settings.messages.rpsInvite"));
         noInvitation = ChatUtil.chatColor(configuration.getString("settings.messages.noInvitation"));

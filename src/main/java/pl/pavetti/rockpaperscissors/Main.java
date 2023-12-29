@@ -6,6 +6,7 @@ import lombok.Getter;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import pl.pavetti.rockpaperscissors.commands.RpsCommand;
+import pl.pavetti.rockpaperscissors.commands.RpsTabCompleter;
 import pl.pavetti.rockpaperscissors.listener.InventoryClickListener;
 import pl.pavetti.rockpaperscissors.listener.InventoryCloseListener;
 import pl.pavetti.rockpaperscissors.listener.PlayerLeaveListener;
@@ -31,6 +32,7 @@ public final class Main extends JavaPlugin {
         initMangers();
         registerListener();
         registerCommand();
+        registerTabCompleter();
     }
 
     @Override
@@ -50,6 +52,9 @@ public final class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new InventoryClickListener(),this);
         getServer().getPluginManager().registerEvents(new InventoryCloseListener(),this);
         getServer().getPluginManager().registerEvents(new PlayerLeaveListener(waitingRoomManager),this);
+    }
+    private void registerTabCompleter(){
+        this.getCommand("rps").setTabCompleter(new RpsTabCompleter());
     }
 
     private void registerCommand(){
