@@ -5,10 +5,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import pl.pavetti.rockpaperscissors.game.RpsGameManager;
-import pl.pavetti.rockpaperscissors.game.model.RpsPlayer;
+import pl.pavetti.rockpaperscissors.game.model.RpsGame;
 import pl.pavetti.rockpaperscissors.waitingroom.WaitingRoomManager;
 
-import java.util.Optional;
+import java.util.List;
 
 public class PlayerLeaveListener implements Listener {
     private final RpsGameManager rpsGameManager = RpsGameManager.getInstance();
@@ -21,18 +21,17 @@ public class PlayerLeaveListener implements Listener {
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent event){
         Player player = event.getPlayer();
-        Optional<RpsPlayer> rpsPlayerOptional = rpsGameManager.getRpsPlayer(player);
+/*        Optional<RpsPlayer> rpsPlayerOptional = rpsGameManager.getRpsPlayer(player);
         if(rpsPlayerOptional.isPresent()){
             RpsPlayer rpsPlayer = rpsPlayerOptional.get();
             rpsGameManager.unregistryGame(rpsPlayer.getRpsGame());
             waitingRoomManager.getRpsInviteWR().removeWaiter(rpsPlayer);
-        }
+        }*/
 
-        /*        Player player = event.getPlayer();
         List<RpsGame> rpsPlayerList = rpsGameManager.getRpsGamesWhere(player);
         for (RpsGame rpsGame : rpsPlayerList) {
-            rpsGameManager.unregistryGame(rpsGame);
-            waitingRoomManager.getRpsInviteWR().removeWaiter(rpsGame.);
-        }*/
+            rpsGameManager.deregisterGame(rpsGame);
+            waitingRoomManager.getRpsInviteWR().removeWaiter(rpsGame.getOpponent());
+        }
     }
 }

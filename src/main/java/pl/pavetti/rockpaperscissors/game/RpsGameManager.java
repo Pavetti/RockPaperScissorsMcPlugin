@@ -1,6 +1,7 @@
 package pl.pavetti.rockpaperscissors.game;
 
 import net.milkbowl.vault.economy.Economy;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import pl.pavetti.rockpaperscissors.Main;
 import pl.pavetti.rockpaperscissors.config.Settings;
@@ -15,10 +16,11 @@ import java.util.*;
 public class RpsGameManager {
     private static RpsGameManager instance;
     private final Set<RpsGame> activeGames = new HashSet<>();
-    private final GameGUI gameUI;
-    private final Economy economy;
+
     private final WaitingRoomManager waitingRoomManager;
     private final Settings settings = Settings.getInstance();
+    private final GameGUI gameUI;
+    private final Economy economy;
 
     private RpsGameManager(){
         gameUI = new GameGUI();
@@ -32,27 +34,16 @@ public class RpsGameManager {
         return instance;
     }
 
-    public void registryGame(RpsGame rpsGame){
+
+    public void registerGame(RpsGame rpsGame){
         activeGames.add(rpsGame);
     }
 
-    public void unregistryGame(RpsGame rpsGame){
+    public void deregisterGame(RpsGame rpsGame){
         activeGames.remove(rpsGame);
     }
 
-    public void startGame(RpsGame rpsGame) {
-        if(activeGames.contains(rpsGame)){
-
-            rpsGame.getOpponent().getPlayer().openInventory(gameUI.getMainInventory());
-            rpsGame.getInitiator().getPlayer().openInventory(gameUI.getMainInventory());
-            rpsGame.start();
-
-            //uregistert games where is opponetn or initiator exept this game
-            unregistryAllGamesWithPlayersOf(rpsGame);
-        }
-    }
-
-    private void unregistryAllGamesWithPlayersOf(RpsGame rpsGame){
+    private void deregisterAllGamesWithPlayersOf(RpsGame rpsGame){
         RpsPlayer opponent = rpsGame.getOpponent();
         RpsPlayer initiator = rpsGame.getInitiator();
 
@@ -73,18 +64,23 @@ public class RpsGameManager {
         }
     }
 
+    public void startGame(RpsGame rpsGame) {
+        if(activeGames.contains(rpsGame)){
+
+            rpsGame.getOpponent().getPlayer().openInventory(gameUI.getMainInventory());
+            rpsGame.getInitiator().getPlayer().openInventory(gameUI.getMainInventory());
+            rpsGame.start();
+
+            //deregister games where is opponent or initiator except this game
+            deregisterAllGamesWithPlayersOf(rpsGame);
+        }
+    }
+
     public void startTimeToEnd(RpsGame rpsGame){
         waitingRoomManager.getRpsChooseWR().addWaiter(rpsGame);
-        //TIMER
-/*        RpsPlayer noChoosePlayer;
-        //founds player who didnt choose
-        if(rpsGame.getInitiator().getChoice() == null){
-            noChoosePlayer = rpsGame.getInitiator();
-        }else {
-            noChoosePlayer = rpsGame.getOpponent();
-        }
-        //gameUI.setTimer(noChoosePlayer.getPlayer());*/
+        //TODO add timer
     }
+
     public void endGame(RpsGame rpsGame){
         if(activeGames.contains(rpsGame)){
             RpsPlayer winner = getWinner(rpsGame);
@@ -99,6 +95,7 @@ public class RpsGameManager {
         activeGames.remove(rpsGame);
         waitingRoomManager.getRpsChooseWR().removeWaiter(rpsGame);
     }
+
     public void endGameByPlayerLeave(RpsPlayer loser){
         RpsGame rpsGame = loser.getRpsGame();
         int bet = rpsGame.getBet();
@@ -108,7 +105,6 @@ public class RpsGameManager {
         winner.getPlayer().closeInventory();
         settleBet(winner,loser,bet);
     }
-
 
     private RpsPlayer getWinner (RpsGame rpsGame){
         RpsPlayer player1 = rpsGame.getInitiator();
@@ -138,11 +134,18 @@ public class RpsGameManager {
     }
 
     private void doDraw(RpsGame rpsGame){
-        //TODO
         PlayerUtil.sendMessagePrefixed(rpsGame.getInitiator().getPlayer(),settings.getDrawMessage());
         PlayerUtil.sendMessagePrefixed(rpsGame.getOpponent().getPlayer(), settings.getDrawMessage());
+        if(settings.isReplayOnDraw()){
+            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> {
+                RpsGame newRpsGame = new RpsGame(rpsGame.getInitiator().getPlayer()
+                        ,rpsGame.getOpponent().getPlayer(),
+                        rpsGame.getBet());
+                registerGame(newRpsGame);
+                startGame(newRpsGame);
+            }, 20L); //ticks
+        }
     }
-
 
     public Optional<RpsPlayer> getRpsPlayer(Player player){
         //Waring! Use only if this player is one or none at all

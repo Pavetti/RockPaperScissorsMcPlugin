@@ -2,7 +2,6 @@ package pl.pavetti.rockpaperscissors.game;
 
 import lombok.Getter;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -39,13 +38,6 @@ public class GameGUI {
     }
     public void createMainInventory(){
         mainInventory = createInventory(settings.getGuiMainTitle());
-    }
-
-    public void setTimer(Player player){
-        String title = settings.getGuiMainTitle() + "4&l" + settings.getChooseTime();
-        Inventory inventory = createInventory(title);
-        player.openInventory(inventory);
-
     }
 
     private void loadItemStacks(){

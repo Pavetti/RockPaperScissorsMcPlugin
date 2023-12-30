@@ -102,7 +102,7 @@ public class RpsGameSubCommand implements SubCommand {
 
         RpsGame rpsGame = new RpsGame(player,enemyPlayer,bet);
         waitingRoomManager.getRpsInviteWR().addWaiter(rpsGame.getOpponent());
-        RpsGameManager.getInstance().registryGame(rpsGame);
+        RpsGameManager.getInstance().registerGame(rpsGame);
         sendInvitation(enemyPlayer,player.getName(),String.valueOf(bet));
 
         return false;
@@ -114,8 +114,9 @@ public class RpsGameSubCommand implements SubCommand {
         acceptButton.setColor(ChatColor.DARK_GREEN);
         acceptButton.setBold(true);
         acceptButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,command));
-        acceptButton.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("kliknij").color(ChatColor.BLUE).italic(true).create()));
+        acceptButton.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("✔").color(ChatColor.WHITE).create()));
 
+        enemyPlayer.sendMessage("");
         PlayerUtil.sendMessagePrefixed(enemyPlayer,
                 settings.getRpsInvite()
                         .replace("{NAME}", initiator).replace("{BET}", bet));

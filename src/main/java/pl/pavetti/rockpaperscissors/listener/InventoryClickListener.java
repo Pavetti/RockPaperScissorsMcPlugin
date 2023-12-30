@@ -5,12 +5,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
-import pl.pavetti.rockpaperscissors.config.Settings;
 import pl.pavetti.rockpaperscissors.game.RpsGameManager;
 import pl.pavetti.rockpaperscissors.game.model.Choice;
 import pl.pavetti.rockpaperscissors.game.model.RpsPlayer;
 import pl.pavetti.rockpaperscissors.inventoryholder.RpsMenuInventoryHolder;
-import pl.pavetti.rockpaperscissors.waitingroom.WaitingRoomManager;
 
 import java.util.Optional;
 
