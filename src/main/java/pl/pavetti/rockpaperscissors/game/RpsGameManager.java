@@ -134,9 +134,9 @@ public class RpsGameManager {
     }
 
     private void doDraw(RpsGame rpsGame){
-        PlayerUtil.sendMessagePrefixed(rpsGame.getInitiator().getPlayer(),settings.getDrawMessage());
-        PlayerUtil.sendMessagePrefixed(rpsGame.getOpponent().getPlayer(), settings.getDrawMessage());
         if(settings.isReplayOnDraw()){
+            PlayerUtil.sendMessagePrefixed(rpsGame.getInitiator().getPlayer(),settings.getDrawReplayMessage());
+            PlayerUtil.sendMessagePrefixed(rpsGame.getOpponent().getPlayer(), settings.getDrawReplayMessage());
             Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> {
                 RpsGame newRpsGame = new RpsGame(rpsGame.getInitiator().getPlayer()
                         ,rpsGame.getOpponent().getPlayer(),
@@ -144,6 +144,9 @@ public class RpsGameManager {
                 registerGame(newRpsGame);
                 startGame(newRpsGame);
             }, 20L); //ticks
+        }else {
+            PlayerUtil.sendMessagePrefixed(rpsGame.getInitiator().getPlayer(),settings.getDrawNormalMessage());
+            PlayerUtil.sendMessagePrefixed(rpsGame.getOpponent().getPlayer(), settings.getDrawNormalMessage());
         }
     }
 

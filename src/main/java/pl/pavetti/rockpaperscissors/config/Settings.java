@@ -44,8 +44,13 @@ public class  Settings {
     private String alreadyInvite;
     private String winMessage;
     private String loseMessage;
-    private String drawMessage;
-    private String rpsInviteButton;
+    private String drawNormalMessage;
+    private String drawReplayMessage;
+    private String successfullyChoice;
+    private String successfullyInvite;
+    //buttons
+    private String rpsInviteAcceptButton;
+    private String rpsInviteDenyButton;
 
     private Settings() {
         load();
@@ -95,8 +100,14 @@ public class  Settings {
         alreadyInvite = ChatUtil.chatColor(configuration.getString("settings.messages.alreadyInvite"));
         winMessage = ChatUtil.chatColor(configuration.getString("settings.messages.winMessage"));
         loseMessage = ChatUtil.chatColor(configuration.getString("settings.messages.loseMessage"));
-        drawMessage = ChatUtil.chatColor(configuration.getString("settings.messages.drawMessage"));
-        rpsInviteButton = ChatUtil.chatColor(configuration.getString("settings.messages.rpsInviteButton"));
+        drawNormalMessage = ChatUtil.chatColor(configuration.getString("settings.messages.drawNormalMessage"));
+        drawReplayMessage = ChatUtil.chatColor(configuration.getString("settings.messages.drawReplayMessage"));
+        successfullyChoice = ChatUtil.chatColor(configuration.getString("settings.messages.successfullyChoice"));
+        successfullyInvite = ChatUtil.chatColor(configuration.getString("settings.messages.successfullyInvite"));
+
+        //buttons
+        rpsInviteAcceptButton = ChatUtil.chatColor(configuration.getString("settings.chatButtons.rpsInviteAcceptButton"));
+        rpsInviteDenyButton = ChatUtil.chatColor(configuration.getString("settings.chatButtons.rpsInviteDenyButton"));
     }
 
     private Material getMaterialOf(String string){

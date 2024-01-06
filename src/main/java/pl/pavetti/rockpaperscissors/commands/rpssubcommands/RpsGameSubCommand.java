@@ -98,29 +98,28 @@ public class RpsGameSubCommand implements SubCommand {
                 }
             }
 
-
-
         RpsGame rpsGame = new RpsGame(player,enemyPlayer,bet);
         waitingRoomManager.getRpsInviteWR().addWaiter(rpsGame.getOpponent());
         RpsGameManager.getInstance().registerGame(rpsGame);
         sendInvitation(enemyPlayer,player.getName(),String.valueOf(bet));
+        PlayerUtil.sendMessagePrefixed(player,settings.getSuccessfullyInvite().replace("{NAME}",enemyPlayer.getName()));
 
         return false;
     }
 
     private void sendInvitation(Player enemyPlayer,String initiator, String bet){
-        String command = "/rps accept " + initiator;
-        TextComponent acceptButton = new TextComponent(settings.getRpsInviteButton());
-        acceptButton.setColor(ChatColor.DARK_GREEN);
-        acceptButton.setBold(true);
-        acceptButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,command));
+        String commandAccept = "/rps accept " + initiator;
+        TextComponent acceptButton = new TextComponent(settings.getRpsInviteAcceptButton());
+        TextComponent denyButton = new TextComponent(settings.getRpsInviteDenyButton());
+        acceptButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,commandAccept));
         acceptButton.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("✔").color(ChatColor.WHITE).create()));
+        denyButton.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("✖").color(ChatColor.WHITE).create()));
 
         enemyPlayer.sendMessage("");
         PlayerUtil.sendMessagePrefixed(enemyPlayer,
                 settings.getRpsInvite()
                         .replace("{NAME}", initiator).replace("{BET}", bet));
-        enemyPlayer.spigot().sendMessage(acceptButton);
+        enemyPlayer.spigot().sendMessage(acceptButton,denyButton);
         enemyPlayer.sendMessage("");
 
     }

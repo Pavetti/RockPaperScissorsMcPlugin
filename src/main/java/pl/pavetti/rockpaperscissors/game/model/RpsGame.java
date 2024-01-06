@@ -2,6 +2,7 @@ package pl.pavetti.rockpaperscissors.game.model;
 
 import lombok.Getter;
 import org.bukkit.entity.Player;
+import pl.pavetti.rockpaperscissors.config.Settings;
 import pl.pavetti.rockpaperscissors.game.RpsGameManager;
 import pl.pavetti.rockpaperscissors.util.PlayerUtil;
 import pl.pavetti.rockpaperscissors.waitingroom.model.Waiter;
@@ -20,15 +21,18 @@ public class RpsGame implements Waiter {
         this.opponent = new RpsPlayer(oponent,this);
     }
 
-    public void tryEnd(){
+    public void tryActionsPostSecondChoose(){
         if(initiator.getChoice() != null && opponent.getChoice() != null){
             RpsGameManager.getInstance().endGame(this);
         }
     }
 
-    public void tryStartTimeToEnd(){
+    public void tryActionsPostFirstChoose(RpsPlayer firstChoosePlayer){
         if(!(initiator.getChoice() != null && opponent.getChoice() != null)){
             RpsGameManager.getInstance().startTimeToEnd(this);
+            PlayerUtil.sendMessagePrefixed(firstChoosePlayer.getPlayer(),
+                    Settings.getInstance().getSuccessfullyChoice()
+                            .replace("{CHOICE}",firstChoosePlayer.getChoice().getName()));
         }
     }
 
