@@ -4,7 +4,6 @@ import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import pl.pavetti.rockpaperscissors.Main;
-import pl.pavetti.rockpaperscissors.exception.BadMaterialConvertException;
 import pl.pavetti.rockpaperscissors.util.ChatUtil;
 @Getter
 public class  Settings {
@@ -48,6 +47,7 @@ public class  Settings {
     private String drawReplayMessage;
     private String successfullyChoice;
     private String successfullyInvite;
+    private String successfullyPluginReload;
     //buttons
     private String rpsInviteAcceptButton;
     private String rpsInviteDenyButton;
@@ -63,8 +63,9 @@ public class  Settings {
         return instance;
     }
 
-    private void load(){
+    public void load(){
         FileConfiguration configuration = Main.getInstance().getConfig();
+
 
         //basic
         prefix = ChatUtil.chatColor(configuration.getString("settings.prefix"));
@@ -104,16 +105,23 @@ public class  Settings {
         drawReplayMessage = ChatUtil.chatColor(configuration.getString("settings.messages.drawReplayMessage"));
         successfullyChoice = ChatUtil.chatColor(configuration.getString("settings.messages.successfullyChoice"));
         successfullyInvite = ChatUtil.chatColor(configuration.getString("settings.messages.successfullyInvite"));
+        successfullyPluginReload = ChatUtil.chatColor(configuration.getString("settings.messages.successfullyPluginReload"));
 
         //buttons
         rpsInviteAcceptButton = ChatUtil.chatColor(configuration.getString("settings.chatButtons.rpsInviteAcceptButton"));
         rpsInviteDenyButton = ChatUtil.chatColor(configuration.getString("settings.chatButtons.rpsInviteDenyButton"));
     }
 
+    // for safely converting string to material
     private Material getMaterialOf(String string){
-        Material material = Material.valueOf(string);
-        if (material == null) throw new BadMaterialConvertException(
-                "One of the items given in config.yml does not exist. Pleas check config file.");
+        Material material;
+        try{
+            material = Material.valueOf(string);
+        }catch (IllegalArgumentException e){
+            throw new IllegalArgumentException("\nOne of the material given in config.yml does not exist." +
+                    " Pleas check config file. Full list of allowed materials you can find here " +
+                    "https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html\\n");
+        }
         return material;
     }
 }

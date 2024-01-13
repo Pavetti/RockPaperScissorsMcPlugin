@@ -24,7 +24,7 @@ public class GameGUI {
         createMainInventory();
     }
 
-    public Inventory createInventory(String title){
+    private Inventory createInventory(String title){
         Inventory inventory = Bukkit.createInventory(new RpsMenuInventoryHolder(),27,title);
         inventory.setItem(11,rock);
         inventory.setItem(13,paper);
@@ -36,7 +36,7 @@ public class GameGUI {
         }
         return inventory;
     }
-    public void createMainInventory(){
+    private void createMainInventory(){
         mainInventory = createInventory(settings.getGuiMainTitle());
     }
 
@@ -65,6 +65,11 @@ public class GameGUI {
         fillItemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         fillItemMeta.setDisplayName(settings.getGuiMainFillItemName());
         fillItem.setItemMeta(fillItemMeta);
+    }
+
+    public void reload(){
+        loadItemStacks();
+        createMainInventory();
     }
 
 }

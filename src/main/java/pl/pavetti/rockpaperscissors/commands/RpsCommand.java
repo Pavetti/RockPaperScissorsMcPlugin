@@ -22,7 +22,7 @@ public class RpsCommand extends ParentCommand {
     @Override
     protected boolean executeCommand(CommandSender sender, String[] args) {
         Player player = (Player) sender;
-        player.sendMessage("info");
+        player.sendMessage("info do dodania");
         //TODO help command
 
         return false;

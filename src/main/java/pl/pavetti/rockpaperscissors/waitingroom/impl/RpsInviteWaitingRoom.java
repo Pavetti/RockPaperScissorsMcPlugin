@@ -4,6 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import pl.pavetti.rockpaperscissors.Main;
 import pl.pavetti.rockpaperscissors.config.Settings;
+import pl.pavetti.rockpaperscissors.game.RpsGameManager;
 import pl.pavetti.rockpaperscissors.game.model.RpsPlayer;
 import pl.pavetti.rockpaperscissors.util.PlayerUtil;
 import pl.pavetti.rockpaperscissors.waitingroom.model.Waiter;
@@ -24,6 +25,7 @@ public class RpsInviteWaitingRoom extends WaitingRoom {
             public void run() {
                 if(waiters.contains(waiter)){
                     removeWaiter(waiter);
+                    RpsGameManager.getInstance().deregisterGame(((RpsPlayer) waiter.getInstance()).getRpsGame());
                 }
             }
         }.runTaskLater(Main.getInstance(),duration*20L);

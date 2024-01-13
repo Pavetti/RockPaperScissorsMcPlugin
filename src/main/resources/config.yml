@@ -1,4 +1,6 @@
 settings:
+  # Options with @ mark need reload to be changed
+
   # Prefix that will be adding to every message sending by this plugin
   prefix: '&2&lRPS &7⋙ '
 
@@ -9,11 +11,13 @@ settings:
     #Minimum amount of bet
     minBet: 0
     # The time a player has to accept a game invitation"
+    # @
     acceptTime: 30
     # The time a player has to make a choice. The time is measured
     # from the moment one of the players makes a choice.
     # If the player don't to make a choice by the end of this time,
     # he will lose.
+    # @
     chooseTime: 30
     # By turning on this option, the game will automatically replay if it ends in a draw.
     replayOnDraw: true
@@ -23,10 +27,10 @@ settings:
     main:
       # All names of materials witch you can use for section 'item' you will find here
       # https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
-      title: "&7Choose one"
+      title: "&8Rock Paper Scissors"
       rock:
         item: COBBLESTONE
-        name: "&7&lRock"
+        name: "&8&lRock"
       paper:
         item: PAPER
         name: "&f&lPaper"
@@ -46,7 +50,7 @@ settings:
     betOutOfRangeMax: '&7Bet cannot be greater than &f{MAX} &7$' #Placeholder {MAX} - value that is set in config in section 'maxBet'
     betOutOfRangeMin: '&7Bet cannot be less than &f{MIN} &7$' #Placeholder {MIN} - value that is set in config in section 'minBet'
     myselfInvite: '&7You cannot invite yourself'
-    rpsInvite: '&aPlayer &f{NAME}&a invites you to play &7rock-paper-scissors&a for &f{BET}&a$.' #Placeholder {NAME} - name of player that send invite, {BET} - value of bet
+    rpsInvite: '&7Player &f{NAME}&7 invites you to play rock-paper-scissors for &f{BET}&7$.' #Placeholder {NAME} - name of player that send invite, {BET} - value of bet
     notEnoughMoney: '&7You or your rival dose have enough money for this game'
     playerNotExist: '&7Player with name &f{NAME}&7 is not online or does not exist' #Placeholder {NAME} - name of player
     noInvitation: '&7You do not have invitation from player &f{NAME}' #Placeholder {NAME} - name of the player whose invitation was attempted to be accepted.
@@ -58,6 +62,7 @@ settings:
     drawReplayMessage: '&fDraw! The game will be replayed.'
     successfullyChoice: '&7You choose &f{CHOICE}&7. Waiting for opponent...'
     successfullyInvite: '&7You successfully invited &f{NAME}&7 to game.' #Placeholder {NAME} - name of invited player
+    successfullyPluginReload: '&7Plugin has successfully reloaded.'
 
   chatButtons:
     rpsInviteAcceptButton: '&2&l  Accept '

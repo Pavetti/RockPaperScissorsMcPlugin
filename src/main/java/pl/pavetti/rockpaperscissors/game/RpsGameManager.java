@@ -19,11 +19,11 @@ public class RpsGameManager {
 
     private final WaitingRoomManager waitingRoomManager;
     private final Settings settings = Settings.getInstance();
-    private final GameGUI gameUI;
+    private final GameGUI gameGUI;
     private final Economy economy;
 
     private RpsGameManager(){
-        gameUI = new GameGUI();
+        gameGUI = new GameGUI();
         economy = Main.getInstance().getEconomy();
         waitingRoomManager = Main.getInstance().getWaitingRoomManager();
     }
@@ -67,8 +67,8 @@ public class RpsGameManager {
     public void startGame(RpsGame rpsGame) {
         if(activeGames.contains(rpsGame)){
 
-            rpsGame.getOpponent().getPlayer().openInventory(gameUI.getMainInventory());
-            rpsGame.getInitiator().getPlayer().openInventory(gameUI.getMainInventory());
+            rpsGame.getOpponent().getPlayer().openInventory(gameGUI.getMainInventory());
+            rpsGame.getInitiator().getPlayer().openInventory(gameGUI.getMainInventory());
             rpsGame.start();
 
             //deregister games where is opponent or initiator except this game
@@ -172,6 +172,10 @@ public class RpsGameManager {
             }
         }
         return rpsGames;
+    }
+
+    public void reloadResources(){
+        gameGUI.reload();
     }
 
 }

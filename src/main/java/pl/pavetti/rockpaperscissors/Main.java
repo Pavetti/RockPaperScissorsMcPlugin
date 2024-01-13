@@ -1,16 +1,20 @@
 package pl.pavetti.rockpaperscissors;
 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import lombok.Getter;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import pl.pavetti.rockpaperscissors.commands.RpsCommand;
+import pl.pavetti.rockpaperscissors.commands.RpsReloadCommand;
 import pl.pavetti.rockpaperscissors.commands.RpsTabCompleter;
 import pl.pavetti.rockpaperscissors.listener.InventoryClickListener;
 import pl.pavetti.rockpaperscissors.listener.InventoryCloseListener;
 import pl.pavetti.rockpaperscissors.listener.PlayerLeaveListener;
 import pl.pavetti.rockpaperscissors.waitingroom.WaitingRoomManager;
+import pl.pavetti.rockpaperscissors.api.UpdateChecker;
 
 @Getter
 public final class Main extends JavaPlugin {
@@ -40,6 +44,15 @@ public final class Main extends JavaPlugin {
         // Plugin shutdown logic
     }
 
+    @Override
+    public void reloadConfig() {
+        super.reloadConfig();
+
+        saveDefaultConfig();
+        getConfig().options().copyDefaults(true);
+        saveConfig();
+    }
+
     private void initConfiguration() {
         getConfig().options().copyDefaults(true);
         saveConfig();
@@ -59,6 +72,7 @@ public final class Main extends JavaPlugin {
 
     private void registerCommand(){
         this.getCommand("rps").setExecutor(new RpsCommand(economy,waitingRoomManager));
+        this.getCommand("rpsreload").setExecutor(new RpsReloadCommand());
     }
 
     private boolean setupEconomy() {
@@ -73,5 +87,17 @@ public final class Main extends JavaPlugin {
         return true;
     }
 
+    private void updateCheck() {
+        new UpdateChecker(this, 12345).getVersion(version -> {
+            if (this.getDescription().getVersion().equals(version)) {
+                getLogger().info("[SimpleEvents] There is not a new update available.");
+            } else {
+                Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE +
+                        "[SimpleEvents] THERE IS A NEW UPDATE AVAILABLE! \n" +
+                        " https://www.spigotmc.org/resources/simpleevents-server-events-system.112876/"
+                );
+            }
+        });
+    }
 }
 
