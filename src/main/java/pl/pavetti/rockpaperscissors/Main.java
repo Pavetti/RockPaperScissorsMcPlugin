@@ -7,6 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import lombok.Getter;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.RegisteredServiceProvider;
+import pl.pavetti.rockpaperscissors.api.Metrics;
 import pl.pavetti.rockpaperscissors.commands.RpsCommand;
 import pl.pavetti.rockpaperscissors.commands.RpsReloadCommand;
 import pl.pavetti.rockpaperscissors.commands.RpsTabCompleter;
@@ -22,14 +23,15 @@ public final class Main extends JavaPlugin {
     private static Main instance;
     private Economy economy;
     private WaitingRoomManager waitingRoomManager;
+    private final int resourceID = 12345;
+    private boolean vault = true;
 
     @Override
     public void onEnable() {
         // Plugin startup logic
         if (!setupEconomy() ) {
-            getLogger().severe(String.format("[%s] - Disabled due to no Vault dependency found!", getDescription().getName()));
-            getServer().getPluginManager().disablePlugin(this);
-            return;
+            getLogger().severe(" No Vault dependency found! Plugin wont work correctly." );
+            vault = false;
         }
         instance = this;
         initConfiguration();
@@ -37,6 +39,9 @@ public final class Main extends JavaPlugin {
         registerListener();
         registerCommand();
         registerTabCompleter();
+
+        //updateCheck();
+        //Metrics metrics = new Metrics(this, resourceID);
     }
 
     @Override
@@ -71,7 +76,7 @@ public final class Main extends JavaPlugin {
     }
 
     private void registerCommand(){
-        this.getCommand("rps").setExecutor(new RpsCommand(economy,waitingRoomManager));
+        this.getCommand("rps").setExecutor(new RpsCommand(economy,waitingRoomManager,vault));
         this.getCommand("rpsreload").setExecutor(new RpsReloadCommand());
     }
 
@@ -88,14 +93,11 @@ public final class Main extends JavaPlugin {
     }
 
     private void updateCheck() {
-        new UpdateChecker(this, 12345).getVersion(version -> {
-            if (this.getDescription().getVersion().equals(version)) {
-                getLogger().info("[SimpleEvents] There is not a new update available.");
-            } else {
+        new UpdateChecker(this, resourceID).getVersion(version -> {
+            if (!this.getDescription().getVersion().equals(version)) {
                 Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE +
-                        "[SimpleEvents] THERE IS A NEW UPDATE AVAILABLE! \n" +
-                        " https://www.spigotmc.org/resources/simpleevents-server-events-system.112876/"
-                );
+                        "[RPS] THERE IS A NEW UPDATE AVAILABLE! \n" +
+                        " https://www.spigotmc.org/resources/");
             }
         });
     }

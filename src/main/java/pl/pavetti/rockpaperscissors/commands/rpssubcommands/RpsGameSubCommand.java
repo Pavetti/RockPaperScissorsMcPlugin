@@ -23,15 +23,20 @@ public class RpsGameSubCommand implements SubCommand {
     private final Economy economy;
     private final Settings settings;
     private final WaitingRoomManager waitingRoomManager;
+    private final boolean vault;
 
-    public RpsGameSubCommand( Economy economy, WaitingRoomManager waitingRoomManager) {
+    public RpsGameSubCommand( Economy economy, WaitingRoomManager waitingRoomManager, boolean vault) {
         settings = Settings.getInstance();
         this.waitingRoomManager = waitingRoomManager;
         this.economy = economy;
+        this.vault = vault;
     }
 
     @Override
     public boolean executeCommand(CommandSender sender, String[] args) {
+
+        if(!vault) return true;
+
         Player player = (Player) sender;
 
         //check args

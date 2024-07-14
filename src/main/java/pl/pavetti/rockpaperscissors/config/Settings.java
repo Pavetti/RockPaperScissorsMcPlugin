@@ -53,6 +53,7 @@ public class  Settings {
     private String successfullyInvite;
     private String successfullyPluginReload;
     private String waitingForOpponent;
+    private String noVaultDependency;
     //buttons
     private String rpsInviteAcceptButton;
 
@@ -112,6 +113,7 @@ public class  Settings {
         successfullyInvite = ChatUtil.chatColor(configuration.getString("settings.messages.successfullyInvite"));
         successfullyPluginReload = ChatUtil.chatColor(configuration.getString("settings.messages.successfullyPluginReload"));
         waitingForOpponent = ChatUtil.chatColor(configuration.getString("settings.messages.waitingForOpponent"));
+        noVaultDependency = ChatUtil.chatColor(configuration.getString("settings.messages.noVaultDependency"));
 
         //buttons
         rpsInviteAcceptButton = ChatUtil.chatColor(configuration.getString("settings.chatButtons.rpsInviteAcceptButton"));

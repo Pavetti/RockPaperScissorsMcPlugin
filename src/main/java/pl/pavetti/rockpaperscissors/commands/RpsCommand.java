@@ -8,23 +8,28 @@ import pl.pavetti.rockpaperscissors.api.timsixth.ParentCommand;
 import pl.pavetti.rockpaperscissors.commands.rpssubcommands.RpsAcceptSubCommand;
 import pl.pavetti.rockpaperscissors.commands.rpssubcommands.RpsGameSubCommand;
 import pl.pavetti.rockpaperscissors.config.Settings;
+import pl.pavetti.rockpaperscissors.util.PlayerUtil;
 import pl.pavetti.rockpaperscissors.waitingroom.WaitingRoomManager;
 
 
 public class RpsCommand extends ParentCommand {
+    private final boolean vault;
 
-    public RpsCommand(Economy economy, WaitingRoomManager waitingRoomManager ) {
+    public RpsCommand(Economy economy, WaitingRoomManager waitingRoomManager ,boolean vault) {
         super("", true, true, false);
+        this.vault = vault;
 
-        getSubCommands().add(new RpsGameSubCommand(economy,waitingRoomManager));
-        getSubCommands().add(new RpsAcceptSubCommand(waitingRoomManager));
+        getSubCommands().add(new RpsGameSubCommand(economy,waitingRoomManager,vault));
+        getSubCommands().add(new RpsAcceptSubCommand(waitingRoomManager,vault));
     }
 
     @Override
     protected boolean executeCommand(CommandSender sender, String[] args) {
         Player player = (Player) sender;
-        player.sendMessage("info do dodania");
-        Settings.getInstance().getDescriptionCommand().forEach(player::sendMessage);
+        if(!vault)
+            PlayerUtil.sendMessagePrefixed(player, Settings.getInstance().getNoVaultDependency());
+        else
+            Settings.getInstance().getDescriptionCommand().forEach(player::sendMessage);
 
         return false;
     }

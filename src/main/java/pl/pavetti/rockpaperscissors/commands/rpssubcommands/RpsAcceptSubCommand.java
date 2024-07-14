@@ -18,13 +18,17 @@ import java.util.Optional;
 public class RpsAcceptSubCommand implements SubCommand {
 
     private final WaitingRoomManager waitingRoomManager;
+    private final boolean vault;
 
-    public RpsAcceptSubCommand(WaitingRoomManager waitingRoomManager) {
+    public RpsAcceptSubCommand(WaitingRoomManager waitingRoomManager,boolean vault) {
         this.waitingRoomManager = waitingRoomManager;
+        this.vault = vault;
     }
 
     @Override
     public boolean executeCommand(CommandSender sender, String[] args) {
+
+        if(!vault) return true;
 
         Player opponent = (Player) sender;
         Settings settings = Settings.getInstance();
