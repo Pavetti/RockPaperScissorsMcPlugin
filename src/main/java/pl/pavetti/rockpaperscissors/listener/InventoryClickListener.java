@@ -35,21 +35,24 @@ public class InventoryClickListener implements Listener {
             Optional<RpsPlayer> rpsPlayerOptional = manager.getRpsPlayer(player);
             if(rpsPlayerOptional.isPresent()){
                 RpsPlayer rpsPlayer = rpsPlayerOptional.get();
+                // If player has already chosen, cancel the event
                 if(rpsPlayer.getChoice() != null){
                     event.setCancelled(true);
                     return;
                 }
-                int rockSlot = 11;
-                int paperSlot = 13;
-                int scissorsSlot = 15;
 
-                if(event.getSlot() == rockSlot){
-                    rpsPlayer.choose(Choice.ROCK);
-                } else if (event.getSlot() == paperSlot) {
-                    rpsPlayer.choose(Choice.PAPER);
-                } else if (event.getSlot() == scissorsSlot) {
-                    rpsPlayer.choose(Choice.SCISSORS);
+                switch (event.getSlot()) {
+                    case 11: // rock
+                        rpsPlayer.choose(Choice.ROCK);
+                        break;
+                    case 13: // paper
+                        rpsPlayer.choose(Choice.PAPER);
+                        break;
+                    case 15: // scissors
+                        rpsPlayer.choose(Choice.SCISSORS);
+                        break;
                 }
+
             }
             event.setCancelled(true);
         }

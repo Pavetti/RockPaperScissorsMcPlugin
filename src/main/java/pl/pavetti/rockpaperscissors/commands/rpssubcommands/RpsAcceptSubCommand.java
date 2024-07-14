@@ -63,7 +63,7 @@ public class RpsAcceptSubCommand implements SubCommand {
         //start game
         RpsGameManager.getInstance().startGame(
                 ((RpsPlayer) waiter.getInstance()).getRpsGame());
-        waitingRoom.removeWaiter(waiter);
+        waiterList.forEach(waitingRoom::removeWaiter);
 
         return false;
     }

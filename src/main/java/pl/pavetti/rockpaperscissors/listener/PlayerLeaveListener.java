@@ -28,7 +28,7 @@ public class PlayerLeaveListener implements Listener {
             waitingRoomManager.getRpsInviteWR().removeWaiter(rpsPlayer);
         }*/
 
-        List<RpsGame> rpsPlayerList = rpsGameManager.getRpsGamesWhere(player);
+        List<RpsGame> rpsPlayerList = rpsGameManager.getAllGamesWherePlayerPerform(player);
         for (RpsGame rpsGame : rpsPlayerList) {
             rpsGameManager.deregisterGame(rpsGame);
             waitingRoomManager.getRpsInviteWR().removeWaiter(rpsGame.getOpponent());

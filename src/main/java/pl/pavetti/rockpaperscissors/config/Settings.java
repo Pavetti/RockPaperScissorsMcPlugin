@@ -5,6 +5,9 @@ import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import pl.pavetti.rockpaperscissors.Main;
 import pl.pavetti.rockpaperscissors.util.ChatUtil;
+
+import java.util.List;
+
 @Getter
 public class  Settings {
 
@@ -29,6 +32,7 @@ public class  Settings {
     private String guiScissorsName;
     private Material guiScissorsItem;
     //messages
+    private List<String> descriptionCommand;
     private String noPermission;
     private String badUseRpsGameCmd;
     private String badUseRpsAcceptCmd;
@@ -48,9 +52,9 @@ public class  Settings {
     private String successfullyChoice;
     private String successfullyInvite;
     private String successfullyPluginReload;
+    private String waitingForOpponent;
     //buttons
     private String rpsInviteAcceptButton;
-    private String rpsInviteDenyButton;
 
     private Settings() {
         load();
@@ -87,6 +91,7 @@ public class  Settings {
         guiScissorsName = ChatUtil.chatColor(configuration.getString("settings.gui.main.scissors.name"));
 
         //messages
+        descriptionCommand = ChatUtil.chatColor(configuration.getStringList("settings.messages.descriptionCommand"));
         noPermission = ChatUtil.chatColor(configuration.getString("settings.messages.noPermission"));
         badUseRpsGameCmd = ChatUtil.chatColor(configuration.getString("settings.messages.badUseRpsGameCmd"));
         badUseRpsAcceptCmd = ChatUtil.chatColor(configuration.getString("settings.messages.badUseRpsAcceptCmd"));
@@ -106,21 +111,22 @@ public class  Settings {
         successfullyChoice = ChatUtil.chatColor(configuration.getString("settings.messages.successfullyChoice"));
         successfullyInvite = ChatUtil.chatColor(configuration.getString("settings.messages.successfullyInvite"));
         successfullyPluginReload = ChatUtil.chatColor(configuration.getString("settings.messages.successfullyPluginReload"));
+        waitingForOpponent = ChatUtil.chatColor(configuration.getString("settings.messages.waitingForOpponent"));
 
         //buttons
         rpsInviteAcceptButton = ChatUtil.chatColor(configuration.getString("settings.chatButtons.rpsInviteAcceptButton"));
-        rpsInviteDenyButton = ChatUtil.chatColor(configuration.getString("settings.chatButtons.rpsInviteDenyButton"));
     }
 
-    // for safely converting string to material
+    // for safety converting string to material
     private Material getMaterialOf(String string){
         Material material;
         try{
             material = Material.valueOf(string);
         }catch (IllegalArgumentException e){
-            throw new IllegalArgumentException("\nOne of the material given in config.yml does not exist." +
+            Main.getInstance().getLogger().severe("\nOne of the material given in config.yml does not exist." +
                     " Pleas check config file. Full list of allowed materials you can find here " +
                     "https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html\\n");
+            material = Material.BARRIER;
         }
         return material;
     }

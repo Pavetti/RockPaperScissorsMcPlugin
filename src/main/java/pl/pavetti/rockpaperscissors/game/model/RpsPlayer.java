@@ -15,8 +15,8 @@ public class RpsPlayer implements Waiter {
 
     public void choose(Choice choice){
         this.choice = choice;
-        rpsGame.tryActionsPostSecondChoose();
-        rpsGame.tryActionsPostFirstChoose(this);
+
+        rpsGame.doActionsPostChoose(this);
         player.closeInventory();
     }
 

@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import pl.pavetti.rockpaperscissors.api.timsixth.ParentCommand;
 import pl.pavetti.rockpaperscissors.commands.rpssubcommands.RpsAcceptSubCommand;
 import pl.pavetti.rockpaperscissors.commands.rpssubcommands.RpsGameSubCommand;
+import pl.pavetti.rockpaperscissors.config.Settings;
 import pl.pavetti.rockpaperscissors.waitingroom.WaitingRoomManager;
 
 
@@ -23,7 +24,7 @@ public class RpsCommand extends ParentCommand {
     protected boolean executeCommand(CommandSender sender, String[] args) {
         Player player = (Player) sender;
         player.sendMessage("info do dodania");
-        //TODO help command
+        Settings.getInstance().getDescriptionCommand().forEach(player::sendMessage);
 
         return false;
     }

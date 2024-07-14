@@ -43,21 +43,16 @@ public class RpsGameSubCommand implements SubCommand {
             PlayerUtil.sendMessagePrefixed(player, settings.getPlayerNotExist().replace("{NAME}", args[1]));
             return true;
         }
-        if (!args[2].matches("-?\\d+")) {
+        if (!args[2].matches("-?\\d+(\\.\\d+)?")) {
             //check bet argument
             PlayerUtil.sendMessagePrefixed(player, settings.getBadUseRpsGameCmd());
             return true;
         }
-        int bet;
+        double bet;
         double max = settings.getMaxBet();
         double min = settings.getMinBet();
         Player enemyPlayer = Bukkit.getPlayerExact(args[1]);
-        try{
-            bet = Integer.parseInt(args[2]);
-        }catch (NumberFormatException e){
-            PlayerUtil.sendMessagePrefixed(player,settings.getBetOutOfRangeMax().replace("{MAX}",String.valueOf(max)));
-            return true;
-        }
+        bet = Integer.parseInt(args[2]);
 
 
         if (PlayerUtil.compare(enemyPlayer,player)) {
@@ -70,10 +65,10 @@ public class RpsGameSubCommand implements SubCommand {
                 PlayerUtil.sendMessagePrefixed(player,settings.getBetOutOfRangeMax().replace("{MAX}",String.valueOf(max)));
                 return true;
             }
-        }
-        if(bet < min){
-            PlayerUtil.sendMessagePrefixed(player,settings.getBetOutOfRangeMin().replace("{MIN}",String.valueOf(min)));
-            return true;
+            if(bet < min){
+                PlayerUtil.sendMessagePrefixed(player,settings.getBetOutOfRangeMin().replace("{MIN}",String.valueOf(min)));
+                return true;
+            }
         }
 
         //economy check
@@ -86,7 +81,7 @@ public class RpsGameSubCommand implements SubCommand {
 
         //check if already invite
         //check if enemy player already play
-        List<RpsGame> games = rpsGameManager.getRpsGamesWhere(enemyPlayer);
+        List<RpsGame> games = rpsGameManager.getAllGamesWherePlayerPerform(enemyPlayer);
             for (RpsGame game : games) {
                 if(game.isStarted()){
                     PlayerUtil.sendMessagePrefixed(player,settings.getAlreadyPlay().replace("{NAME}",args[1]));
@@ -110,17 +105,13 @@ public class RpsGameSubCommand implements SubCommand {
     private void sendInvitation(Player enemyPlayer,String initiator, String bet){
         String commandAccept = "/rps accept " + initiator;
         TextComponent acceptButton = new TextComponent(settings.getRpsInviteAcceptButton());
-        TextComponent denyButton = new TextComponent(settings.getRpsInviteDenyButton());
         acceptButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,commandAccept));
         acceptButton.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("✔").color(ChatColor.WHITE).create()));
-        denyButton.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("✖").color(ChatColor.WHITE).create()));
 
-        enemyPlayer.sendMessage("");
         PlayerUtil.sendMessagePrefixed(enemyPlayer,
                 settings.getRpsInvite()
                         .replace("{NAME}", initiator).replace("{BET}", bet));
-        enemyPlayer.spigot().sendMessage(acceptButton,denyButton);
-        enemyPlayer.sendMessage("");
+        enemyPlayer.spigot().sendMessage(acceptButton);
 
     }
 
