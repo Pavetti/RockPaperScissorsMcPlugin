@@ -8,7 +8,7 @@ settings:
     maxBet: 10000.0
     # Minimum amount of bet
     minBet: 0.0
-    # The time a player has to accept a game invitation"
+    # The time a player has to accept a game invitation
     # (change require server restart)
     acceptTime: 30
     # The time a player has to make a choice. The time is measured
@@ -73,5 +73,3 @@ settings:
 
   chatButtons:
     rpsInviteAcceptButton: '&2&l Click to accept'
-
-

@@ -23,7 +23,8 @@ public final class Main extends JavaPlugin {
     private static Main instance;
     private Economy economy;
     private WaitingRoomManager waitingRoomManager;
-    private final int resourceID = 12345;
+    private final int resourceID = 118164;
+    private final int bStatsPluginID = 22697;
     private boolean vault = true;
 
     @Override
@@ -40,8 +41,8 @@ public final class Main extends JavaPlugin {
         registerCommand();
         registerTabCompleter();
 
-        //updateCheck();
-        //Metrics metrics = new Metrics(this, resourceID);
+        updateCheck();
+        Metrics metrics = new Metrics(this, bStatsPluginID);
     }
 
     @Override
