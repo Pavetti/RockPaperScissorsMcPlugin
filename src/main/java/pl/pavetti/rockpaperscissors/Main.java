@@ -53,7 +53,6 @@ public final class Main extends JavaPlugin {
     @Override
     public void reloadConfig() {
         super.reloadConfig();
-
         saveDefaultConfig();
         getConfig().options().copyDefaults(true);
         saveConfig();
@@ -72,6 +71,7 @@ public final class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new InventoryCloseListener(),this);
         getServer().getPluginManager().registerEvents(new PlayerLeaveListener(waitingRoomManager),this);
     }
+
     private void registerTabCompleter(){
         this.getCommand("rps").setTabCompleter(new RpsTabCompleter());
     }
@@ -103,4 +103,3 @@ public final class Main extends JavaPlugin {
         });
     }
 }
-
