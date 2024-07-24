@@ -19,7 +19,7 @@ public class RpsTabCompleter implements TabCompleter {
                                       @Nullable String[] args) {
         List<String> compleats = new ArrayList<>();
         if(args.length == 1){
-            compleats = Arrays.asList("game","accept");
+            compleats = Arrays.asList("game","accept","toggle");
         }
         else if (args.length == 2 && args[0].equals("game")) {
             for (Player player : Bukkit.getOnlinePlayers()) {

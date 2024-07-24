@@ -97,8 +97,11 @@ public final class Main extends JavaPlugin {
         new UpdateChecker(this, resourceID).getVersion(version -> {
             if (!this.getDescription().getVersion().equals(version)) {
                 Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE +
-                        "[RPS] THERE IS A NEW UPDATE AVAILABLE! \n" +
-                        " https://www.spigotmc.org/resources/");
+                        "[RPS] THERE IS A NEW UPDATE AVAILABLE! \n " +
+                        " Current version: " + this.getDescription().getVersion() + "\n"+
+                        " Recent version:  " + version + "\n" +
+                        "https://www.spigotmc.org/resources/rock-paper-scissors-simple-gambling-game.118164/ \n" +
+                        "Waring! New version of the plugin may require resetting the configuration file.");
             }
         });
     }

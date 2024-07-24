@@ -24,6 +24,7 @@ public class RpsGameSubCommand implements SubCommand {
     private final Settings settings;
     private final WaitingRoomManager waitingRoomManager;
     private final boolean vault;
+    private final RpsGameManager rpsGameManager =  RpsGameManager.getInstance();
 
     public RpsGameSubCommand( Economy economy, WaitingRoomManager waitingRoomManager, boolean vault) {
         settings = Settings.getInstance();
@@ -82,7 +83,13 @@ public class RpsGameSubCommand implements SubCommand {
             return true;
         }
 
-        RpsGameManager rpsGameManager =  RpsGameManager.getInstance();
+
+        //check if player has blocked invitations
+        if(rpsGameManager.isPlayerBlockingInvitation(enemyPlayer.getUniqueId().toString())){
+            PlayerUtil.sendMessagePrefixed(player,settings.getBlockedInvitationMessage()
+                    .replace("{NAME}",enemyPlayer.getName()));
+            return true;
+        }
 
         //check if already invite
         //check if enemy player already play

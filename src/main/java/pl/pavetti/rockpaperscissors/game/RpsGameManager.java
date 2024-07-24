@@ -19,11 +19,13 @@ import java.util.*;
 public class RpsGameManager {
     private static RpsGameManager instance;
     private final Set<RpsGame> activeGames = new HashSet<>();
+    private final Set<String> playersWithBlockedInvitaionsSet = new HashSet<>();
 
     private final WaitingRoomManager waitingRoomManager;
     private final Settings settings = Settings.getInstance();
     private final GameGUI gameGUI;
     private final Economy economy;
+
 
     /**
      * Private constructor for the singleton class.
@@ -62,6 +64,53 @@ public class RpsGameManager {
      */
     public void deregisterGame(RpsGame rpsGame){
         activeGames.remove(rpsGame);
+    }
+
+
+    /**
+     * Adds a player to the set of players who have blocked invitations.
+     *
+     * @param uuid the unique identifier of the player to add
+     */
+    private void addBlockingInvitationToPlayer(String uuid){
+        playersWithBlockedInvitaionsSet.add(uuid);
+    }
+
+    /**
+     * Removes a player from the set of players who have blocked invitations.
+     *
+     * @param uuid the unique identifier of the player to remove
+     */
+    private void removeBlockingInvitationToPlayer(String uuid){
+        playersWithBlockedInvitaionsSet.remove(uuid);
+    }
+
+    /**
+     * Toggles the invitation blocking status of a player.
+     * If the player has blocked invitations, this method will unblock them and return false.
+     * If the player has not blocked invitations, this method will block them and return true.
+     *
+     * @param uuid the unique identifier of the player to toggle
+     * @return true if the player has blocked invitations, false if they have unblocked
+     */
+    public boolean toggleBlockingInvitationToPlayer(String uuid){
+        if(playersWithBlockedInvitaionsSet.contains(uuid)){
+            removeBlockingInvitationToPlayer(uuid);
+            return false;
+        }else {
+            addBlockingInvitationToPlayer(uuid);
+            return true;
+        }
+    }
+
+    /**
+     * Checks if a player has blocked invitations.
+     *
+     * @param uuid the unique identifier of the player to check
+     * @return true if the player has blocked invitations, false otherwise
+     */
+    public boolean isPlayerBlockingInvitation(String uuid){
+        return playersWithBlockedInvitaionsSet.contains(uuid);
     }
 
     /**

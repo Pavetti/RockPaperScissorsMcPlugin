@@ -48,19 +48,20 @@ settings:
     - ''
     - ' &f/&2rps game &f<player> <bet> &7- Sends an invitation to play rock paper scissors'
     - ' &f/&2rps accept &f<player> &7- Accepts an invitation to play rock paper scissors'
+    - ' &f/&2rps toggle &7- Toggle the ability to send invitations'
     - ''
-    noPermission: '&4You do not have permission to use this command'
+    noPermission: '&4You do not have permission to use this command.'
     badUseRpsGameCmd: '&7You have to give player name and bet argument &f/&7rps game &f<&7player&f> <&7bet&f>'
     badUseRpsAcceptCmd: '&7You have to give player name argument &f/&7rps accept &f<&7player&f>'
     betOutOfRangeMax: '&7Bet cannot be greater than &f{MAX} &7$' #Placeholder {MAX} - value that is set in config in section 'maxBet'
     betOutOfRangeMin: '&7Bet cannot be less than &f{MIN} &7$' #Placeholder {MIN} - value that is set in config in section 'minBet'
-    myselfInvite: '&7You cannot invite yourself'
+    myselfInvite: '&7You cannot invite yourself.'
     rpsInvite: '&7Player &f{NAME}&7 invites you to play &fRock Paper Scissors&r&7 for &f{BET}&7$.' #Placeholder {NAME} - name of player that send invite, {BET} - value of bet
-    notEnoughMoney: '&7You or your rival dose have enough money for this game'
-    playerNotExist: '&7Player with name &f{NAME}&7 is not online or does not exist' #Placeholder {NAME} - name of player
+    notEnoughMoney: '&7You or your rival dose have enough money for this game.'
+    playerNotExist: '&7Player with name &f{NAME}&7 is not online or does not exist.' #Placeholder {NAME} - name of player
     noInvitation: '&7You do not have invitation from player &f{NAME}' #Placeholder {NAME} - name of the player whose invitation was attempted to be accepted.
     alreadyInvite: '&7You already send invitation to this player'
-    alreadyPlay: '&7Player &f{NAME}&7 is already playing rock-paper-scissors' #Placeholder {NAME} - name of player who is already playing game
+    alreadyPlay: '&7Player &f{NAME}&7 is already playing rock-paper-scissors.' #Placeholder {NAME} - name of player who is already playing game
     winMessage: '&aYou won! You receive &f{BET}&a$' #Placeholder {BET} - value of bet
     loseMessage: '&cYou lost! You lose &f{BET}&c$' #Placeholder {BET} - value of bet
     drawNormalMessage: '&fDraw! No funds are lost or gained.'
@@ -70,6 +71,9 @@ settings:
     successfullyPluginReload: '&7Plugin has successfully reloaded.'
     waitingForOpponent: '&7Waiting for opponent...'
     noVaultDependency: '&4No Vault dependency found! Plugin wont work correctly.'
+    blockingInvitationOn: '&7Blocking invitations mode is now &aenabled'
+    blockingInvitationOff: '&7Blocking invitations mode is now &cdisabled'
+    blockedInvitationMessage: '&7You cannot send invitations to player &f{NAME} &7at the moment.'
 
   chatButtons:
     rpsInviteAcceptButton: '&2&l Click to accept'

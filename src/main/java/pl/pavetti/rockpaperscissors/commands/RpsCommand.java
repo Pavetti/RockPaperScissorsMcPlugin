@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import pl.pavetti.rockpaperscissors.api.timsixth.ParentCommand;
 import pl.pavetti.rockpaperscissors.commands.rpssubcommands.RpsAcceptSubCommand;
 import pl.pavetti.rockpaperscissors.commands.rpssubcommands.RpsGameSubCommand;
+import pl.pavetti.rockpaperscissors.commands.rpssubcommands.RpsToggleInviteSubCommand;
 import pl.pavetti.rockpaperscissors.config.Settings;
 import pl.pavetti.rockpaperscissors.util.PlayerUtil;
 import pl.pavetti.rockpaperscissors.waitingroom.WaitingRoomManager;
@@ -21,6 +22,7 @@ public class RpsCommand extends ParentCommand {
 
         getSubCommands().add(new RpsGameSubCommand(economy,waitingRoomManager,vault));
         getSubCommands().add(new RpsAcceptSubCommand(waitingRoomManager,vault));
+        getSubCommands().add(new RpsToggleInviteSubCommand(vault));
     }
 
     @Override
