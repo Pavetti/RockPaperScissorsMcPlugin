@@ -19,7 +19,7 @@ Simple game that everybody knows brought into the Minecraft. Thanks to the compe
 - /rpsreload - reloads config (rps.admin permission required)
 
 
-## Plugin require Vault to work!
+## `Plugin require Vault to work!`
 
-> # Want to ask something or report bug?
-> # [Join discord](https://discord.com/invite/NfcnukNMmW)
+> ## Want to ask something or report bug?
+> ## [Join discord](https://discord.com/invite/NfcnukNMmW)
