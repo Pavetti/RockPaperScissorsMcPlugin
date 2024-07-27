@@ -21,12 +21,6 @@ public class PlayerLeaveListener implements Listener {
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent event){
         Player player = event.getPlayer();
-/*        Optional<RpsPlayer> rpsPlayerOptional = rpsGameManager.getRpsPlayer(player);
-        if(rpsPlayerOptional.isPresent()){
-            RpsPlayer rpsPlayer = rpsPlayerOptional.get();
-            rpsGameManager.unregistryGame(rpsPlayer.getRpsGame());
-            waitingRoomManager.getRpsInviteWR().removeWaiter(rpsPlayer);
-        }*/
 
         List<RpsGame> rpsPlayerList = rpsGameManager.getAllGamesWherePlayerPerform(player);
         for (RpsGame rpsGame : rpsPlayerList) {
