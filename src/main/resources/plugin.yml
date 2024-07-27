@@ -1,5 +1,5 @@
 name: RockPaperScissors
-version: '1.1.0'
+version: '1.1.1'
 main: pl.pavetti.rockpaperscissors.Main
 authors: [ 'Rigoletto' ]
 description: Rock Paper Scissors game
