@@ -15,12 +15,16 @@ public class  Settings {
 
     //basic
     private String prefix;
-    //gameConfig
+    //game config
     private boolean replayOnDraw;
     private double maxBet;
     private double minBet;
     private int acceptTime;
     private int chooseTime;
+    //global game result
+    private boolean globalGameResultEnable;
+    private double globalGameResultMinBet;
+
     //gui
     private String guiMainTitle;
     private String guiMainFillItemName;
@@ -33,6 +37,7 @@ public class  Settings {
     private Material guiScissorsItem;
     //messages
     private List<String> descriptionCommand;
+    private List<String> globalGameResultMessage;
     private String noPermission;
     private String badUseRpsGameCmd;
     private String badUseRpsAcceptCmd;
@@ -83,6 +88,9 @@ public class  Settings {
         minBet = configuration.getDouble("settings.gameConfig.minBet");
         acceptTime = configuration.getInt("settings.gameConfig.acceptTime");
         chooseTime = configuration.getInt("settings.gameConfig.chooseTime");
+        //global game result
+        globalGameResultEnable = configuration.getBoolean("settings.gameConfig.globalGameResult.enable");
+        globalGameResultMinBet = configuration.getDouble("settings.gameConfig.globalGameResult.minBet");
         //gui
         guiMainTitle = ChatUtil.chatColor(configuration.getString("settings.gui.main.title"));
         guiMainFillItem = getMaterialOf(configuration.getString("settings.gui.main.fillItem.item"));
@@ -96,6 +104,7 @@ public class  Settings {
 
         //messages
         descriptionCommand = ChatUtil.chatColor(configuration.getStringList("settings.messages.descriptionCommand"));
+        globalGameResultMessage = ChatUtil.chatColor(configuration.getStringList("settings.messages.globalGameResult"));
         noPermission = ChatUtil.chatColor(configuration.getString("settings.messages.noPermission"));
         badUseRpsGameCmd = ChatUtil.chatColor(configuration.getString("settings.messages.badUseRpsGameCmd"));
         badUseRpsAcceptCmd = ChatUtil.chatColor(configuration.getString("settings.messages.badUseRpsAcceptCmd"));

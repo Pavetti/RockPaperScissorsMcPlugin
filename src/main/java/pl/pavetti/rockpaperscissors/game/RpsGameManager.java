@@ -5,9 +5,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import pl.pavetti.rockpaperscissors.Main;
 import pl.pavetti.rockpaperscissors.config.Settings;
+import pl.pavetti.rockpaperscissors.datatransporter.GameResult;
 import pl.pavetti.rockpaperscissors.game.model.Choice;
 import pl.pavetti.rockpaperscissors.game.model.RpsGame;
 import pl.pavetti.rockpaperscissors.game.model.RpsPlayer;
+import pl.pavetti.rockpaperscissors.service.PlaceholderService;
 import pl.pavetti.rockpaperscissors.util.PlayerUtil;
 import pl.pavetti.rockpaperscissors.waitingroom.WaitingRoomManager;
 
@@ -26,9 +28,9 @@ public class RpsGameManager {
     private final GameGUI gameGUI;
     private final Economy economy;
 
-
     /**
      * Private constructor for the singleton class.
+     * Initializes the game GUI, economy, and waiting room manager.
      */
     private RpsGameManager(){
         gameGUI = new GameGUI();
@@ -38,6 +40,7 @@ public class RpsGameManager {
 
     /**
      * Returns the singleton instance of the RpsGameManager.
+     * If the instance does not exist, it is created.
      *
      * @return the singleton instance of the RpsGameManager
      */
@@ -50,6 +53,7 @@ public class RpsGameManager {
 
     /**
      * Registers a new game.
+     * Adds the game to the set of active games.
      *
      * @param rpsGame the game to register
      */
@@ -59,13 +63,13 @@ public class RpsGameManager {
 
     /**
      * Deregisters a game.
+     * Removes the game from the set of active games.
      *
      * @param rpsGame the game to deregister
      */
     public void deregisterGame(RpsGame rpsGame){
         activeGames.remove(rpsGame);
     }
-
 
     /**
      * Adds a player to the set of players who have blocked invitations.
@@ -115,6 +119,7 @@ public class RpsGameManager {
 
     /**
      * Deregisters all other games with the players of the given game.
+     * This method is used to ensure that a player is only in one game at a time.
      *
      * @param rpsGame the game to use for deregistration
      */
@@ -143,6 +148,7 @@ public class RpsGameManager {
 
     /**
      * Starts a game.
+     * Deregisters all other games with the players of the given game, opens the game GUI for both players, and starts the game.
      *
      * @param rpsGame the game to start
      */
@@ -157,6 +163,7 @@ public class RpsGameManager {
 
     /**
      * Starts a timer to end a game.
+     * Adds the game to the waiting room and starts a timer.
      *
      * @param rpsGame the game to end
      */
@@ -167,6 +174,7 @@ public class RpsGameManager {
 
     /**
      * Ends a game.
+     * Determines the winner of the game, settles the bet, and removes the game from the set of active games and the waiting room.
      *
      * @param rpsGame the game to end
      */
@@ -174,8 +182,13 @@ public class RpsGameManager {
         if(activeGames.contains(rpsGame)){
             RpsPlayer winner = getWinner(rpsGame);
             if(winner != null){
-                RpsPlayer losser = rpsGame.getOtherPlayer(winner);
-                settleBet(winner,losser,rpsGame.getBet());
+                RpsPlayer loser = rpsGame.getOtherPlayer(winner);
+                GameResult gameResult = GameResult.builder()
+                        .rpsGame(rpsGame)
+                        .winner(winner)
+                        .loser(loser)
+                        .build();
+                settleBet(gameResult);
             }else {
                 doDraw(rpsGame);
             }
@@ -186,20 +199,26 @@ public class RpsGameManager {
 
     /**
      * Ends a game due to a player leaving.
+     * The player who left the game is considered the loser, and the bet is settled accordingly.
      *
      * @param loser the player who left the game
      */
     public void endGameByPlayerLeave(RpsPlayer loser){
         RpsGame rpsGame = loser.getRpsGame();
         RpsPlayer winner = rpsGame.getOtherPlayer(loser);
-
+        GameResult gameResult = GameResult.builder()
+                .rpsGame(rpsGame)
+                .winner(winner)
+                .loser(loser)
+                .build();
         activeGames.remove(rpsGame);
         winner.getPlayer().closeInventory();
-        settleBet(winner,loser,rpsGame.getBet());
+        settleBet(gameResult);
     }
 
     /**
      * Determines the winner of a game.
+     * The winner is determined based on the choices of the players.
      *
      * @param rpsGame the game to determine the winner of
      * @return the winning player, or null if there is a draw
@@ -221,25 +240,47 @@ public class RpsGameManager {
     }
 
     /**
-     * Settles the bet between the winner and loser of a game.
+     * Settles the bet of a game.
+     * Withdraws the bet from the loser and deposits it to the winner.
+     * Sends messages to the players about the result of the game.
      *
-     * @param winner the winning player
-     * @param loser the losing player
-     * @param bet the amount of the bet
+     * @param gameResult the result of the game
      */
-    private void settleBet(RpsPlayer winner, RpsPlayer loser, double bet){
-        Player winnerPlayer = winner.getPlayer();
-        Player losserPlayer = loser.getPlayer();
+    private void settleBet(GameResult gameResult){
+        economy.withdrawPlayer(gameResult.getWinner().getPlayer(),gameResult.getRpsGame().getBet());
+        economy.depositPlayer(gameResult.getWinner().getPlayer(),gameResult.getRpsGame().getBet());
 
-        economy.withdrawPlayer(losserPlayer,bet);
-        economy.depositPlayer(winnerPlayer,bet);
+        sendMessagesAfterWinGame(gameResult);
+    }
 
-        PlayerUtil.sendMessagePrefixed(winnerPlayer,settings.getWinMessage().replace("{BET}", String.valueOf(bet)));
-        PlayerUtil.sendMessagePrefixed(losserPlayer,settings.getLoseMessage().replace("{BET}", String.valueOf(bet)));
+    /**
+     * Sends messages to the players after a game has been won.
+     * Sends messages to the winner and loser of the game, and, if the settings allow, sends a global message about the result of the game.
+     *
+     * @param gameResult the result of the game
+     */
+    private void sendMessagesAfterWinGame(GameResult gameResult){
+        Player winner = gameResult.getWinner().getPlayer();
+        Player loser = gameResult.getLoser().getPlayer();
+        double bet = gameResult.getRpsGame().getBet();
+
+        PlayerUtil.sendMessagePrefixed(winner,settings.getWinMessage().replace("{BET}", String.valueOf(bet)));
+        PlayerUtil.sendMessagePrefixed(loser,settings.getLoseMessage().replace("{BET}", String.valueOf(bet)));
+
+        System.out.println("0");
+        if(settings.isGlobalGameResultEnable()){
+            System.out.println("1");
+            if(bet >= settings.getGlobalGameResultMinBet()){
+                System.out.println("2");
+                List<String> message = PlaceholderService.replacePlaceholdersInGlobalResultMessage(gameResult);
+                message.forEach(Bukkit::broadcastMessage);
+            }
+        }
     }
 
     /**
      * Handles a draw in a game.
+     * Sends a draw message to the players and, if the settings allow, starts a new game.
      *
      * @param rpsGame the game that ended in a draw
      */
@@ -304,6 +345,7 @@ public class RpsGameManager {
 
     /**
      * Reloads resources.
+     * Currently, this only reloads the game GUI.
      */
     public void reloadResources(){
         gameGUI.reload();
