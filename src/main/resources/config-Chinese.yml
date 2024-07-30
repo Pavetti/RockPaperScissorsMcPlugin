@@ -1,0 +1,77 @@
+settings:
+  # 插件发送的每条消息前的前缀
+  prefix: '&2&l剪刀石头布 &7▷ '
+  
+  # 所有与剪刀石头布游戏系统相关的选项可以在本节找到
+  gameConfig:
+    # 最大投注额（0 = 无限制）
+    maxBet: 10000.0
+    # 最小投注额
+    minBet: 0.0
+    # 玩家接受游戏邀请的时间
+    # (更改需要重启服务器)
+    acceptTime: 30
+    # 玩家必须做出选择的时间。时间从一个玩家做出选择时开始计算。
+    # 如果玩家在此时间内未做出选择，将会失败。
+    # (更改需要重启服务器)
+    chooseTime: 30
+    # 启用此选项时，如果游戏以平局结束，游戏将自动重玩。
+    replayOnDraw: true
+  
+  # 所有与剪刀石头布 GUI 相关的选项可以在本节找到
+  gui:
+    main:
+      # 所有可用于 "item" 部分的材料名称可以在此处找到
+      # https://hub.spigotmc.org/javadoczs/bukkit/org/bukkit/Material.html
+      title: '&8剪刀石头布'
+      scissors:
+        item: SHEARS
+        name: '&c&l剪刀'
+      rock:
+        item: COBBLESTONE
+        name: '&8&l石头'
+      paper:
+        item: PAPER
+        name: '&f&l布'
+      fillItem:
+        item: GRAY_STAINED_GLASS_PANE
+        name: ' '
+  
+  messages:
+    # 警告！占位符是为特定消息创建的。
+    # 有关如何使用适当占位符的信息可以在相应消息旁边找到。
+    descriptionCommand:
+    - ''
+    - '&7&m--[-------&r &2RPS 命令 &7&m-------]--'
+    - ''
+    - ' &f/&2rps game &f<玩家> <赌注> &7- 发送剪刀石头布游戏邀请'
+    - ' &f/&2rps accept &f<玩家> &7- 接受剪刀石头布游戏邀请'
+    - ' &f/&2rps toggle &7- 切换发送邀请的能力'
+    - ''
+    noPermission: '&4你没有权限使用此命令。'
+    badUseRpsGameCmd: '&7你必须提供玩家名称和投注参数 &f/&7rps game &f<&玩家&f> <&7赌注&f>'
+    badUseRpsAcceptCmd: '&7你必须提供玩家名称参数 &f/&7rps accept &f<&7玩家&f>'
+    betOutOfRangeMax: '&7投注额不能超过 &f{MAX} &7$' # 占位符 {MAX} - 在 'maxBet' 部分设置的值
+    betOutOfRangeMin: '&7投注额不能少于 &f{MIN} &7$' # 占位符 {MIN} - 在 'minBet' 部分设置的值
+    myselfInvite: '&7你不能邀请自己。'
+    rpsInvite: '&7玩家 &f{NAME}&7 邀请你玩 &f剪刀石头布&r&7，投注额为 &f{BET}&7$。' # 占位符 {NAME} - 发送邀请的玩家名称, {BET} - 投注金额
+    notEnoughMoney: '&7你或你的对手没有足够的钱进行此游戏。'
+    playerNotExist: '&7玩家 &f{NAME}&7 不在线或不存在。' # 占位符 {NAME} - 玩家名称
+    noInvitation: '&7你没有来自玩家 &f{NAME} 的邀请' # 占位符 {NAME} - 试图接受邀请的玩家名称
+    alreadyInvite: '&7你已经向该玩家发送了邀请'
+    alreadyPlay: '&7玩家 &f{NAME}&7 已经在玩剪刀石头布游戏。' # 占位符 {NAME} - 已经在游戏中的玩家名称
+    winMessage: '&a你赢了！你获得了 &f{BET}&a$' # 占位符 {BET} - 投注金额
+    loseMessage: '&c你输了！你损失了 &f{BET}&c$' # 占位符 {BET} - 投注金额
+    drawNormalMessage: '&f平局！没有资金损失或增加。'
+    drawReplayMessage: '&f平局！游戏将重新进行。'
+    successfullyChoice: '&7你选择了 &f{CHOICE}&7。' # 占位符 {CHOICE} - 选择的名称
+    successfullyInvite: '&7你已成功邀请 &f{NAME}&7 参加游戏。' # 占位符 {NAME} - 被邀请的玩家名称
+    successfullyPluginReload: '&7插件已成功重新加载。'
+    waitingForOpponent: '&7等待对手...'
+    noVaultDependency: '&4未找到 Vault 依赖！插件无法正常工作。'
+    blockingInvitationOn: '&7阻止邀请模式现已 &a启用'
+    blockingInvitationOff: '&7阻止邀请模式现已 &c禁用'
+    blockedInvitationMessage: '&7你现在不能向玩家 &f{NAME} &7发送邀请。'
+  
+  chatButtons:
+    rpsInviteAcceptButton: '&2&l 点击接受'
