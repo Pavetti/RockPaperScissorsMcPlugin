@@ -1,0 +1,92 @@
+settings:
+  # Prefix that will be adding to every message sending by this plugin
+  # except message that are contains in list of lines (descriptionCommand, globalGameResult)
+  prefix: '&2&lRPS &7▷ '
+
+  # Every options relevant to rock-paper-scissors game system you can find in this section
+  gameConfig:
+    # Maximum amount of bet (0 = no limit)
+    maxBet: 100000.0
+    # Minimum amount of bet
+    minBet: 0.0
+    # The time a player has to accept a game invitation
+    # (change require server restart)
+    acceptTime: 30
+    # The time a player has to make a choice. The time is measured
+    # from the moment one of the players makes a choice.
+    # If the player don't make a choice by the end of this time,
+    # he will lose.
+    # (change require server restart)
+    chooseTime: 30
+    # By turning on this option, the game will automatically replay if it ends in a draw.
+    replayOnDraw: true
+
+    # Result of games that fulfill terms below
+    # will be displayed for all players on the server.
+    globalGameResult:
+      # Turing off/on global game result
+      enable: true
+      # Minimum amount of bet to display global game result
+      minBet: 50000.0
+
+
+  # Every options relevant to rock-paper-scissors gui you can find in this section
+  gui:
+    main:
+      # All names of materials witch you can use for section 'item' you will find here
+      # https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+      title: "&8Rock Paper Scissors"
+      rock:
+        item: COBBLESTONE
+        name: "&8&lRock"
+      paper:
+        item: PAPER
+        name: "&f&lPaper"
+      scissors:
+        item: SHEARS
+        name: "&c&lScissors"
+      fillItem:
+        item: GRAY_STAINED_GLASS_PANE
+        name: " "
+
+messages:
+  # Warning! Placeholders are created for specific messages.
+  # Information on how to use the appropriate placeholders can be found next to the respective message.
+  descriptionCommand:
+    - ''
+    - ' &2&lKAMIEŃ, PAPIER, NOŻYCE'
+    - ''
+    - '&8► &e/rps game <gracz> <zakład> &8- &fZaproś gracza do gry.'
+    - '&8► &e/rps accept <gracz> &8- &fPrzyjmij zaproszenie do gry.'
+    - '&8► &e/rps toggle &8- &fPrzełącz otrzymywanie zaproszeń.'
+    - ''
+  noPermission: '&cBrak uprawnień! &7Nie masz dostępu do tego.'
+  badUseRpsGameCmd: '&cMusisz podać nick i zakład! &7Wpisz &f/&7rps game <gracz>
+      <zakład>'
+  badUseRpsAcceptCmd: '&cMusisz podać nick gracza! &7Wpisz &f/rps accept <gracz>&7.'
+  betOutOfRangeMax: '&7Zakład nie może być większy od &f{MAX} ⛃&7.' # Placeholder {MAX} - value that is set in config in section 'maxBet'
+  betOutOfRangeMin: '&7Zakład nie może być mniejszy od &f{MIN} ⛃&7.' # Placeholder {MIN} - value that is set in config in section 'minBet'
+  myselfInvite: '&cNie możesz zaprosić sam siebie.'
+  rpsInvite: '&7Gracz &f{NAME}&7 zaprosił Cię do gry &fPapier, kamień, nożyce&7.
+      &7Zakład: &f{BET} ⛃' # Placeholder {NAME} - name of player that send invite, {BET} - value of bet
+  notEnoughMoney: '&fTy &7lub &fprzeciwnik &7nie ma pieniędzy na gre.'
+  playerNotExist: '&7Gracz &f{NAME}&7 nie istnieje lub jest OFFLINE.' # Placeholder {NAME} - name of player
+  noInvitation: '&7Nie masz zaproszeń od gracza &f{NAME}&7.' # Placeholder {NAME} - name of the player whose invitation was attempted to be accepted.
+  alreadyInvite: '&cWysłałeś już zaproszenie do tego gracza.'
+  alreadyPlay: '&cPodany gracz jest w trakcie gry!' # Placeholder {NAME} - name of player who is already playing game
+  winMessage: '&aWygrałeś! &7Zdobyłeś &f{BET} ⛃&7.' # Placeholder {BET} - value of bet
+  loseMessage: '&cPrzegrałeś! &7Straciłeś &f{BET} ⛃&7.' # Placeholder {BET} - value of bet
+  drawNormalMessage: '&fRemis! &7Zakończono gre.'
+  drawReplayMessage: '&fRemis! &7Trwa powtarzanie gry.'
+  successfullyChoice: '&7Wybrałeś &f{CHOICE}&7.' # Placeholder {CHOICE} - name of choice
+  successfullyInvite: '&7Zaprosiłeś &f{NAME}&7 do gry w marynarzyka.' # Placeholder {NAME} - name of invited player
+  successfullyPluginReload: '&7Plugin has successfully reloaded.'
+  waitingForOpponent: '&cOczekiwanie na przeciwnika...'
+  noVaultDependency: '&4No Vault dependency found! Plugin wont work correctly.'
+  blockingInvitationOn: '&7Otrzymywanie zaproszeń do gier jest &awłączone&7!'
+  blockingInvitationOff: '&7Otrzymywanie zaproszeń do gier jest &cwyłączone&7!'
+  blockedInvitationMessage: '&cW tym momencie nie można wysłac zaproszenia do tego
+      gracza.'
+
+  chatButtons:
+    rpsInviteAcceptButton: '&a&l[ZAAKCEPTUJ]'

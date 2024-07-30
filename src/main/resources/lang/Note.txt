@@ -1,0 +1,4 @@
+Translation are created by community and could be incorrect or incomplete.
+If you create your own translations, we'd love to include them in the plugin!
+Please send your translations by pull request https://github.com/Pavetti/RockPaperScissorsMcPlugin
+or directly to me on discord (name: rigoletto. )
