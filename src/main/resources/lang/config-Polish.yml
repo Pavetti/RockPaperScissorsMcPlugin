@@ -1,3 +1,4 @@
+Translation author: aysel_
 settings:
   # Prefix that will be adding to every message sending by this plugin
   # except message that are contains in list of lines (descriptionCommand, globalGameResult)
