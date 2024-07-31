@@ -1,6 +1,7 @@
 
-![Sequence01-ezgif com-optimize](https://github.com/user-attachments/assets/df00f43f-f093-4599-9f48-a7637cc8f6d1)
-![frame2-ezgif com-optimize](https://github.com/user-attachments/assets/ad2d0097-9ca8-43a5-9d62-d113cccf4695)
+![frame1-ezgif com-optimize](https://github.com/user-attachments/assets/4ea9db33-73fe-4d22-89c6-d94f742c68b5)
+![frame2-ezgif com-optimize](https://github.com/user-attachments/assets/f7e0127a-21f0-45f2-9fbc-34ed9ccc37d0)
+
 
 
 ## What is Rock Paper Scissors?
