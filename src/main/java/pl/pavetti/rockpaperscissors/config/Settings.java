@@ -62,6 +62,7 @@ public class  Settings {
     private String blockingInvitationOn;
     private String blockingInvitationOff;
     private String blockedInvitationMessage;
+    private String collectedGameDeposit;
     //buttons
     private String rpsInviteAcceptButton;
 
@@ -129,6 +130,7 @@ public class  Settings {
         blockingInvitationOn = ChatUtil.chatColor(configuration.getString("settings.messages.blockingInvitationOn"));
         blockingInvitationOff = ChatUtil.chatColor(configuration.getString("settings.messages.blockingInvitationOff"));
         blockedInvitationMessage = ChatUtil.chatColor(configuration.getString("settings.messages.blockedInvitationMessage"));
+        collectedGameDeposit = ChatUtil.chatColor(configuration.getString("settings.messages.collectedGameDeposit"));
 
         //buttons
         rpsInviteAcceptButton = ChatUtil.chatColor(configuration.getString("settings.chatButtons.rpsInviteAcceptButton"));

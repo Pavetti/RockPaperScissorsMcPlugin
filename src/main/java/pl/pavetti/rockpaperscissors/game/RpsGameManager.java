@@ -152,13 +152,52 @@ public class RpsGameManager {
      *
      * @param rpsGame the game to start
      */
-    public void startGame(RpsGame rpsGame) {
+    public void startGame(RpsGame rpsGame, boolean isReplay){
         if(activeGames.contains(rpsGame)){
             deregisterAllOtherGamesWithPlayersOf(rpsGame);
+            // Deposit is made only on first game start (not on replay)
+            if(!isReplay) makeGameDeposit(rpsGame);
             rpsGame.getOpponent().getPlayer().openInventory(gameGUI.getMainInventory());
             rpsGame.getInitiator().getPlayer().openInventory(gameGUI.getMainInventory());
             rpsGame.start();
         }
+    }
+
+    /**
+     * Makes a deposit for a game.
+     * Withdraws the bet amount from both the initiator and opponent of the game.
+     * Sends a message to both players indicating that the deposit has been collected.
+     *
+     * @param rpsGame the game for which the deposit is to be made
+     */
+    private void makeGameDeposit(RpsGame rpsGame){
+        double bet = rpsGame.getBet();
+        Player initiator = rpsGame.getInitiator().getPlayer();
+        Player opponent = rpsGame.getOpponent().getPlayer();
+        economy.withdrawPlayer(initiator,bet);
+        economy.withdrawPlayer(opponent,bet);
+
+        PlayerUtil.sendMessagePrefixed(initiator,settings.getCollectedGameDeposit().replace("{BET}", String.valueOf(bet)));
+        PlayerUtil.sendMessagePrefixed(opponent,settings.getCollectedGameDeposit().replace("{BET}", String.valueOf(bet)));
+    }
+
+
+    /**
+     * Makes a deposit receive for a draw game.
+     * Deposits the bet amount back to both the initiator and opponent of the game.
+     * Sends a message to both players indicating that the deposit has been returned.
+     *
+     * @param rpsGame the game for which the deposit is to be returned
+     */
+    private void makeDrawDepositReceive(RpsGame rpsGame){
+        double bet = rpsGame.getBet();
+        Player initiator = rpsGame.getInitiator().getPlayer();
+        Player opponent = rpsGame.getOpponent().getPlayer();
+        economy.depositPlayer(initiator,bet);
+        economy.depositPlayer(opponent,bet);
+
+        PlayerUtil.sendMessagePrefixed(initiator,settings.getDrawNormalMessage().replace("{BET}", String.valueOf(bet)));
+        PlayerUtil.sendMessagePrefixed(opponent,settings.getDrawNormalMessage().replace("{BET}", String.valueOf(bet)));
     }
 
     /**
@@ -247,8 +286,8 @@ public class RpsGameManager {
      * @param gameResult the result of the game
      */
     private void settleBet(GameResult gameResult){
-        economy.withdrawPlayer(gameResult.getWinner().getPlayer(),gameResult.getRpsGame().getBet());
-        economy.depositPlayer(gameResult.getWinner().getPlayer(),gameResult.getRpsGame().getBet());
+        double bet = gameResult.getRpsGame().getBet();
+        economy.depositPlayer(gameResult.getWinner().getPlayer(),2*bet);
 
         sendMessagesAfterWinGame(gameResult);
     }
@@ -264,14 +303,11 @@ public class RpsGameManager {
         Player loser = gameResult.getLoser().getPlayer();
         double bet = gameResult.getRpsGame().getBet();
 
-        PlayerUtil.sendMessagePrefixed(winner,settings.getWinMessage().replace("{BET}", String.valueOf(bet)));
+        PlayerUtil.sendMessagePrefixed(winner,settings.getWinMessage().replace("{AMOUNT}", String.valueOf(2*bet)));
         PlayerUtil.sendMessagePrefixed(loser,settings.getLoseMessage().replace("{BET}", String.valueOf(bet)));
 
-        System.out.println("0");
         if(settings.isGlobalGameResultEnable()){
-            System.out.println("1");
             if(bet >= settings.getGlobalGameResultMinBet()){
-                System.out.println("2");
                 List<String> message = PlaceholderService.replacePlaceholdersInGlobalResultMessage(gameResult);
                 message.forEach(Bukkit::broadcastMessage);
             }
@@ -280,32 +316,34 @@ public class RpsGameManager {
 
     /**
      * Handles a draw in a game.
-     * Sends a draw message to the players and, if the settings allow, starts a new game.
+     * If the settings allow, the game is replayed. Otherwise, the bet is returned to the players.
      *
      * @param rpsGame the game that ended in a draw
      */
     private void doDraw(RpsGame rpsGame){
-        sendDrawMessage(rpsGame);
-        if(settings.isReplayOnDraw()){
-
-            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> {
-                RpsGame newRpsGame = new RpsGame(rpsGame.getInitiator().getPlayer()
-                        ,rpsGame.getOpponent().getPlayer(),
-                        rpsGame.getBet());
-                registerGame(newRpsGame);
-                startGame(newRpsGame);
-            }, 20L); //ticks
-        }
+        if(settings.isReplayOnDraw())
+            doGameReplay(rpsGame);
+        else
+            makeDrawDepositReceive(rpsGame);
     }
 
     /**
-     * Sends a draw message to the players of a game.
+     * Handles a draw in a game by starting a new game.
+     * Sends a draw message to the players and starts a new game.
      *
      * @param rpsGame the game that ended in a draw
      */
-    private void sendDrawMessage(RpsGame rpsGame){
-        PlayerUtil.sendMessagePrefixed(rpsGame.getInitiator().getPlayer(),settings.getDrawNormalMessage());
-        PlayerUtil.sendMessagePrefixed(rpsGame.getOpponent().getPlayer(), settings.getDrawNormalMessage());
+    private void doGameReplay(RpsGame rpsGame){
+        PlayerUtil.sendMessagePrefixed(rpsGame.getInitiator().getPlayer(),settings.getDrawReplayMessage());
+        PlayerUtil.sendMessagePrefixed(rpsGame.getOpponent().getPlayer(), settings.getDrawReplayMessage());
+
+        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> {
+            RpsGame newRpsGame = new RpsGame(rpsGame.getInitiator().getPlayer()
+                    ,rpsGame.getOpponent().getPlayer(),
+                    rpsGame.getBet());
+            registerGame(newRpsGame);
+            startGame(newRpsGame,true);
+        }, 20L); //ticks
     }
 
     /**

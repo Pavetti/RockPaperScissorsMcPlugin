@@ -49,7 +49,7 @@ public class RpsGameSubCommand implements SubCommand {
             PlayerUtil.sendMessagePrefixed(player, settings.getPlayerNotExist().replace("{NAME}", args[1]));
             return true;
         }
-        if (!args[2].matches("-?\\d+(\\.\\d+)?")) {
+        if (!args[2].matches("\\d+(\\.\\d+)?")) {
             //check bet argument
             PlayerUtil.sendMessagePrefixed(player, settings.getBadUseRpsGameCmd());
             return true;
@@ -58,7 +58,7 @@ public class RpsGameSubCommand implements SubCommand {
         double max = settings.getMaxBet();
         double min = settings.getMinBet();
         Player enemyPlayer = Bukkit.getPlayerExact(args[1]);
-        bet = Integer.parseInt(args[2]);
+        bet = Double.parseDouble(args[2]);
 
 
         if (PlayerUtil.compare(enemyPlayer,player)) {
@@ -71,10 +71,10 @@ public class RpsGameSubCommand implements SubCommand {
                 PlayerUtil.sendMessagePrefixed(player,settings.getBetOutOfRangeMax().replace("{MAX}",String.valueOf(max)));
                 return true;
             }
-            if(bet < min){
-                PlayerUtil.sendMessagePrefixed(player,settings.getBetOutOfRangeMin().replace("{MIN}",String.valueOf(min)));
-                return true;
-            }
+        }
+        if(bet < min){
+            PlayerUtil.sendMessagePrefixed(player,settings.getBetOutOfRangeMin().replace("{MIN}",String.valueOf(min)));
+            return true;
         }
 
         //economy check

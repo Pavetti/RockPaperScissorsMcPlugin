@@ -8,7 +8,7 @@ import pl.pavetti.rockpaperscissors.game.model.RpsPlayer;
 @Data
 @Builder
 public class GameResult {
-    private RpsGame rpsGame;
-    private RpsPlayer winner;
-    private RpsPlayer loser;
+    private final RpsGame rpsGame;
+    private final RpsPlayer winner;
+    private final RpsPlayer loser;
 }

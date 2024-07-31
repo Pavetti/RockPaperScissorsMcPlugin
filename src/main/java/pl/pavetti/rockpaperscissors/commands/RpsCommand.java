@@ -21,7 +21,7 @@ public class RpsCommand extends ParentCommand {
         this.vault = vault;
 
         getSubCommands().add(new RpsGameSubCommand(economy,waitingRoomManager,vault));
-        getSubCommands().add(new RpsAcceptSubCommand(waitingRoomManager,vault));
+        getSubCommands().add(new RpsAcceptSubCommand(economy,waitingRoomManager,vault));
         getSubCommands().add(new RpsToggleInviteSubCommand(vault));
     }
 
