@@ -141,7 +141,9 @@ public class RpsGameSubCommand implements SubCommand {
         // FIXME HoverEvent depraecated
         PlayerUtil.sendMessagePrefixed(enemyPlayer,
                 settings.getRpsInvite()
-                        .replace("{NAME}", initiator).replace("{BET}", bet));
+                        .replace("{NAME}", initiator)
+                        .replace("{BET}", bet)
+                        .replace("{EXPIRATION}",String.valueOf(settings.getAcceptTime())));
         enemyPlayer.spigot().sendMessage(acceptButton);
 
     }
