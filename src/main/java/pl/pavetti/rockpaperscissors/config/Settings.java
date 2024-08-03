@@ -48,6 +48,7 @@ public class  Settings {
     private String playerNotExist;
     private String rpsInvite;
     private String noInvitation;
+    private String cmdPerformWhileGame;
     private String alreadyPlay;
     private String alreadyInvite;
     private String winMessage;
@@ -116,6 +117,7 @@ public class  Settings {
         playerNotExist = ChatUtil.chatColor(configuration.getString("settings.messages.playerNotExist"));
         rpsInvite = ChatUtil.chatColor(configuration.getString("settings.messages.rpsInvite"));
         noInvitation = ChatUtil.chatColor(configuration.getString("settings.messages.noInvitation"));
+        cmdPerformWhileGame = ChatUtil.chatColor(configuration.getString("settings.messages.cmdPerformWhileGame"));
         alreadyPlay = ChatUtil.chatColor(configuration.getString("settings.messages.alreadyPlay"));
         alreadyInvite = ChatUtil.chatColor(configuration.getString("settings.messages.alreadyInvite"));
         winMessage = ChatUtil.chatColor(configuration.getString("settings.messages.winMessage"));

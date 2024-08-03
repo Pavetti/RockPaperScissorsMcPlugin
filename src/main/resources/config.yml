@@ -77,6 +77,7 @@ settings:
     noInvitation: '&7You do not have invitation from player &f{NAME}' #Placeholder {NAME} - name of the player whose invitation was attempted to be accepted.
     alreadyInvite: '&7You already send invitation to this player'
     alreadyPlay: '&7Player &f{NAME}&7 is already playing rock-paper-scissors.' #Placeholder {NAME} - name of player who is already playing game
+    cmdPerformWhileGame: '&7You cannot perform this command while playing &frock paper scissors&7.'
     winMessage: '&aYou won! You receive both deposits &f{AMOUNT}&a$' #Placeholder {AMOUNT} - value of both deposits
     loseMessage: '&cYou lost! You lose deposit &f{BET}&c$' #Placeholder {BET} - value of deposit (game bet)
     drawNormalMessage: '&7Draw! You receive your game deposit &f{BET}&7$' #Placeholder {BET} - value of deposit (game bet)'

@@ -7,7 +7,6 @@ import pl.pavetti.rockpaperscissors.Main;
 import pl.pavetti.rockpaperscissors.config.Settings;
 import pl.pavetti.rockpaperscissors.datatransporter.GameResult;
 import pl.pavetti.rockpaperscissors.game.model.Choice;
-import pl.pavetti.rockpaperscissors.game.model.RpsGame;
 import pl.pavetti.rockpaperscissors.game.model.RpsPlayer;
 import pl.pavetti.rockpaperscissors.service.PlaceholderService;
 import pl.pavetti.rockpaperscissors.util.PlayerUtil;
@@ -154,7 +153,6 @@ public class RpsGameManager {
      */
     public void startGame(RpsGame rpsGame, boolean isReplay){
         if(activeGames.contains(rpsGame)){
-            deregisterAllOtherGamesWithPlayersOf(rpsGame);
             // Deposit is made only on first game start (not on replay)
             if(!isReplay) makeGameDeposit(rpsGame);
             rpsGame.getOpponent().getPlayer().openInventory(gameGUI.getMainInventory());
@@ -206,7 +204,7 @@ public class RpsGameManager {
      *
      * @param rpsGame the game to end
      */
-    public void startTimeToEnd(RpsGame rpsGame){
+    public void displayTimeForSecondChoicePlayer(RpsGame rpsGame){
         waitingRoomManager.getRpsChooseWR().addWaiter(rpsGame);
         //TODO add timer
     }
@@ -364,22 +362,10 @@ public class RpsGameManager {
         return Optional.empty();
     }
 
-    /**
-     * Returns all games where a player is performing.
-     *
-     * @param player the player to get the games of
-     * @return a list of games where the player is performing
-     */
-    public List<RpsGame> getAllGamesWherePlayerPerform(Player player){
-        List<RpsGame> rpsGames = new ArrayList<>();
-        for (RpsGame game : activeGames) {
-            if(PlayerUtil.compare(game.getInitiator().getPlayer(),player))
-                rpsGames.add(game);
-            else if (PlayerUtil.compare(game.getOpponent().getPlayer(),player))
-                rpsGames.add(game);
-        }
-        return rpsGames;
+    public boolean isPlayerInGame(Player player){
+        return getRpsPlayer(player).isPresent();
     }
+
 
     /**
      * Reloads resources.

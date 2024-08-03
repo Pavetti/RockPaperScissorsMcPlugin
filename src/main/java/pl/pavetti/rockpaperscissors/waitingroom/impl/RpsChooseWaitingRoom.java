@@ -3,7 +3,7 @@ package pl.pavetti.rockpaperscissors.waitingroom.impl;
 import org.bukkit.scheduler.BukkitRunnable;
 import pl.pavetti.rockpaperscissors.Main;
 import pl.pavetti.rockpaperscissors.config.Settings;
-import pl.pavetti.rockpaperscissors.game.model.RpsGame;
+import pl.pavetti.rockpaperscissors.game.RpsGame;
 import pl.pavetti.rockpaperscissors.game.model.RpsPlayer;
 import pl.pavetti.rockpaperscissors.waitingroom.model.Waiter;
 import pl.pavetti.rockpaperscissors.waitingroom.model.WaitingRoom;

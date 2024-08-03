@@ -2,7 +2,7 @@ package pl.pavetti.rockpaperscissors.datatransporter;
 
 import lombok.Builder;
 import lombok.Data;
-import pl.pavetti.rockpaperscissors.game.model.RpsGame;
+import pl.pavetti.rockpaperscissors.game.RpsGame;
 import pl.pavetti.rockpaperscissors.game.model.RpsPlayer;
 
 @Data

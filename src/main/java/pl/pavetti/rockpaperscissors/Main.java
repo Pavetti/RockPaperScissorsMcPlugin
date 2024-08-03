@@ -11,6 +11,7 @@ import pl.pavetti.rockpaperscissors.api.Metrics;
 import pl.pavetti.rockpaperscissors.commands.RpsCommand;
 import pl.pavetti.rockpaperscissors.commands.RpsReloadCommand;
 import pl.pavetti.rockpaperscissors.commands.RpsTabCompleter;
+import pl.pavetti.rockpaperscissors.game.RequestManager;
 import pl.pavetti.rockpaperscissors.listener.InventoryClickListener;
 import pl.pavetti.rockpaperscissors.listener.InventoryCloseListener;
 import pl.pavetti.rockpaperscissors.listener.PlayerLeaveListener;
@@ -23,6 +24,7 @@ public final class Main extends JavaPlugin {
     private static Main instance;
     private Economy economy;
     private WaitingRoomManager waitingRoomManager;
+    private RequestManager  requestManager;
     private final int resourceID = 118164;
     private final int bStatsPluginID = 22697;
     private boolean vault = true;
@@ -62,14 +64,16 @@ public final class Main extends JavaPlugin {
         getConfig().options().copyDefaults(true);
         saveConfig();
     }
+
     private void initMangers(){
         waitingRoomManager = new WaitingRoomManager();
+        requestManager = new RequestManager();
     }
 
     private void registerListener(){
         getServer().getPluginManager().registerEvents(new InventoryClickListener(),this);
         getServer().getPluginManager().registerEvents(new InventoryCloseListener(),this);
-        getServer().getPluginManager().registerEvents(new PlayerLeaveListener(waitingRoomManager),this);
+        getServer().getPluginManager().registerEvents(new PlayerLeaveListener(),this);
     }
 
     private void registerTabCompleter(){
@@ -77,7 +81,7 @@ public final class Main extends JavaPlugin {
     }
 
     private void registerCommand(){
-        this.getCommand("rps").setExecutor(new RpsCommand(economy,waitingRoomManager,vault));
+        this.getCommand("rps").setExecutor(new RpsCommand(economy,requestManager,vault));
         this.getCommand("rpsreload").setExecutor(new RpsReloadCommand());
     }
 

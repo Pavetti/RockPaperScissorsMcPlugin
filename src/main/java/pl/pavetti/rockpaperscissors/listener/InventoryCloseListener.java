@@ -13,6 +13,8 @@ import java.util.Optional;
 
 public class InventoryCloseListener implements Listener {
 
+    private final RpsGameManager rpsGameManager = RpsGameManager.getInstance();
+
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent event){
         if(!(event.getPlayer() instanceof Player)){
@@ -21,7 +23,6 @@ public class InventoryCloseListener implements Listener {
         Player player = (Player) event.getPlayer();
         Inventory inventory = event.getInventory();
         if (inventory.getHolder() instanceof RpsMenuInventoryHolder) {
-            RpsGameManager rpsGameManager = RpsGameManager.getInstance();
             Optional<RpsPlayer> rpsPlayerOptional = rpsGameManager.getRpsPlayer(player);
 
             if(rpsPlayerOptional.isPresent()){

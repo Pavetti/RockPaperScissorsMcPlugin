@@ -9,19 +9,19 @@ import pl.pavetti.rockpaperscissors.commands.rpssubcommands.RpsAcceptSubCommand;
 import pl.pavetti.rockpaperscissors.commands.rpssubcommands.RpsGameSubCommand;
 import pl.pavetti.rockpaperscissors.commands.rpssubcommands.RpsToggleInviteSubCommand;
 import pl.pavetti.rockpaperscissors.config.Settings;
+import pl.pavetti.rockpaperscissors.game.RequestManager;
 import pl.pavetti.rockpaperscissors.util.PlayerUtil;
-import pl.pavetti.rockpaperscissors.waitingroom.WaitingRoomManager;
 
 
 public class RpsCommand extends ParentCommand {
     private final boolean vault;
 
-    public RpsCommand(Economy economy, WaitingRoomManager waitingRoomManager ,boolean vault) {
+    public RpsCommand(Economy economy, RequestManager requestManager, boolean vault) {
         super("", true, true, false);
         this.vault = vault;
 
-        getSubCommands().add(new RpsGameSubCommand(economy,waitingRoomManager,vault));
-        getSubCommands().add(new RpsAcceptSubCommand(economy,waitingRoomManager,vault));
+        getSubCommands().add(new RpsGameSubCommand(economy,requestManager,vault));
+        getSubCommands().add(new RpsAcceptSubCommand(economy,requestManager,vault));
         getSubCommands().add(new RpsToggleInviteSubCommand(vault));
     }
 

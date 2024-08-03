@@ -31,8 +31,8 @@ public class InventoryClickListener implements Listener {
                 event.setCancelled(true);
             }
             //Check if player is rspPlayer (should be always)
-            RpsGameManager manager = RpsGameManager.getInstance();
-            Optional<RpsPlayer> rpsPlayerOptional = manager.getRpsPlayer(player);
+            RpsGameManager rpsGameManager = RpsGameManager.getInstance();
+            Optional<RpsPlayer> rpsPlayerOptional = rpsGameManager.getRpsPlayer(player);
             if(rpsPlayerOptional.isPresent()){
                 RpsPlayer rpsPlayer = rpsPlayerOptional.get();
                 // If player has already chosen, cancel the event
@@ -40,7 +40,6 @@ public class InventoryClickListener implements Listener {
                     event.setCancelled(true);
                     return;
                 }
-
                 switch (event.getSlot()) {
                     case 11: // rock
                         rpsPlayer.choose(Choice.ROCK);

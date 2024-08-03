@@ -3,12 +3,12 @@ package pl.pavetti.rockpaperscissors.game.model;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.entity.Player;
-import pl.pavetti.rockpaperscissors.waitingroom.model.Waiter;
+import pl.pavetti.rockpaperscissors.game.RpsGame;
 
 
 @Getter
 @RequiredArgsConstructor
-public class RpsPlayer implements Waiter {
+public class RpsPlayer {
     private final Player player;
     private final RpsGame rpsGame;
     private Choice choice;
@@ -20,9 +20,5 @@ public class RpsPlayer implements Waiter {
         player.closeInventory();
     }
 
-    @Override
-    public RpsPlayer getInstance() {
-        return this;
-    }
 
 }
