@@ -19,8 +19,17 @@ Simple game that everybody knows brought into the Minecraft. Thanks to the compe
 - /rps toggle - toggle the ability to send invitations to you (after restarting the server, disable it for everyone)
 - /rpsreload - reloads config (rps.admin permission required)
 
+## Dependences
+- Vault
+- 1.20 - 1.21 spigot version
 
-## `Plugin require Vault to work!`
+## RoadMap
+- ⭕ placeholdersAPI
+- ⭕ live game timer
+- ⭕ available rgb colours
+- ⭕ games logs in database
+- ⭕ request gui
+
 
 > ## Want to ask something or report bug?
 > ## [Join discord](https://discord.com/invite/NfcnukNMmW)
