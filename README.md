@@ -11,7 +11,7 @@ Simple game that everybody knows brought into the Minecraft. Thanks to the compe
 - Bets -> The ability to play for currency available on the server.
 - Simple and intuitive operation -> A user-friendly interface that is easy to learn and use.
 - PvP gameplay -> Players can challenge each other to a rock-paper-scissors duel.
-- Invitation system -> If a player accepts one invitation, all other invitations will be canceled.
+- Invitation system -> Flexible system with expiration time.
 
 ## Commands
 - /rps game <player> <bet> - sends request to play rock-paper-scissors
