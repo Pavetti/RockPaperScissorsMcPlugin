@@ -24,11 +24,12 @@ Simple game that everybody knows brought into the Minecraft. Thanks to the compe
 - 1.20 - 1.21 spigot version
 
 ## RoadMap
-- ⭕ placeholdersAPI
-- ⭕ live game timer
-- ⭕ available rgb colours
-- ⭕ games logs in database
-- ⭕ request gui
+- [ ] request system rework
+- [ ] live game timer
+- [ ] available rgb colours
+- [ ] games logs in database
+  - [ ] PlaceholderAPI
+- [ ] request gui
 
 
 > ## Want to ask something or report bug?
