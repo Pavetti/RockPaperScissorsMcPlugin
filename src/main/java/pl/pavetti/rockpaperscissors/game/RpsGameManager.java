@@ -15,7 +15,8 @@ import pl.pavetti.rockpaperscissors.waitingroom.WaitingRoomManager;
 import java.util.*;
 
 /**
- * Singleton class that manages Rock-Paper-Scissors games.
+ * This class manages the Rock Paper Scissors game.
+ * It handles game registration, invitation blocking, game start, game end, and game replay.
  */
 public class RpsGameManager {
     private static RpsGameManager instance;
@@ -28,8 +29,7 @@ public class RpsGameManager {
     private final Economy economy;
 
     /**
-     * Private constructor for the singleton class.
-     * Initializes the game GUI, economy, and waiting room manager.
+     * Private constructor for singleton pattern.
      */
     private RpsGameManager(){
         gameGUI = new GameGUI();
@@ -38,10 +38,8 @@ public class RpsGameManager {
     }
 
     /**
-     * Returns the singleton instance of the RpsGameManager.
-     * If the instance does not exist, it is created.
-     *
-     * @return the singleton instance of the RpsGameManager
+     * Singleton pattern getter.
+     * @return the single instance of RpsGameManager
      */
     public static RpsGameManager getInstance(){
         if(instance == null){
@@ -51,50 +49,33 @@ public class RpsGameManager {
     }
 
     /**
-     * Registers a new game.
-     * Adds the game to the set of active games.
-     *
-     * @param rpsGame the game to register
+     * Registers a game to the active games set.
+     * @param rpsGame the game to be registered
      */
     public void registerGame(RpsGame rpsGame){
         activeGames.add(rpsGame);
     }
 
     /**
-     * Deregisters a game.
-     * Removes the game from the set of active games.
-     *
-     * @param rpsGame the game to deregister
-     */
-    public void deregisterGame(RpsGame rpsGame){
-        activeGames.remove(rpsGame);
-    }
-
-    /**
-     * Adds a player to the set of players who have blocked invitations.
-     *
-     * @param uuid the unique identifier of the player to add
+     * Adds a player to the set of players with blocked invitations.
+     * @param uuid the UUID of the player
      */
     private void addBlockingInvitationToPlayer(String uuid){
         playersWithBlockedInvitaionsSet.add(uuid);
     }
 
     /**
-     * Removes a player from the set of players who have blocked invitations.
-     *
-     * @param uuid the unique identifier of the player to remove
+     * Removes a player from the set of players with blocked invitations.
+     * @param uuid the UUID of the player
      */
     private void removeBlockingInvitationToPlayer(String uuid){
         playersWithBlockedInvitaionsSet.remove(uuid);
     }
 
     /**
-     * Toggles the invitation blocking status of a player.
-     * If the player has blocked invitations, this method will unblock them and return false.
-     * If the player has not blocked invitations, this method will block them and return true.
-     *
-     * @param uuid the unique identifier of the player to toggle
-     * @return true if the player has blocked invitations, false if they have unblocked
+     * Toggles the blocking of invitations for a player.
+     * @param uuid the UUID of the player
+     * @return true if the player is now blocking invitations, false otherwise
      */
     public boolean toggleBlockingInvitationToPlayer(String uuid){
         if(playersWithBlockedInvitaionsSet.contains(uuid)){
@@ -107,49 +88,18 @@ public class RpsGameManager {
     }
 
     /**
-     * Checks if a player has blocked invitations.
-     *
-     * @param uuid the unique identifier of the player to check
-     * @return true if the player has blocked invitations, false otherwise
+     * Checks if a player is blocking invitations.
+     * @param uuid the UUID of the player
+     * @return true if the player is blocking invitations, false otherwise
      */
     public boolean isPlayerBlockingInvitation(String uuid){
         return playersWithBlockedInvitaionsSet.contains(uuid);
     }
 
     /**
-     * Deregisters all other games with the players of the given game.
-     * This method is used to ensure that a player is only in one game at a time.
-     *
-     * @param rpsGame the game to use for deregistration
-     */
-    private void deregisterAllOtherGamesWithPlayersOf(RpsGame rpsGame){
-        Player properOpponent = rpsGame.getOpponent().getPlayer();
-        Player properInitiator = rpsGame.getInitiator().getPlayer();
-
-        Iterator<RpsGame> iterator = activeGames.iterator();
-        while (iterator.hasNext()){
-            RpsGame game = iterator.next();
-            if(game != rpsGame){
-                Player opponent = game.getOpponent().getPlayer();
-                Player initiator = game.getInitiator().getPlayer();
-
-                if(PlayerUtil.compare(initiator, properInitiator))
-                    iterator.remove();
-                else if (PlayerUtil.compare(initiator, properOpponent))
-                    iterator.remove();
-                else if (PlayerUtil.compare(opponent, properInitiator))
-                    iterator.remove();
-                else if (PlayerUtil.compare(opponent, properOpponent))
-                    iterator.remove();
-            }
-        }
-    }
-
-    /**
      * Starts a game.
-     * Deregisters all other games with the players of the given game, opens the game GUI for both players, and starts the game.
-     *
-     * @param rpsGame the game to start
+     * @param rpsGame the game to be started
+     * @param isReplay true if the game is a replay, false otherwise
      */
     public void startGame(RpsGame rpsGame, boolean isReplay){
         if(activeGames.contains(rpsGame)){
@@ -157,16 +107,12 @@ public class RpsGameManager {
             if(!isReplay) makeGameDeposit(rpsGame);
             rpsGame.getOpponent().getPlayer().openInventory(gameGUI.getMainInventory());
             rpsGame.getInitiator().getPlayer().openInventory(gameGUI.getMainInventory());
-            rpsGame.start();
         }
     }
 
     /**
      * Makes a deposit for a game.
-     * Withdraws the bet amount from both the initiator and opponent of the game.
-     * Sends a message to both players indicating that the deposit has been collected.
-     *
-     * @param rpsGame the game for which the deposit is to be made
+     * @param rpsGame the game for which the deposit is made
      */
     private void makeGameDeposit(RpsGame rpsGame){
         double bet = rpsGame.getBet();
@@ -179,13 +125,9 @@ public class RpsGameManager {
         PlayerUtil.sendMessagePrefixed(opponent,settings.getCollectedGameDeposit().replace("{BET}", String.valueOf(bet)));
     }
 
-
     /**
-     * Makes a deposit receive for a draw game.
-     * Deposits the bet amount back to both the initiator and opponent of the game.
-     * Sends a message to both players indicating that the deposit has been returned.
-     *
-     * @param rpsGame the game for which the deposit is to be returned
+     * Makes a deposit for a draw game.
+     * @param rpsGame the game for which the deposit is made
      */
     private void makeDrawDepositReceive(RpsGame rpsGame){
         double bet = rpsGame.getBet();
@@ -199,10 +141,8 @@ public class RpsGameManager {
     }
 
     /**
-     * Starts a timer to end a game.
-     * Adds the game to the waiting room and starts a timer.
-     *
-     * @param rpsGame the game to end
+     * Displays time for second choice player.
+     * @param rpsGame the game for which the time is displayed
      */
     public void displayTimeForSecondChoicePlayer(RpsGame rpsGame){
         waitingRoomManager.getRpsChooseWR().addWaiter(rpsGame);
@@ -211,9 +151,7 @@ public class RpsGameManager {
 
     /**
      * Ends a game.
-     * Determines the winner of the game, settles the bet, and removes the game from the set of active games and the waiting room.
-     *
-     * @param rpsGame the game to end
+     * @param rpsGame the game to be ended
      */
     public void endGame(RpsGame rpsGame){
         if(activeGames.contains(rpsGame)){
@@ -235,9 +173,7 @@ public class RpsGameManager {
     }
 
     /**
-     * Ends a game due to a player leaving.
-     * The player who left the game is considered the loser, and the bet is settled accordingly.
-     *
+     * Ends a game by player leave.
      * @param loser the player who left the game
      */
     public void endGameByPlayerLeave(RpsPlayer loser){
@@ -254,11 +190,9 @@ public class RpsGameManager {
     }
 
     /**
-     * Determines the winner of a game.
-     * The winner is determined based on the choices of the players.
-     *
-     * @param rpsGame the game to determine the winner of
-     * @return the winning player, or null if there is a draw
+     * Gets the winner of a game.
+     * @param rpsGame the game for which the winner is determined
+     * @return the winner of the game
      */
     private RpsPlayer getWinner (RpsGame rpsGame){
         RpsPlayer player1 = rpsGame.getInitiator();
@@ -277,11 +211,8 @@ public class RpsGameManager {
     }
 
     /**
-     * Settles the bet of a game.
-     * Withdraws the bet from the loser and deposits it to the winner.
-     * Sends messages to the players about the result of the game.
-     *
-     * @param gameResult the result of the game
+     * Settles the bet for a game.
+     * @param gameResult the result of the game for which the bet is settled
      */
     private void settleBet(GameResult gameResult){
         double bet = gameResult.getRpsGame().getBet();
@@ -291,10 +222,8 @@ public class RpsGameManager {
     }
 
     /**
-     * Sends messages to the players after a game has been won.
-     * Sends messages to the winner and loser of the game, and, if the settings allow, sends a global message about the result of the game.
-     *
-     * @param gameResult the result of the game
+     * Sends messages after a game win.
+     * @param gameResult the result of the game for which the messages are sent
      */
     private void sendMessagesAfterWinGame(GameResult gameResult){
         Player winner = gameResult.getWinner().getPlayer();
@@ -313,9 +242,7 @@ public class RpsGameManager {
     }
 
     /**
-     * Handles a draw in a game.
-     * If the settings allow, the game is replayed. Otherwise, the bet is returned to the players.
-     *
+     * Handles a draw game.
      * @param rpsGame the game that ended in a draw
      */
     private void doDraw(RpsGame rpsGame){
@@ -326,10 +253,8 @@ public class RpsGameManager {
     }
 
     /**
-     * Handles a draw in a game by starting a new game.
-     * Sends a draw message to the players and starts a new game.
-     *
-     * @param rpsGame the game that ended in a draw
+     * Handles a game replay.
+     * @param rpsGame the game to be replayed
      */
     private void doGameReplay(RpsGame rpsGame){
         PlayerUtil.sendMessagePrefixed(rpsGame.getInitiator().getPlayer(),settings.getDrawReplayMessage());
@@ -345,10 +270,9 @@ public class RpsGameManager {
     }
 
     /**
-     * Returns the RpsPlayer associated with a Player, if one exists.
-     *
-     * @param player the Player to get the RpsPlayer of
-     * @return an Optional containing the RpsPlayer, or an empty Optional if none exists
+     * Gets the RpsPlayer for a player.
+     * @param player the player for which the RpsPlayer is determined
+     * @return the RpsPlayer for the player
      */
     public Optional<RpsPlayer> getRpsPlayer(Player player){
         //Waring! Use only if this player is one or none at all
@@ -362,14 +286,17 @@ public class RpsGameManager {
         return Optional.empty();
     }
 
+    /**
+     * Checks if a player is in a game.
+     * @param player the player to be checked
+     * @return true if the player is in a game, false otherwise
+     */
     public boolean isPlayerInGame(Player player){
         return getRpsPlayer(player).isPresent();
     }
 
-
     /**
      * Reloads resources.
-     * Currently, this only reloads the game GUI.
      */
     public void reloadResources(){
         gameGUI.reload();

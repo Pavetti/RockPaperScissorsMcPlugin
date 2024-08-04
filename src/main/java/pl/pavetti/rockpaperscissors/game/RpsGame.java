@@ -8,32 +8,29 @@ import pl.pavetti.rockpaperscissors.util.PlayerUtil;
 import pl.pavetti.rockpaperscissors.waitingroom.model.Waiter;
 
 /**
- * Represents a Rock-Paper-Scissors game between two players.
+ * This class represents a Rock Paper Scissors game.
+ * It includes the initiator and opponent of the game, and the bet amount.
  */
 @Getter
 public class RpsGame implements Waiter {
     private final RpsPlayer initiator;
     private final RpsPlayer opponent;
     private final double bet;
-    private boolean isStarted;
 
     /**
-     * Constructs a new RpsGame with the given initiator, opponent, and bet.
-     *
+     * Constructor for the RpsGame class.
      * @param initiator the player who initiated the game
      * @param opponent the player who is the opponent in the game
-     * @param bet the amount of the bet for the game
+     * @param bet the bet amount for the game
      */
     public RpsGame(Player initiator, Player opponent, double bet) {
-        isStarted = false;
         this.bet = bet;
         this.initiator = new RpsPlayer(initiator,this);
         this.opponent = new RpsPlayer(opponent,this);
     }
 
     /**
-     * Performs actions after the player has made their choice.
-     *
+     * Performs actions after a player makes a choice.
      * @param player the player who made the choice
      */
     public void doActionsPostChoose(RpsPlayer player){
@@ -42,8 +39,7 @@ public class RpsGame implements Waiter {
     }
 
     /**
-     * Sends a message and ends the game.
-     *
+     * Performs actions after the second player makes a choice.
      * @param secondChoosePlayer the player who made the second choice
      */
     private void doActionsPostSecondChoice(RpsPlayer secondChoosePlayer){
@@ -52,9 +48,7 @@ public class RpsGame implements Waiter {
     }
 
     /**
-     * Sends a message and starts the timer to end the game after
-     * the first player has made their choice.
-     *
+     * Performs actions after the first player makes a choice.
      * @param firstChoosePlayer the player who made the first choice
      */
     private void doActionsPostFirstChoose(RpsPlayer firstChoosePlayer){
@@ -66,10 +60,8 @@ public class RpsGame implements Waiter {
 
     /**
      * Returns the other player in the game.
-     *
-     * @param rpsPlayer the player to get the opponent of
+     * @param rpsPlayer the player to compare
      * @return the other player in the game
-     * @throws IllegalArgumentException if the provided player is not part of the game
      */
     public RpsPlayer getOtherPlayer(RpsPlayer rpsPlayer){
         if(PlayerUtil.compare(rpsPlayer.getPlayer(), initiator.getPlayer())){
@@ -81,9 +73,8 @@ public class RpsGame implements Waiter {
     }
 
     /**
-     * Checks if the first choice was made in the game.
-     *
-     * @return false if no players have made their choices, true otherwise
+     * Checks if the first choice was made.
+     * @return true if the first choice was made, false otherwise
      */
     private boolean checksIfThatWasFirstChoiceMade(){
         return initiator.getChoice() == null && opponent.getChoice() != null
@@ -91,9 +82,8 @@ public class RpsGame implements Waiter {
     }
 
     /**
-     * Sends a message to the provided player after they have made their choice.
-     *
-     * @param rpsPlayer the player to send the message to
+     * Sends a message after a player makes a choice.
+     * @param rpsPlayer the player who made the choice
      */
     private void sendAfterChoiceMessage(RpsPlayer rpsPlayer){
         PlayerUtil.sendMessagePrefixed(rpsPlayer.getPlayer(),
@@ -102,16 +92,8 @@ public class RpsGame implements Waiter {
     }
 
     /**
-     * Starts the game.
-     */
-    public void start(){
-        isStarted = true;
-    }
-
-    /**
-     * Returns the current instance of the RpsGame class.
-     *
-     * @return the current instance of the RpsGame class
+     * Returns the instance of the game.
+     * @return the instance of the game
      */
     @Override
     public Object getInstance() {
