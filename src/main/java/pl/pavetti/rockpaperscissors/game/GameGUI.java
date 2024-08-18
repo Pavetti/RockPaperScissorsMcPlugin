@@ -1,6 +1,7 @@
 package pl.pavetti.rockpaperscissors.game;
 
 import lombok.Getter;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
@@ -8,6 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import pl.pavetti.rockpaperscissors.config.Settings;
 import pl.pavetti.rockpaperscissors.inventoryholder.RpsMenuInventoryHolder;
+import pl.pavetti.rockpaperscissors.util.ChatUtil;
 
 public class GameGUI {
     @Getter
@@ -24,8 +26,8 @@ public class GameGUI {
         createMainInventory();
     }
 
-    private Inventory createInventory(String title){
-        Inventory inventory = Bukkit.createInventory(new RpsMenuInventoryHolder(),27,title);
+    private Inventory createInventory(Component title){
+        Inventory inventory = Bukkit.createInventory(new RpsMenuInventoryHolder(),27, title);
         inventory.setItem(11,rock);
         inventory.setItem(13,paper);
         inventory.setItem(15,scissors);
@@ -37,7 +39,7 @@ public class GameGUI {
         return inventory;
     }
     private void createMainInventory(){
-        mainInventory = createInventory(settings.getGuiMainTitle());
+        mainInventory = createInventory(ChatUtil.formatMessage(settings.getGuiMainTitle()));
     }
 
     private void loadItemStacks(){
@@ -45,25 +47,25 @@ public class GameGUI {
         rock = new ItemStack(settings.getGuiRockItem(),1);
         ItemMeta rockMeta = rock.getItemMeta();
         rockMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        rockMeta.setDisplayName(settings.getGuiRockName());
+        rockMeta.itemName(ChatUtil.formatMessage(settings.getGuiRockName()));
         rock.setItemMeta(rockMeta);
         //paper
         paper = new ItemStack(settings.getGuiPaperItem(),1);
         ItemMeta paperMeta = paper.getItemMeta();
         paperMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        paperMeta.setDisplayName(settings.getGuiPaperName());
+        paperMeta.itemName(ChatUtil.formatMessage(settings.getGuiPaperName()));
         paper.setItemMeta(paperMeta);
         //scissors
         scissors = new ItemStack(settings.getGuiScissorsItem(),1);
         ItemMeta scissorsMeta = scissors.getItemMeta();
         scissorsMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        scissorsMeta.setDisplayName(settings.getGuiScissorsName());
+        scissorsMeta.itemName(ChatUtil.formatMessage(settings.getGuiScissorsName()));
         scissors.setItemMeta(scissorsMeta);
         //fillItem
         fillItem = new ItemStack(settings.getGuiMainFillItem(),1);
         ItemMeta fillItemMeta = fillItem.getItemMeta();
         fillItemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        fillItemMeta.setDisplayName(settings.getGuiMainFillItemName());
+        fillItemMeta.itemName(ChatUtil.formatMessage(settings.getGuiMainFillItemName()));
         fillItem.setItemMeta(fillItemMeta);
     }
 

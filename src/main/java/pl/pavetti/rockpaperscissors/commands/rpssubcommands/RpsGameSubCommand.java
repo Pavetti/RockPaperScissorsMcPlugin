@@ -1,10 +1,7 @@
 package pl.pavetti.rockpaperscissors.commands.rpssubcommands;
 
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
+
+import net.kyori.adventure.text.Component;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -14,6 +11,7 @@ import pl.pavetti.rockpaperscissors.config.Settings;
 import pl.pavetti.rockpaperscissors.game.RequestManager;
 import pl.pavetti.rockpaperscissors.game.RpsGameManager;
 import pl.pavetti.rockpaperscissors.game.model.RpsInvitation;
+import pl.pavetti.rockpaperscissors.util.ChatUtil;
 import pl.pavetti.rockpaperscissors.util.PlayerUtil;
 
 import java.time.LocalDateTime;
@@ -42,22 +40,23 @@ public class RpsGameSubCommand implements SubCommand {
 
         //check if initiator in game
         if(rpsGameManager.isPlayerInGame(initiator)){
-            PlayerUtil.sendMessagePrefixed(initiator, settings.getCmdPerformWhileGame());
+            PlayerUtil.sendPrefixedMessage(initiator, settings.getCmdPerformWhileGame());
             return true;
         }
 
         //check args
         if (args.length < 3) {
-            PlayerUtil.sendMessagePrefixed(initiator, settings.getBadUseRpsGameCmd());
+            PlayerUtil.sendPrefixedMessage(initiator, settings.getBadUseRpsGameCmd());
             return true;
         }
         if (!PlayerUtil.isPlayerOnline(args[1])) {
-            PlayerUtil.sendMessagePrefixed(initiator, settings.getPlayerNotExist().replace("{NAME}", args[1]));
+            PlayerUtil.sendPrefixedMessage(
+                    initiator, settings.getPlayerNotExist(), "{NAME}", args[1]);
             return true;
         }
         if (!args[2].matches("\\d+(\\.\\d+)?")) {
             //check bet argument
-            PlayerUtil.sendMessagePrefixed(initiator, settings.getBadUseRpsGameCmd());
+            PlayerUtil.sendPrefixedMessage(initiator, settings.getBadUseRpsGameCmd());
             return true;
         }
         double bet;
@@ -66,34 +65,44 @@ public class RpsGameSubCommand implements SubCommand {
         Player opponent = Bukkit.getPlayerExact(args[1]);
         bet = Double.parseDouble(args[2]);
 
+        //check if opponent is vanished
+        if(PlayerUtil.isVanished(opponent)){
+            PlayerUtil.sendPrefixedMessage(
+                    initiator,settings.getPlayerNotExist(),"{NAME}",args[1]);
+            return true;
+        }
+
+
         //check if player invite himself
         if (PlayerUtil.compare(opponent,initiator)) {
-            PlayerUtil.sendMessagePrefixed(initiator, settings.getMyselfInvite());
+            PlayerUtil.sendPrefixedMessage(initiator, settings.getMyselfInvite());
             return true;
         }
 
         //check bet
         if(max != 0){
             if(bet > max){
-                PlayerUtil.sendMessagePrefixed(initiator,settings.getBetOutOfRangeMax().replace("{MAX}",String.valueOf(max)));
+                PlayerUtil.sendPrefixedMessage(initiator,
+                        settings.getBetOutOfRangeMax(), "{MAX}", String.valueOf(max));
                 return true;
             }
         }
         if(bet < min){
-            PlayerUtil.sendMessagePrefixed(initiator,settings.getBetOutOfRangeMin().replace("{MIN}",String.valueOf(min)));
+            PlayerUtil.sendPrefixedMessage(
+                    initiator,settings.getBetOutOfRangeMin(),"{MIN}",String.valueOf(min));
             return true;
         }
 
         //economy check
         if (economy.getBalance(initiator) < bet || economy.getBalance(opponent) < bet) {
-            PlayerUtil.sendMessagePrefixed(initiator, settings.getNotEnoughMoney());
+            PlayerUtil.sendPrefixedMessage(initiator, settings.getNotEnoughMoney());
             return true;
         }
 
         //check if player has blocked invitations
         if(rpsGameManager.isPlayerBlockingInvitation(opponent.getUniqueId().toString())){
-            PlayerUtil.sendMessagePrefixed(initiator,settings.getBlockedInvitationMessage()
-                    .replace("{NAME}",opponent.getName()));
+            PlayerUtil.sendPrefixedMessage(initiator,settings.getBlockedInvitationMessage()
+                    ,"{NAME}",opponent.getName());
             return true;
         }
 
@@ -103,7 +112,7 @@ public class RpsGameSubCommand implements SubCommand {
                 .filter(requestManager::isInvitationValid)
                 .filter(rpsInvitation -> PlayerUtil.compare(rpsInvitation.getInitiator(), initiator))
                 .findFirst().ifPresent(rpsInvitation -> {
-            PlayerUtil.sendMessagePrefixed(initiator, settings.getAlreadyInvite());
+            PlayerUtil.sendPrefixedMessage(initiator, settings.getAlreadyInvite());
             hasInvitationArray[0] = true;
         });
 
@@ -114,7 +123,7 @@ public class RpsGameSubCommand implements SubCommand {
 
         //check if opponent already play
         if(rpsGameManager.isPlayerInGame(opponent)){
-            PlayerUtil.sendMessagePrefixed(initiator,settings.getAlreadyPlay().replace("{NAME}",args[1]));
+            PlayerUtil.sendPrefixedMessage(initiator,settings.getAlreadyPlay(),"{NAME}",args[1]);
             return true;
         }
 
@@ -128,24 +137,21 @@ public class RpsGameSubCommand implements SubCommand {
 
         requestManager.addInvitation(rpsInvitation);
         sendInvitation(opponent,initiator.getName(),String.valueOf(bet));
-        PlayerUtil.sendMessagePrefixed(initiator,settings.getSuccessfullyInvite().replace("{NAME}",opponent.getName()));
+        PlayerUtil.sendPrefixedMessage(
+                initiator,settings.getSuccessfullyInvite(),"{NAME}",opponent.getName());
 
         return false;
     }
 
     private void sendInvitation(Player enemyPlayer,String initiator, String bet){
-        String commandAccept = "/rps accept " + initiator;
-        TextComponent acceptButton = new TextComponent(settings.getRpsInviteAcceptButton());
-        acceptButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,commandAccept));
-        acceptButton.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("✔").color(ChatColor.WHITE).create()));
-        // FIXME HoverEvent depraecated
-        PlayerUtil.sendMessagePrefixed(enemyPlayer,
-                settings.getRpsInvite()
-                        .replace("{NAME}", initiator)
-                        .replace("{BET}", bet)
-                        .replace("{EXPIRATION}",String.valueOf(settings.getAcceptTime())));
-        enemyPlayer.spigot().sendMessage(acceptButton);
-
+        Component acceptButton = ChatUtil.formatMessage(
+                ChatUtil.replacePlaceholders(settings.getRpsInviteAcceptButton(),"{PLAYER}",initiator)
+        );
+        PlayerUtil.sendPrefixedMessage(enemyPlayer,settings.getRpsInvite(),
+                "{NAME}",initiator,
+                "{BET}",bet,
+                "{EXPIRATION}",String.valueOf(settings.getAcceptTime()));
+        enemyPlayer.sendMessage(acceptButton);
     }
 
     @Override

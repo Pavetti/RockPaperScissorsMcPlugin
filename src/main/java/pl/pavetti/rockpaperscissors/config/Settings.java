@@ -4,7 +4,6 @@ import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import pl.pavetti.rockpaperscissors.Main;
-import pl.pavetti.rockpaperscissors.util.ChatUtil;
 
 import java.util.List;
 
@@ -83,7 +82,7 @@ public class  Settings {
 
 
         //basic
-        prefix = ChatUtil.chatColor(configuration.getString("settings.prefix"));
+        prefix = configuration.getString("settings.prefix");
         //gameConfig
         replayOnDraw = configuration.getBoolean("settings.gameConfig.replayOnDraw");
         maxBet = configuration.getDouble("settings.gameConfig.maxBet");
@@ -94,49 +93,51 @@ public class  Settings {
         globalGameResultEnable = configuration.getBoolean("settings.gameConfig.globalGameResult.enable");
         globalGameResultMinBet = configuration.getDouble("settings.gameConfig.globalGameResult.minBet");
         //gui
-        guiMainTitle = ChatUtil.chatColor(configuration.getString("settings.gui.main.title"));
+        guiMainTitle = configuration.getString("settings.gui.main.title");
         guiMainFillItem = getMaterialOf(configuration.getString("settings.gui.main.fillItem.item"));
-        guiMainFillItemName = ChatUtil.chatColor(configuration.getString("settings.gui.main.fillItem.name"));
+        guiMainFillItemName = configuration.getString("settings.gui.main.fillItem.name");
         guiRockItem = getMaterialOf(configuration.getString("settings.gui.main.rock.item"));
-        guiRockName = ChatUtil.chatColor(configuration.getString("settings.gui.main.rock.name"));
+        guiRockName = configuration.getString("settings.gui.main.rock.name");
         guiPaperItem = getMaterialOf(configuration.getString("settings.gui.main.paper.item"));
-        guiPaperName = ChatUtil.chatColor(configuration.getString("settings.gui.main.paper.name"));
+        guiPaperName = configuration.getString("settings.gui.main.paper.name");
         guiScissorsItem = getMaterialOf(configuration.getString("settings.gui.main.scissors.item"));
-        guiScissorsName = ChatUtil.chatColor(configuration.getString("settings.gui.main.scissors.name"));
+        guiScissorsName = configuration.getString("settings.gui.main.scissors.name");
 
         //messages
-        descriptionCommand = ChatUtil.chatColor(configuration.getStringList("settings.messages.descriptionCommand"));
-        globalGameResultMessage = ChatUtil.chatColor(configuration.getStringList("settings.messages.globalGameResult"));
-        noPermission = ChatUtil.chatColor(configuration.getString("settings.messages.noPermission"));
-        badUseRpsGameCmd = ChatUtil.chatColor(configuration.getString("settings.messages.badUseRpsGameCmd"));
-        badUseRpsAcceptCmd = ChatUtil.chatColor(configuration.getString("settings.messages.badUseRpsAcceptCmd"));
-        myselfInvite = ChatUtil.chatColor(configuration.getString("settings.messages.myselfInvite"));
-        notEnoughMoney = ChatUtil.chatColor(configuration.getString("settings.messages.notEnoughMoney"));
-        betOutOfRangeMax = ChatUtil.chatColor(configuration.getString("settings.messages.betOutOfRangeMax"));
-        betOutOfRangeMin = ChatUtil.chatColor(configuration.getString("settings.messages.betOutOfRangeMin"));
-        playerNotExist = ChatUtil.chatColor(configuration.getString("settings.messages.playerNotExist"));
-        rpsInvite = ChatUtil.chatColor(configuration.getString("settings.messages.rpsInvite"));
-        noInvitation = ChatUtil.chatColor(configuration.getString("settings.messages.noInvitation"));
-        cmdPerformWhileGame = ChatUtil.chatColor(configuration.getString("settings.messages.cmdPerformWhileGame"));
-        alreadyPlay = ChatUtil.chatColor(configuration.getString("settings.messages.alreadyPlay"));
-        alreadyInvite = ChatUtil.chatColor(configuration.getString("settings.messages.alreadyInvite"));
-        winMessage = ChatUtil.chatColor(configuration.getString("settings.messages.winMessage"));
-        loseMessage = ChatUtil.chatColor(configuration.getString("settings.messages.loseMessage"));
-        drawNormalMessage = ChatUtil.chatColor(configuration.getString("settings.messages.drawNormalMessage"));
-        drawReplayMessage = ChatUtil.chatColor(configuration.getString("settings.messages.drawReplayMessage"));
-        successfullyChoice = ChatUtil.chatColor(configuration.getString("settings.messages.successfullyChoice"));
-        successfullyInvite = ChatUtil.chatColor(configuration.getString("settings.messages.successfullyInvite"));
-        successfullyPluginReload = ChatUtil.chatColor(configuration.getString("settings.messages.successfullyPluginReload"));
-        waitingForOpponent = ChatUtil.chatColor(configuration.getString("settings.messages.waitingForOpponent"));
-        noVaultDependency = ChatUtil.chatColor(configuration.getString("settings.messages.noVaultDependency"));
-        blockingInvitationOn = ChatUtil.chatColor(configuration.getString("settings.messages.blockingInvitationOn"));
-        blockingInvitationOff = ChatUtil.chatColor(configuration.getString("settings.messages.blockingInvitationOff"));
-        blockedInvitationMessage = ChatUtil.chatColor(configuration.getString("settings.messages.blockedInvitationMessage"));
-        collectedGameDeposit = ChatUtil.chatColor(configuration.getString("settings.messages.collectedGameDeposit"));
+        descriptionCommand = configuration.getStringList("settings.messages.descriptionCommand");
+        globalGameResultMessage = configuration.getStringList("settings.messages.globalGameResult");
+        noPermission = configuration.getString("settings.messages.noPermission");
+        badUseRpsGameCmd = configuration.getString("settings.messages.badUseRpsGameCmd");
+        badUseRpsAcceptCmd = configuration.getString("settings.messages.badUseRpsAcceptCmd");
+        myselfInvite = configuration.getString("settings.messages.myselfInvite");
+        notEnoughMoney = configuration.getString("settings.messages.notEnoughMoney");
+        betOutOfRangeMax = configuration.getString("settings.messages.betOutOfRangeMax");
+        betOutOfRangeMin = configuration.getString("settings.messages.betOutOfRangeMin");
+        playerNotExist = configuration.getString("settings.messages.playerNotExist");
+        rpsInvite = configuration.getString("settings.messages.rpsInvite");
+        noInvitation = configuration.getString("settings.messages.noInvitation");
+        cmdPerformWhileGame = configuration.getString("settings.messages.cmdPerformWhileGame");
+        alreadyPlay = configuration.getString("settings.messages.alreadyPlay");
+        alreadyInvite = configuration.getString("settings.messages.alreadyInvite");
+        winMessage = configuration.getString("settings.messages.winMessage");
+        loseMessage = configuration.getString("settings.messages.loseMessage");
+        drawNormalMessage = configuration.getString("settings.messages.drawNormalMessage");
+        drawReplayMessage = configuration.getString("settings.messages.drawReplayMessage");
+        successfullyChoice = configuration.getString("settings.messages.successfullyChoice");
+        successfullyInvite = configuration.getString("settings.messages.successfullyInvite");
+        successfullyPluginReload = configuration.getString("settings.messages.successfullyPluginReload");
+        waitingForOpponent = configuration.getString("settings.messages.waitingForOpponent");
+        noVaultDependency = configuration.getString("settings.messages.noVaultDependency");
+        blockingInvitationOn = configuration.getString("settings.messages.blockingInvitationOn");
+        blockingInvitationOff = configuration.getString("settings.messages.blockingInvitationOff");
+        blockedInvitationMessage = configuration.getString("settings.messages.blockedInvitationMessage");
+        collectedGameDeposit = configuration.getString("settings.messages.collectedGameDeposit");
 
         //buttons
-        rpsInviteAcceptButton = ChatUtil.chatColor(configuration.getString("settings.chatButtons.rpsInviteAcceptButton"));
+        rpsInviteAcceptButton = configuration.getString("settings.chatButtons.rpsInviteAcceptButton");
     }
+
+
 
     // for safety converting string to material
     private Material getMaterialOf(String string){

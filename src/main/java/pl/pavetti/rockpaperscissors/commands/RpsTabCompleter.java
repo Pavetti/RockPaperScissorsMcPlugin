@@ -5,6 +5,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import pl.pavetti.rockpaperscissors.util.PlayerUtil;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -17,21 +18,23 @@ public class RpsTabCompleter implements TabCompleter {
                                       @Nullable Command cmd,
                                       @Nullable String label,
                                       @Nullable String[] args) {
-        List<String> compleats = new ArrayList<>();
+        List<String> completes = new ArrayList<>();
         if(args.length == 1){
-            compleats = Arrays.asList("game","accept","toggle");
+            completes = Arrays.asList("game","accept","toggle");
         }
         else if (args.length == 2 && args[0].equals("game")) {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                compleats.add(player.getName());
+                if(PlayerUtil.isVanished(player)) continue;
+                completes.add(player.getName());
             }
         } else if (args.length == 2 && args[0].equals("accept")) {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                compleats.add(player.getName());
+                if(PlayerUtil.isVanished(player)) continue;
+                completes.add(player.getName());
             }
         } else if (args.length == 3 && args[0].equals("game")) {
-            compleats.add("<bet>");
+            completes.add("<bet>");
         }
-        return compleats;
+        return completes;
     }
 }

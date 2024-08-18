@@ -37,17 +37,17 @@ public class RpsAcceptSubCommand implements SubCommand {
 
         //check if acceptor in game
         if(rpsGameManager.isPlayerInGame(acceptor)){
-            PlayerUtil.sendMessagePrefixed(acceptor, settings.getCmdPerformWhileGame());
+            PlayerUtil.sendPrefixedMessage(acceptor, settings.getCmdPerformWhileGame());
             return true;
         }
 
         // check args
         if(args.length < 2){
-            PlayerUtil.sendMessagePrefixed(acceptor, settings.getBadUseRpsAcceptCmd());
+            PlayerUtil.sendPrefixedMessage(acceptor, settings.getBadUseRpsAcceptCmd());
             return true;
         }
         if(!PlayerUtil.isPlayerOnline(args[1])){
-            PlayerUtil.sendMessagePrefixed(acceptor, settings.getNoInvitation().replace("{NAME}",args[1]));
+            PlayerUtil.sendPrefixedMessage(acceptor, settings.getNoInvitation(),"{NAME}",args[1]);
             return true;
         }
 
@@ -59,7 +59,7 @@ public class RpsAcceptSubCommand implements SubCommand {
                 .filter(rpsInvitation -> PlayerUtil.compare(rpsInvitation.getInitiator(), initiator)) // check if invitation is from initiator
                 .findFirst();
        if(!invitationOptional.isPresent()){
-           PlayerUtil.sendMessagePrefixed(acceptor, settings.getNoInvitation().replace("{NAME}",args[1]));
+           PlayerUtil.sendPrefixedMessage(acceptor, settings.getNoInvitation(),"{NAME}",args[1]);
            return true;
        }
        RpsInvitation invitation = invitationOptional.get();
@@ -67,14 +67,14 @@ public class RpsAcceptSubCommand implements SubCommand {
 
         //check if initiator in game
         if(rpsGameManager.isPlayerInGame(initiator)){
-            PlayerUtil.sendMessagePrefixed(acceptor,settings.getAlreadyPlay().replace("{NAME}",args[1]));
+            PlayerUtil.sendPrefixedMessage(acceptor,settings.getAlreadyPlay(),"{NAME}",args[1]);
             return true;
         }
 
         double bet = invitation.getBet();
         //economy check
         if (economy.getBalance(initiator) < bet || economy.getBalance(acceptor) < bet) {
-            PlayerUtil.sendMessagePrefixed(acceptor, settings.getNotEnoughMoney());
+            PlayerUtil.sendPrefixedMessage(acceptor, settings.getNotEnoughMoney());
             return true;
         }
 

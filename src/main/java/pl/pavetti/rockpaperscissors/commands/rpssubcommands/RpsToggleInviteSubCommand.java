@@ -28,8 +28,8 @@ public class RpsToggleInviteSubCommand implements SubCommand {
         // result true = added to no attend set
         // result false = removed form no attend set
 
-        if(result) PlayerUtil.sendMessagePrefixed(player, settings.getBlockingInvitationOn());
-        else PlayerUtil.sendMessagePrefixed(player, settings.getBlockingInvitationOff());
+        if(result) PlayerUtil.sendPrefixedMessage(player, settings.getBlockingInvitationOn());
+        else PlayerUtil.sendPrefixedMessage(player, settings.getBlockingInvitationOff());
 
         return false;
     }

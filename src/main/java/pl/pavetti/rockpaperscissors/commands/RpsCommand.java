@@ -29,9 +29,9 @@ public class RpsCommand extends ParentCommand {
     protected boolean executeCommand(CommandSender sender, String[] args) {
         Player player = (Player) sender;
         if(!vault)
-            PlayerUtil.sendMessagePrefixed(player, Settings.getInstance().getNoVaultDependency());
+            PlayerUtil.sendPrefixedMessage(player, Settings.getInstance().getNoVaultDependency());
         else
-            Settings.getInstance().getDescriptionCommand().forEach(player::sendMessage);
+            PlayerUtil.sendMessageList(player, Settings.getInstance().getDescriptionCommand());
 
         return false;
     }

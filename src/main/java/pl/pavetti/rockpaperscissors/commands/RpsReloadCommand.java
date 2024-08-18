@@ -4,6 +4,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 import pl.pavetti.rockpaperscissors.Main;
 import pl.pavetti.rockpaperscissors.config.Settings;
 import pl.pavetti.rockpaperscissors.game.RpsGameManager;
@@ -13,13 +14,13 @@ public class RpsReloadCommand implements CommandExecutor {
     private final Settings settings = Settings.getInstance();
     private final Main plugin = Main.getInstance();
     @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+    public boolean onCommand(CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if(sender.hasPermission("rps.admin")){
             plugin.reloadConfig();
             settings.load();
             RpsGameManager.getInstance().reloadResources();
             if(sender instanceof Player){
-                PlayerUtil.sendMessagePrefixed((Player) sender,settings.getSuccessfullyPluginReload());
+                PlayerUtil.sendPrefixedMessage((Player) sender,settings.getSuccessfullyPluginReload());
             }else {
                 plugin.getLogger().severe(settings.getSuccessfullyPluginReload());
             }
@@ -27,7 +28,7 @@ public class RpsReloadCommand implements CommandExecutor {
 
         }else {
             if(sender instanceof Player){
-                PlayerUtil.sendMessagePrefixed((Player) sender,settings.getNoPermission());
+                PlayerUtil.sendPrefixedMessage((Player) sender,settings.getNoPermission());
             }
         }
         return false;

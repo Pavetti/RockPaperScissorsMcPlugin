@@ -23,7 +23,7 @@ public class RpsChooseWaitingRoom extends WaitingRoom {
                 if(waiters.contains(waiter)) {
                     removeWaiter(waiter);
                     RpsPlayer losser;
-                    //founds player who didnt choose
+                    //founds player who didn't choose
                     if(rpsGame.getInitiator().getChoice() == null){
                         losser = rpsGame.getInitiator();
                     }else {

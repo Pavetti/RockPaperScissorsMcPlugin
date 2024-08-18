@@ -14,7 +14,6 @@ import pl.pavetti.rockpaperscissors.commands.RpsTabCompleter;
 import pl.pavetti.rockpaperscissors.game.RequestManager;
 import pl.pavetti.rockpaperscissors.listener.InventoryClickListener;
 import pl.pavetti.rockpaperscissors.listener.InventoryCloseListener;
-import pl.pavetti.rockpaperscissors.listener.PlayerLeaveListener;
 import pl.pavetti.rockpaperscissors.waitingroom.WaitingRoomManager;
 import pl.pavetti.rockpaperscissors.api.UpdateChecker;
 
@@ -36,6 +35,7 @@ public final class Main extends JavaPlugin {
             getLogger().severe(" No Vault dependency found! Plugin wont work correctly." );
             vault = false;
         }
+
         instance = this;
         initConfiguration();
         initMangers();
@@ -63,6 +63,7 @@ public final class Main extends JavaPlugin {
     private void initConfiguration() {
         getConfig().options().copyDefaults(true);
         saveConfig();
+
     }
 
     private void initMangers(){
@@ -73,7 +74,6 @@ public final class Main extends JavaPlugin {
     private void registerListener(){
         getServer().getPluginManager().registerEvents(new InventoryClickListener(),this);
         getServer().getPluginManager().registerEvents(new InventoryCloseListener(),this);
-        getServer().getPluginManager().registerEvents(new PlayerLeaveListener(),this);
     }
 
     private void registerTabCompleter(){

@@ -8,8 +8,9 @@ import pl.pavetti.rockpaperscissors.config.Settings;
 import pl.pavetti.rockpaperscissors.datatransporter.GameResult;
 import pl.pavetti.rockpaperscissors.game.model.Choice;
 import pl.pavetti.rockpaperscissors.game.model.RpsPlayer;
-import pl.pavetti.rockpaperscissors.service.PlaceholderService;
+import pl.pavetti.rockpaperscissors.util.ChatUtil;
 import pl.pavetti.rockpaperscissors.util.PlayerUtil;
+import pl.pavetti.rockpaperscissors.util.ServerUtil;
 import pl.pavetti.rockpaperscissors.waitingroom.WaitingRoomManager;
 
 import java.util.*;
@@ -121,8 +122,8 @@ public class RpsGameManager {
         economy.withdrawPlayer(initiator,bet);
         economy.withdrawPlayer(opponent,bet);
 
-        PlayerUtil.sendMessagePrefixed(initiator,settings.getCollectedGameDeposit().replace("{BET}", String.valueOf(bet)));
-        PlayerUtil.sendMessagePrefixed(opponent,settings.getCollectedGameDeposit().replace("{BET}", String.valueOf(bet)));
+        PlayerUtil.sendPrefixedMessage(initiator,settings.getCollectedGameDeposit(),"{BET}", String.valueOf(bet));
+        PlayerUtil.sendPrefixedMessage(opponent,settings.getCollectedGameDeposit(),"{BET}", String.valueOf(bet));
     }
 
     /**
@@ -136,8 +137,8 @@ public class RpsGameManager {
         economy.depositPlayer(initiator,bet);
         economy.depositPlayer(opponent,bet);
 
-        PlayerUtil.sendMessagePrefixed(initiator,settings.getDrawNormalMessage().replace("{BET}", String.valueOf(bet)));
-        PlayerUtil.sendMessagePrefixed(opponent,settings.getDrawNormalMessage().replace("{BET}", String.valueOf(bet)));
+        PlayerUtil.sendPrefixedMessage(initiator,settings.getDrawNormalMessage(),"{BET}", String.valueOf(bet));
+        PlayerUtil.sendPrefixedMessage(opponent,settings.getDrawNormalMessage(),"{BET}", String.valueOf(bet));
     }
 
     /**
@@ -230,13 +231,19 @@ public class RpsGameManager {
         Player loser = gameResult.getLoser().getPlayer();
         double bet = gameResult.getRpsGame().getBet();
 
-        PlayerUtil.sendMessagePrefixed(winner,settings.getWinMessage().replace("{AMOUNT}", String.valueOf(2*bet)));
-        PlayerUtil.sendMessagePrefixed(loser,settings.getLoseMessage().replace("{BET}", String.valueOf(bet)));
+        PlayerUtil.sendPrefixedMessage(winner,settings.getWinMessage(),"{AMOUNT}", String.valueOf(2*bet));
+        PlayerUtil.sendPrefixedMessage(loser,settings.getLoseMessage(),"{BET}", String.valueOf(bet));
 
         if(settings.isGlobalGameResultEnable()){
             if(bet >= settings.getGlobalGameResultMinBet()){
-                List<String> message = PlaceholderService.replacePlaceholdersInGlobalResultMessage(gameResult);
-                message.forEach(Bukkit::broadcastMessage);
+                List<String> lines = new ArrayList<>();
+                for (String line : Settings.getInstance().getGlobalGameResultMessage()) {
+                   lines.add(ChatUtil.replacePlaceholders(line,
+                            "{WINNER}",winner.getName(),
+                            "{LOSER}",loser.getName(),
+                            "{BET}", String.valueOf(bet)));
+                }
+                ServerUtil.broadcastMessageList(lines);
             }
         }
     }
@@ -257,8 +264,8 @@ public class RpsGameManager {
      * @param rpsGame the game to be replayed
      */
     private void doGameReplay(RpsGame rpsGame){
-        PlayerUtil.sendMessagePrefixed(rpsGame.getInitiator().getPlayer(),settings.getDrawReplayMessage());
-        PlayerUtil.sendMessagePrefixed(rpsGame.getOpponent().getPlayer(), settings.getDrawReplayMessage());
+        PlayerUtil.sendPrefixedMessage(rpsGame.getInitiator().getPlayer(),settings.getDrawReplayMessage());
+        PlayerUtil.sendPrefixedMessage(rpsGame.getOpponent().getPlayer(), settings.getDrawReplayMessage());
 
         Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> {
             RpsGame newRpsGame = new RpsGame(rpsGame.getInitiator().getPlayer()

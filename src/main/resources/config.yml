@@ -1,6 +1,4 @@
 settings:
-  # Prefix that will be adding to every message sending by this plugin
-  # except message that are contains in list of lines (descriptionCommand, globalGameResult)
   prefix: '&2&lRPS &7▷ '
 
   # Every options relevant to rock-paper-scissors game system you can find in this section
@@ -54,17 +52,17 @@ settings:
     # Information on how to use the appropriate placeholders can be found next to the respective message.
     descriptionCommand:
     - ''
-    - '&7&m--[-------&r &2RPS Commands &7&m-------]--'
+    - '&7~~--[-------~~&r &2RPS Commands &7~~-------]--~~'
     - ''
     - ' &f/&2rps game &f<player> <bet> &7- Sends an invitation to play rock paper scissors'
     - ' &f/&2rps accept &f<player> &7- Accepts an invitation to play rock paper scissors'
     - ' &f/&2rps toggle &7- Toggle the ability to send invitations'
     - ''
     globalGameResult: #Placeholder {WINNER} - name of player who won, {LOSER} - name of player who lost, {BET} - value of bet
-      - '&7----------------------------------------------------'
+      - '&7~~----------------------------------------------------~~'
       - ' &aPlayer &f{WINNER}&a won against &f{LOSER}&a '
       - ' &awith a bet of &f{BET}&a$ in Rock Paper Scissors!'
-      - '&7----------------------------------------------------'
+      - '&7~~----------------------------------------------------~~'
     noPermission: '&4You do not have permission to use this command.'
     badUseRpsGameCmd: '&7You have to give player name and bet argument &f/&7rps game &f<&7player&f> <&7bet&f>'
     badUseRpsAcceptCmd: '&7You have to give player name argument &f/&7rps accept &f<&7player&f>'
@@ -93,4 +91,4 @@ settings:
     collectedGameDeposit: '&7The deposit for the game has been collected &f{BET}&7$' #Placeholder {BET} - value of deposit (game bet)
 
   chatButtons:
-    rpsInviteAcceptButton: '&2&l Click to accept'
+    rpsInviteAcceptButton: '&2&l [Click to accept](run_command=/rps accept {PLAYER} hover=&2✔)'

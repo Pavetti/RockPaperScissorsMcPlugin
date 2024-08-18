@@ -53,7 +53,7 @@ public class RpsGame implements Waiter {
      */
     private void doActionsPostFirstChoose(RpsPlayer firstChoosePlayer){
         sendAfterChoiceMessage(firstChoosePlayer);
-        PlayerUtil.sendMessagePrefixed(firstChoosePlayer.getPlayer(),
+        PlayerUtil.sendPrefixedMessage(firstChoosePlayer.getPlayer(),
                 Settings.getInstance().getWaitingForOpponent());
         RpsGameManager.getInstance().displayTimeForSecondChoicePlayer(this);
     }
@@ -86,9 +86,9 @@ public class RpsGame implements Waiter {
      * @param rpsPlayer the player who made the choice
      */
     private void sendAfterChoiceMessage(RpsPlayer rpsPlayer){
-        PlayerUtil.sendMessagePrefixed(rpsPlayer.getPlayer(),
-                Settings.getInstance().getSuccessfullyChoice()
-                        .replace("{CHOICE}",rpsPlayer.getChoice().getName()));
+
+        PlayerUtil.sendPrefixedMessage(rpsPlayer.getPlayer(),
+                Settings.getInstance().getSuccessfullyChoice(),"{CHOICE}",rpsPlayer.getChoice().getName());
     }
 
     /**
