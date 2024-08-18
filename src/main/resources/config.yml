@@ -1,6 +1,9 @@
 settings:
-  prefix: '&2&lRPS &7▷ '
+  # Important plugin uses MineDown library for formatting messages, tiles, items names etc.
+  # For more information about formatting messages visit:
+  # https://github.com/Phoenix616/MineDown?tab=readme-ov-file
 
+  prefix: '&2&lRPS &7▷ '
   # Every options relevant to rock-paper-scissors game system you can find in this section
   gameConfig:
     # Maximum amount of bet (0 = no limit) (DO NOT SET NEGATIVE VALUES)
@@ -25,7 +28,7 @@ settings:
       # Turing off/on global game result
       enable: true
       # Minimum amount of bet to display global game result
-      minBet: 50000.0
+      minBet: 5000.0
 
 
   # Every options relevant to rock-paper-scissors gui you can find in this section
