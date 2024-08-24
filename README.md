@@ -25,8 +25,8 @@ Simple game that everybody knows brought into the Minecraft. Thanks to the compe
 
 ## RoadMap
 - [x] request system rework
+- [x] available rgb colours
 - [ ] live game timer
-- [ ] available rgb colours
 - [ ] games logs in database
   - [ ] PlaceholderAPI
 - [ ] request gui
