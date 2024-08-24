@@ -1,5 +1,7 @@
 package pl.pavetti.rockpaperscissors;
 
+import lombok.NonNull;
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -27,6 +29,7 @@ public final class Main extends JavaPlugin {
     private final int resourceID = 118164;
     private final int bStatsPluginID = 22697;
     private boolean vault = true;
+    private BukkitAudiences bukkitAdventure;
 
     @Override
     public void onEnable() {
@@ -37,19 +40,22 @@ public final class Main extends JavaPlugin {
         }
 
         instance = this;
+        this.bukkitAdventure = BukkitAudiences.create(this);
         initConfiguration();
         initMangers();
         registerListener();
         registerCommand();
         registerTabCompleter();
-
         updateCheck();
         Metrics metrics = new Metrics(this, bStatsPluginID);
     }
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        if(this.bukkitAdventure != null) {
+            this.bukkitAdventure.close();
+            this.bukkitAdventure = null;
+        }
     }
 
     @Override
@@ -59,6 +65,15 @@ public final class Main extends JavaPlugin {
         getConfig().options().copyDefaults(true);
         saveConfig();
     }
+
+
+    public @NonNull BukkitAudiences adventure() {
+        if(this.bukkitAdventure == null) {
+            throw new IllegalStateException("Tried to access Adventure when the plugin was disabled!");
+        }
+        return this.bukkitAdventure;
+    }
+
 
     private void initConfiguration() {
         getConfig().options().copyDefaults(true);

@@ -106,8 +106,8 @@ public class RpsGameManager {
         if(activeGames.contains(rpsGame)){
             // Deposit is made only on first game start (not on replay)
             if(!isReplay) makeGameDeposit(rpsGame);
-            rpsGame.getOpponent().getPlayer().openInventory(gameGUI.getMainInventory());
-            rpsGame.getInitiator().getPlayer().openInventory(gameGUI.getMainInventory());
+            rpsGame.getOpponent().getPlayer().openInventory(gameGUI.getGameInventory());
+            rpsGame.getInitiator().getPlayer().openInventory(gameGUI.getGameInventory());
         }
     }
 
@@ -306,7 +306,7 @@ public class RpsGameManager {
      * Reloads resources.
      */
     public void reloadResources(){
-        gameGUI.reload();
+        gameGUI.initialize();
     }
 
 }

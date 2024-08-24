@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import pl.pavetti.rockpaperscissors.Main;
+import pl.pavetti.rockpaperscissors.util.ItemUtil;
 
 import java.util.List;
 
@@ -77,9 +78,12 @@ public class  Settings {
         return instance;
     }
 
+    public Object getByPath(String path){
+        return Main.getInstance().getConfig().get(path);
+    }
+
     public void load(){
         FileConfiguration configuration = Main.getInstance().getConfig();
-
 
         //basic
         prefix = configuration.getString("settings.prefix");
@@ -94,13 +98,13 @@ public class  Settings {
         globalGameResultMinBet = configuration.getDouble("settings.gameConfig.globalGameResult.minBet");
         //gui
         guiMainTitle = configuration.getString("settings.gui.main.title");
-        guiMainFillItem = getMaterialOf(configuration.getString("settings.gui.main.fillItem.item"));
+        guiMainFillItem = ItemUtil.getMaterialOf(configuration.getString("settings.gui.main.fillItem.item"));
         guiMainFillItemName = configuration.getString("settings.gui.main.fillItem.name");
-        guiRockItem = getMaterialOf(configuration.getString("settings.gui.main.rock.item"));
+        guiRockItem = ItemUtil.getMaterialOf(configuration.getString("settings.gui.main.rock.item"));
         guiRockName = configuration.getString("settings.gui.main.rock.name");
-        guiPaperItem = getMaterialOf(configuration.getString("settings.gui.main.paper.item"));
+        guiPaperItem = ItemUtil.getMaterialOf(configuration.getString("settings.gui.main.paper.item"));
         guiPaperName = configuration.getString("settings.gui.main.paper.name");
-        guiScissorsItem = getMaterialOf(configuration.getString("settings.gui.main.scissors.item"));
+        guiScissorsItem = ItemUtil.getMaterialOf(configuration.getString("settings.gui.main.scissors.item"));
         guiScissorsName = configuration.getString("settings.gui.main.scissors.name");
 
         //messages
@@ -139,17 +143,4 @@ public class  Settings {
 
 
 
-    // for safety converting string to material
-    private Material getMaterialOf(String string){
-        Material material;
-        try{
-            material = Material.valueOf(string);
-        }catch (IllegalArgumentException e){
-            Main.getInstance().getLogger().severe("\nOne of the material given in config.yml does not exist." +
-                    " Pleas check config file. Full list of allowed materials you can find here " +
-                    "https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html\\n");
-            material = Material.BARRIER;
-        }
-        return material;
-    }
 }

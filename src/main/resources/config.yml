@@ -34,6 +34,8 @@ settings:
   # Every options relevant to rock-paper-scissors gui you can find in this section
   gui:
     main:
+      # Warning! MineDown format for items name and titles
+      # is only available if your server has paper-based engine.
       # All names of materials witch you can use for section 'item' you will find here
       # https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
       title: "&8Rock Paper Scissors"
@@ -55,7 +57,7 @@ settings:
     # Information on how to use the appropriate placeholders can be found next to the respective message.
     descriptionCommand:
     - ''
-    - '&7~~--[-------~~&r &2RPS Commands &7~~-------]--~~'
+    - '&7--[-------&r &2RPS Commands &7-------]--'
     - ''
     - ' &f/&2rps game &f<player> <bet> &7- Sends an invitation to play rock paper scissors'
     - ' &f/&2rps accept &f<player> &7- Accepts an invitation to play rock paper scissors'

@@ -6,6 +6,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.MetadataValue;
+import pl.pavetti.rockpaperscissors.Main;
 
 import java.util.List;
 
@@ -25,14 +26,14 @@ public class PlayerUtil {
 
 
     public static void sendPrefixedMessage(Player player, String message, String... placeholders){
-        Audience audience = Audience.audience(player);
+        Audience audience = getAudience(player);
         String messageWithPlaceholders = ChatUtil.replacePlaceholders(message,placeholders);
         Component formattedMessage = ChatUtil.formatMessageAndAddPrefix(messageWithPlaceholders);
         audience.sendMessage(formattedMessage);
     }
 
     public static void sendMessageList(Player player, List<String> messages, String... placeholders){
-        Audience audience = Audience.audience(player);
+        Audience audience = getAudience(player);
         for(String line : messages){
             String lineWithPlaceholders = ChatUtil.replacePlaceholders(line,placeholders);
             audience.sendMessage(ChatUtil.formatMessage(lineWithPlaceholders));
@@ -47,6 +48,13 @@ public class PlayerUtil {
             }
         }
         return false;
+    }
+
+    public Audience getAudience(Player player) {
+        if(ServerUtil.isPaper())
+            return Audience.audience(player);
+        else
+            return Main.getInstance().adventure().player(player);
     }
 
 }

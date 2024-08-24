@@ -1,6 +1,7 @@
 package pl.pavetti.rockpaperscissors.commands.rpssubcommands;
 
 
+import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
@@ -151,7 +152,8 @@ public class RpsGameSubCommand implements SubCommand {
                 "{NAME}",initiator,
                 "{BET}",bet,
                 "{EXPIRATION}",String.valueOf(settings.getAcceptTime()));
-        enemyPlayer.sendMessage(acceptButton);
+        Audience audience = PlayerUtil.getAudience(enemyPlayer);
+        audience.sendMessage(acceptButton);
     }
 
     @Override
