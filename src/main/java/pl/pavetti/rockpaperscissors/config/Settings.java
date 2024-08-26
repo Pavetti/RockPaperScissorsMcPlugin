@@ -2,6 +2,7 @@ package pl.pavetti.rockpaperscissors.config;
 
 import lombok.Getter;
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import pl.pavetti.rockpaperscissors.Main;
 import pl.pavetti.rockpaperscissors.util.ItemUtil;
@@ -84,61 +85,71 @@ public class  Settings {
 
     public void load(){
         FileConfiguration configuration = Main.getInstance().getConfig();
+        ConfigurationSection settings = configuration.getConfigurationSection("settings");
+        assert settings != null : "settings section in config.yml is missing";
+        ConfigurationSection gameConfig = settings.getConfigurationSection("gameConfig");
+        ConfigurationSection mainGui = settings.getConfigurationSection("gui.main");
+        ConfigurationSection messages = settings.getConfigurationSection("messages");
+        ConfigurationSection chatButtons = settings.getConfigurationSection("chatButtons");
 
         //basic
-        prefix = configuration.getString("settings.prefix");
+        prefix = settings.getString("prefix");
         //gameConfig
-        replayOnDraw = configuration.getBoolean("settings.gameConfig.replayOnDraw");
-        maxBet = configuration.getDouble("settings.gameConfig.maxBet");
-        minBet = configuration.getDouble("settings.gameConfig.minBet");
-        acceptTime = configuration.getInt("settings.gameConfig.acceptTime");
-        chooseTime = configuration.getInt("settings.gameConfig.chooseTime");
+        assert gameConfig != null : "gameConfig section in config.yml is missing";
+        replayOnDraw = gameConfig.getBoolean("replayOnDraw");
+        maxBet = gameConfig.getDouble("maxBet");
+        minBet = gameConfig.getDouble("minBet");
+        acceptTime = gameConfig.getInt("acceptTime");
+        chooseTime = gameConfig.getInt("chooseTime");
         //global game result
-        globalGameResultEnable = configuration.getBoolean("settings.gameConfig.globalGameResult.enable");
-        globalGameResultMinBet = configuration.getDouble("settings.gameConfig.globalGameResult.minBet");
+        globalGameResultEnable = gameConfig.getBoolean("globalGameResult.enable");
+        globalGameResultMinBet = gameConfig.getDouble("globalGameResult.minBet");
         //gui
-        guiMainTitle = configuration.getString("settings.gui.main.title");
-        guiMainFillItem = ItemUtil.getMaterialOf(configuration.getString("settings.gui.main.fillItem.item"));
-        guiMainFillItemName = configuration.getString("settings.gui.main.fillItem.name");
-        guiRockItem = ItemUtil.getMaterialOf(configuration.getString("settings.gui.main.rock.item"));
-        guiRockName = configuration.getString("settings.gui.main.rock.name");
-        guiPaperItem = ItemUtil.getMaterialOf(configuration.getString("settings.gui.main.paper.item"));
-        guiPaperName = configuration.getString("settings.gui.main.paper.name");
-        guiScissorsItem = ItemUtil.getMaterialOf(configuration.getString("settings.gui.main.scissors.item"));
-        guiScissorsName = configuration.getString("settings.gui.main.scissors.name");
+        assert mainGui != null : "gui.main section in config.yml is missing";
+        guiMainTitle = mainGui.getString("title");
+        guiMainFillItem = ItemUtil.getMaterialOf(mainGui.getString("fillItem.item"));
+        guiMainFillItemName = mainGui.getString("fillItem.name");
+        guiRockItem = ItemUtil.getMaterialOf(mainGui.getString("rock.item"));
+        guiRockName = mainGui.getString("rock.name");
+        guiPaperItem = ItemUtil.getMaterialOf(mainGui.getString(".paper.item"));
+        guiPaperName = mainGui.getString("paper.name");
+        guiScissorsItem = ItemUtil.getMaterialOf(mainGui.getString("scissors.item"));
+        guiScissorsName = mainGui.getString("scissors.name");
 
         //messages
-        descriptionCommand = configuration.getStringList("settings.messages.descriptionCommand");
-        globalGameResultMessage = configuration.getStringList("settings.messages.globalGameResult");
-        noPermission = configuration.getString("settings.messages.noPermission");
-        badUseRpsGameCmd = configuration.getString("settings.messages.badUseRpsGameCmd");
-        badUseRpsAcceptCmd = configuration.getString("settings.messages.badUseRpsAcceptCmd");
-        myselfInvite = configuration.getString("settings.messages.myselfInvite");
-        notEnoughMoney = configuration.getString("settings.messages.notEnoughMoney");
-        betOutOfRangeMax = configuration.getString("settings.messages.betOutOfRangeMax");
-        betOutOfRangeMin = configuration.getString("settings.messages.betOutOfRangeMin");
-        playerNotExist = configuration.getString("settings.messages.playerNotExist");
-        rpsInvite = configuration.getString("settings.messages.rpsInvite");
-        noInvitation = configuration.getString("settings.messages.noInvitation");
-        cmdPerformWhileGame = configuration.getString("settings.messages.cmdPerformWhileGame");
-        alreadyPlay = configuration.getString("settings.messages.alreadyPlay");
-        alreadyInvite = configuration.getString("settings.messages.alreadyInvite");
-        winMessage = configuration.getString("settings.messages.winMessage");
-        loseMessage = configuration.getString("settings.messages.loseMessage");
-        drawNormalMessage = configuration.getString("settings.messages.drawNormalMessage");
-        drawReplayMessage = configuration.getString("settings.messages.drawReplayMessage");
-        successfullyChoice = configuration.getString("settings.messages.successfullyChoice");
-        successfullyInvite = configuration.getString("settings.messages.successfullyInvite");
-        successfullyPluginReload = configuration.getString("settings.messages.successfullyPluginReload");
-        waitingForOpponent = configuration.getString("settings.messages.waitingForOpponent");
-        noVaultDependency = configuration.getString("settings.messages.noVaultDependency");
-        blockingInvitationOn = configuration.getString("settings.messages.blockingInvitationOn");
-        blockingInvitationOff = configuration.getString("settings.messages.blockingInvitationOff");
-        blockedInvitationMessage = configuration.getString("settings.messages.blockedInvitationMessage");
-        collectedGameDeposit = configuration.getString("settings.messages.collectedGameDeposit");
+        assert messages != null : "messages section in config.yml is missing";
+        descriptionCommand = messages.getStringList("descriptionCommand");
+        globalGameResultMessage = messages.getStringList("globalGameResult");
+        noPermission = messages.getString("noPermission");
+        badUseRpsGameCmd = messages.getString("badUseRpsGameCmd");
+        badUseRpsAcceptCmd = messages.getString("badUseRpsAcceptCmd");
+        myselfInvite = messages.getString("myselfInvite");
+        notEnoughMoney = messages.getString("notEnoughMoney");
+        betOutOfRangeMax = messages.getString("betOutOfRangeMax");
+        betOutOfRangeMin = messages.getString("betOutOfRangeMin");
+        playerNotExist = messages.getString("playerNotExist");
+        rpsInvite = messages.getString("rpsInvite");
+        noInvitation = messages.getString("noInvitation");
+        cmdPerformWhileGame = messages.getString("cmdPerformWhileGame");
+        alreadyPlay = messages.getString("alreadyPlay");
+        alreadyInvite = messages.getString("alreadyInvite");
+        winMessage = messages.getString("winMessage");
+        loseMessage = messages.getString("loseMessage");
+        drawNormalMessage = messages.getString("drawNormalMessage");
+        drawReplayMessage = messages.getString("drawReplayMessage");
+        successfullyChoice = messages.getString("successfullyChoice");
+        successfullyInvite = messages.getString("successfullyInvite");
+        successfullyPluginReload = messages.getString("successfullyPluginReload");
+        waitingForOpponent = messages.getString("waitingForOpponent");
+        noVaultDependency = messages.getString("noVaultDependency");
+        blockingInvitationOn = messages.getString("blockingInvitationOn");
+        blockingInvitationOff = messages.getString("blockingInvitationOff");
+        blockedInvitationMessage = messages.getString("blockedInvitationMessage");
+        collectedGameDeposit = messages.getString("collectedGameDeposit");
 
         //buttons
-        rpsInviteAcceptButton = configuration.getString("settings.chatButtons.rpsInviteAcceptButton");
+        assert chatButtons != null : "chatButtons section in config.yml is missing";
+        rpsInviteAcceptButton = chatButtons.getString("rpsInviteAcceptButton");
     }
 
 

@@ -50,7 +50,7 @@ public class RpsGameSubCommand implements SubCommand {
             PlayerUtil.sendPrefixedMessage(initiator, settings.getBadUseRpsGameCmd());
             return true;
         }
-        if (!PlayerUtil.isPlayerOnline(args[1])) {
+        if (PlayerUtil.isPlayerOffline(args[1])) {
             PlayerUtil.sendPrefixedMessage(
                     initiator, settings.getPlayerNotExist(), "{NAME}", args[1]);
             return true;

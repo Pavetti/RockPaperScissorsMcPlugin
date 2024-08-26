@@ -46,7 +46,7 @@ public class RpsAcceptSubCommand implements SubCommand {
             PlayerUtil.sendPrefixedMessage(acceptor, settings.getBadUseRpsAcceptCmd());
             return true;
         }
-        if(!PlayerUtil.isPlayerOnline(args[1])){
+        if(PlayerUtil.isPlayerOffline(args[1])){
             PlayerUtil.sendPrefixedMessage(acceptor, settings.getNoInvitation(),"{NAME}",args[1]);
             return true;
         }

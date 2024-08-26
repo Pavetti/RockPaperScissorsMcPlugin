@@ -14,10 +14,10 @@ import java.util.List;
 public class PlayerUtil {
 
 
-    public static boolean isPlayerOnline(String nick){
+    public static boolean isPlayerOffline(String nick){
         Player playerExact = Bukkit.getPlayerExact(nick);
-        if(playerExact != null) return playerExact.isOnline();
-        return false;
+        if(playerExact != null) return !playerExact.isOnline();
+        return true;
     }
 
     public static boolean compare(Player player1, Player player2){

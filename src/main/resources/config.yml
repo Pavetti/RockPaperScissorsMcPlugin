@@ -35,7 +35,7 @@ settings:
   gui:
     main:
       # Warning! MineDown format for items name and titles
-      # is only available if your server has paper-based engine.
+      # is only available if your server has paper engine.
       # All names of materials witch you can use for section 'item' you will find here
       # https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
       title: "&8Rock Paper Scissors"
