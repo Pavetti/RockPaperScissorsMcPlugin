@@ -12,7 +12,7 @@ import pl.pavetti.rockpaperscissors.config.Settings;
 import pl.pavetti.rockpaperscissors.game.RequestManager;
 import pl.pavetti.rockpaperscissors.game.RpsGameManager;
 import pl.pavetti.rockpaperscissors.game.model.RpsInvitation;
-import pl.pavetti.rockpaperscissors.util.ChatUtil;
+import pl.pavetti.rockpaperscissors.util.TextUtil;
 import pl.pavetti.rockpaperscissors.util.PlayerUtil;
 
 import java.time.LocalDateTime;
@@ -145,8 +145,8 @@ public class RpsGameSubCommand implements SubCommand {
     }
 
     private void sendInvitation(Player enemyPlayer,String initiator, String bet){
-        Component acceptButton = ChatUtil.formatMessage(
-                ChatUtil.replacePlaceholders(settings.getRpsInviteAcceptButton(),"{PLAYER}",initiator)
+        Component acceptButton = TextUtil.formatMessage(
+                TextUtil.replacePlaceholders(settings.getRpsInviteAcceptButton(),"{PLAYER}",initiator)
         );
         PlayerUtil.sendPrefixedMessage(enemyPlayer,settings.getRpsInvite(),
                 "{NAME}",initiator,

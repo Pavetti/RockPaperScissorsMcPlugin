@@ -27,16 +27,16 @@ public class PlayerUtil {
 
     public static void sendPrefixedMessage(Player player, String message, String... placeholders){
         Audience audience = getAudience(player);
-        String messageWithPlaceholders = ChatUtil.replacePlaceholders(message,placeholders);
-        Component formattedMessage = ChatUtil.formatMessageAndAddPrefix(messageWithPlaceholders);
+        String messageWithPlaceholders = TextUtil.replacePlaceholders(message,placeholders);
+        Component formattedMessage = TextUtil.formatMessageAndAddPrefix(messageWithPlaceholders);
         audience.sendMessage(formattedMessage);
     }
 
     public static void sendMessageList(Player player, List<String> messages, String... placeholders){
         Audience audience = getAudience(player);
         for(String line : messages){
-            String lineWithPlaceholders = ChatUtil.replacePlaceholders(line,placeholders);
-            audience.sendMessage(ChatUtil.formatMessage(lineWithPlaceholders));
+            String lineWithPlaceholders = TextUtil.replacePlaceholders(line,placeholders);
+            audience.sendMessage(TextUtil.formatMessage(lineWithPlaceholders));
         }
     }
 

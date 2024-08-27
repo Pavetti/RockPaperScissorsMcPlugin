@@ -1,9 +1,9 @@
 settings:
-  # Important plugin uses MineDown library for formatting messages, tiles, items names etc.
+  # [IMPORTANT] Plugin uses MineDown library for formatting messages, tiles, items names etc.
   # For more information about formatting messages visit:
   # https://github.com/Phoenix616/MineDown?tab=readme-ov-file
 
-  prefix: '&2&lRPS &7▷ '
+  prefix: '&#98FB98&&lRPS &7▷ '
   # Every options relevant to rock-paper-scissors game system you can find in this section
   gameConfig:
     # Maximum amount of bet (0 = no limit) (DO NOT SET NEGATIVE VALUES)
@@ -35,21 +35,21 @@ settings:
   gui:
     main:
       # Warning! MineDown format for items name and titles
-      # is only available if your server has paper engine.
+      # is only available if your server has paper engine or some forks of it.
       # All names of materials witch you can use for section 'item' you will find here
       # https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
       title: "&8Rock Paper Scissors"
       rock:
-        item: COBBLESTONE
+        material: COBBLESTONE
         name: "&8&lRock"
       paper:
-        item: PAPER
+        material: PAPER
         name: "&f&lPaper"
       scissors:
-        item: SHEARS
+        material: SHEARS
         name: "&c&lScissors"
       fillItem:
-        item: GRAY_STAINED_GLASS_PANE
+        material: GRAY_STAINED_GLASS_PANE
         name: " "
 
   messages:
@@ -57,7 +57,7 @@ settings:
     # Information on how to use the appropriate placeholders can be found next to the respective message.
     descriptionCommand:
     - ''
-    - '&7--[-------&r &2RPS Commands &7-------]--'
+    - '&7~~--[-------~~&r &2RPS Commands &7~~-------]--~~'
     - ''
     - ' &f/&2rps game &f<player> <bet> &7- Sends an invitation to play rock paper scissors'
     - ' &f/&2rps accept &f<player> &7- Accepts an invitation to play rock paper scissors'
@@ -96,4 +96,4 @@ settings:
     collectedGameDeposit: '&7The deposit for the game has been collected &f{BET}&7$' #Placeholder {BET} - value of deposit (game bet)
 
   chatButtons:
-    rpsInviteAcceptButton: '&2&l [Click to accept](run_command=/rps accept {PLAYER} hover=&2✔)'
+    rpsInviteAcceptButton: '[&2&lClick to accept](run_command=/rps accept {PLAYER} hover=&2✔)'

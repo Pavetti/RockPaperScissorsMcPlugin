@@ -8,7 +8,7 @@ import pl.pavetti.rockpaperscissors.config.Settings;
 import pl.pavetti.rockpaperscissors.datatransporter.GameResult;
 import pl.pavetti.rockpaperscissors.game.model.Choice;
 import pl.pavetti.rockpaperscissors.game.model.RpsPlayer;
-import pl.pavetti.rockpaperscissors.util.ChatUtil;
+import pl.pavetti.rockpaperscissors.util.TextUtil;
 import pl.pavetti.rockpaperscissors.util.PlayerUtil;
 import pl.pavetti.rockpaperscissors.util.ServerUtil;
 import pl.pavetti.rockpaperscissors.waitingroom.WaitingRoomManager;
@@ -238,7 +238,7 @@ public class RpsGameManager {
             if(bet >= settings.getGlobalGameResultMinBet()){
                 List<String> lines = new ArrayList<>();
                 for (String line : Settings.getInstance().getGlobalGameResultMessage()) {
-                   lines.add(ChatUtil.replacePlaceholders(line,
+                   lines.add(TextUtil.replacePlaceholders(line,
                             "{WINNER}",winner.getName(),
                             "{LOSER}",loser.getName(),
                             "{BET}", String.valueOf(bet)));
@@ -306,7 +306,7 @@ public class RpsGameManager {
      * Reloads resources.
      */
     public void reloadResources(){
-        gameGUI.initialize();
+        gameGUI.load();
     }
 
 }

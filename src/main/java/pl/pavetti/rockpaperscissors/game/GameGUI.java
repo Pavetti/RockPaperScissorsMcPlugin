@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import pl.pavetti.rockpaperscissors.config.Settings;
 import pl.pavetti.rockpaperscissors.inventoryholder.RpsMenuInventoryHolder;
-import pl.pavetti.rockpaperscissors.util.ChatUtil;
+import pl.pavetti.rockpaperscissors.util.TextUtil;
 import pl.pavetti.rockpaperscissors.util.ItemUtil;
 import pl.pavetti.rockpaperscissors.util.ServerUtil;
 
@@ -27,10 +27,10 @@ public class GameGUI {
 
 
     public GameGUI() {
-        initialize();
+        load();
     }
 
-    public void initialize(){
+    public void load(){
         loadItemStacks();
         loadInventory();
     }
@@ -57,7 +57,7 @@ public class GameGUI {
 
     private ItemStack loadItemStack(String itemConfigOptionName){
         Material material = ItemUtil.getMaterialOf(
-                (String)settings.getByPath("settings.gui.main." + itemConfigOptionName + ".item"));
+                (String)settings.getByPath("settings.gui.main." + itemConfigOptionName + ".material"));
         ItemStack itemStack = new ItemStack(material,1);
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
@@ -68,18 +68,18 @@ public class GameGUI {
 
     private void setNameDependsOnEngine(ItemMeta itemMeta, String name){
         if(ServerUtil.isPaper())
-            itemMeta.itemName(ChatUtil.formatMessage(name));
+            itemMeta.itemName(TextUtil.formatMessage(name));
         else
-            itemMeta.setDisplayName(ChatUtil.formatMessageLegacy(name));
+            itemMeta.setDisplayName(TextUtil.formatMessageLegacy(name));
     }
 
     private Inventory createInventoryDependsOnEngine(){
         if(ServerUtil.isPaper())
             return Bukkit.createInventory(new RpsMenuInventoryHolder(),27,
-                    ChatUtil.formatMessage(settings.getGuiMainTitle()));
+                    TextUtil.formatMessage(settings.getGuiMainTitle()));
         else
             return Bukkit.createInventory(new RpsMenuInventoryHolder(),27,
-                ChatUtil.formatMessageLegacy(settings.getGuiMainTitle()));
+                TextUtil.formatMessageLegacy(settings.getGuiMainTitle()));
     }
 
 }

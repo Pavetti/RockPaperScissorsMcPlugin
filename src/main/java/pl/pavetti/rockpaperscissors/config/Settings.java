@@ -107,13 +107,13 @@ public class  Settings {
         //gui
         assert mainGui != null : "gui.main section in config.yml is missing";
         guiMainTitle = mainGui.getString("title");
-        guiMainFillItem = ItemUtil.getMaterialOf(mainGui.getString("fillItem.item"));
+        guiMainFillItem = ItemUtil.getMaterialOf(mainGui.getString("fillItem.material"));
         guiMainFillItemName = mainGui.getString("fillItem.name");
-        guiRockItem = ItemUtil.getMaterialOf(mainGui.getString("rock.item"));
+        guiRockItem = ItemUtil.getMaterialOf(mainGui.getString("rock.material"));
         guiRockName = mainGui.getString("rock.name");
-        guiPaperItem = ItemUtil.getMaterialOf(mainGui.getString(".paper.item"));
+        guiPaperItem = ItemUtil.getMaterialOf(mainGui.getString(".paper.material"));
         guiPaperName = mainGui.getString("paper.name");
-        guiScissorsItem = ItemUtil.getMaterialOf(mainGui.getString("scissors.item"));
+        guiScissorsItem = ItemUtil.getMaterialOf(mainGui.getString("scissors.material"));
         guiScissorsName = mainGui.getString("scissors.name");
 
         //messages

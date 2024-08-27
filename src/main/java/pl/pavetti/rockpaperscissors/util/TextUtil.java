@@ -7,7 +7,7 @@ import org.bukkit.ChatColor;
 import pl.pavetti.rockpaperscissors.config.Settings;
 
 @UtilityClass
-public class ChatUtil {
+public class TextUtil {
 
 
     public static String formatMessageLegacy(String text) {

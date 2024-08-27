@@ -2,6 +2,7 @@ package pl.pavetti.rockpaperscissors.commands.rpssubcommands;
 
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import pl.pavetti.rockpaperscissors.api.timsixth.SubCommand;
