@@ -13,6 +13,7 @@ import pl.pavetti.rockpaperscissors.api.Metrics;
 import pl.pavetti.rockpaperscissors.commands.RpsCommand;
 import pl.pavetti.rockpaperscissors.commands.RpsReloadCommand;
 import pl.pavetti.rockpaperscissors.commands.RpsTabCompleter;
+import pl.pavetti.rockpaperscissors.commands.TestCommand;
 import pl.pavetti.rockpaperscissors.game.RequestManager;
 import pl.pavetti.rockpaperscissors.listener.InventoryClickListener;
 import pl.pavetti.rockpaperscissors.listener.InventoryCloseListener;
@@ -98,6 +99,7 @@ public final class Main extends JavaPlugin {
     private void registerCommand(){
         this.getCommand("rps").setExecutor(new RpsCommand(economy,requestManager,vault));
         this.getCommand("rpsreload").setExecutor(new RpsReloadCommand());
+        this.getCommand("rpstest").setExecutor(new TestCommand());
     }
 
     private boolean setupEconomy() {
