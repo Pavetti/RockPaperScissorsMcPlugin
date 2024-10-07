@@ -43,7 +43,8 @@ public class  Settings {
     private String badUseRpsGameCmd;
     private String badUseRpsAcceptCmd;
     private String myselfInvite;
-    private String notEnoughMoney;
+    private String notEnoughMoneyOne;
+    private String notEnoughMoneyTwo;
     private String betOutOfRangeMax;
     private String betOutOfRangeMin;
     private String playerNotExist;
@@ -124,7 +125,8 @@ public class  Settings {
         badUseRpsGameCmd = messages.getString("badUseRpsGameCmd");
         badUseRpsAcceptCmd = messages.getString("badUseRpsAcceptCmd");
         myselfInvite = messages.getString("myselfInvite");
-        notEnoughMoney = messages.getString("notEnoughMoney");
+        notEnoughMoneyOne = messages.getString("notEnoughMoneyOne");
+        notEnoughMoneyTwo = messages.getString("notEnoughMoneyTwo");
         betOutOfRangeMax = messages.getString("betOutOfRangeMax");
         betOutOfRangeMin = messages.getString("betOutOfRangeMin");
         playerNotExist = messages.getString("playerNotExist");

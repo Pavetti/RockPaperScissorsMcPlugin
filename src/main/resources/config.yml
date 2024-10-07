@@ -69,13 +69,14 @@ settings:
       - ' &awith a bet of &f{BET}&a$ in Rock Paper Scissors!'
       - '&7~~----------------------------------------------------~~'
     noPermission: '&4You do not have permission to use this command.'
-    badUseRpsGameCmd: '&7You have to give player name and bet argument &f/&7rps game &f<&7player&f> <&7bet&f>'
+    badUseRpsGameCmd: '&7You have to give bet argument &f/&7rps game <&7bet&f> &f(&7player&f)'
     badUseRpsAcceptCmd: '&7You have to give player name argument &f/&7rps accept &f<&7player&f>'
     betOutOfRangeMax: '&7Bet cannot be greater than &f{MAX}&7$' #Placeholder {MAX} - value that is set in config in section 'maxBet'
     betOutOfRangeMin: '&7Bet cannot be less than &f{MIN}&7$' #Placeholder {MIN} - value that is set in config in section 'minBet'
     myselfInvite: '&7You cannot invite yourself.'
     rpsInvite: '&7Player &f{NAME}&7 invites you to play &fRock Paper Scissors&r&7 for &f{BET}&7$. Invitation expires in {EXPIRATION} sec' #Placeholder {NAME} - name of player that send invite, {BET} - value of bet, {EXPIRATION} - value of gameConfig.acceptTime
-    notEnoughMoney: '&7You or your rival dose have enough money for this game.'
+    notEnoughMoneyOne: '&7You do not have enough money for this game.'
+    notEnoughMoneyTwo: '&7You or your rival do not have enough money for this game.'
     playerNotExist: '&7Player with name &f{NAME}&7 is not online or does not exist.' #Placeholder {NAME} - name of player
     noInvitation: '&7You do not have invitation from player &f{NAME}' #Placeholder {NAME} - name of the player whose invitation was attempted to be accepted.
     alreadyInvite: '&7You already send invitation to this player'

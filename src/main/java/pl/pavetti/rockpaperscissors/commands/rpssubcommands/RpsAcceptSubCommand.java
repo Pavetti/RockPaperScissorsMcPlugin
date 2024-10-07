@@ -75,7 +75,7 @@ public class RpsAcceptSubCommand implements SubCommand {
         double bet = invitation.getBet();
         //economy check
         if (economy.getBalance(initiator) < bet || economy.getBalance(acceptor) < bet) {
-            PlayerUtil.sendPrefixedMessage(acceptor, settings.getNotEnoughMoney());
+            PlayerUtil.sendPrefixedMessage(acceptor, settings.getNotEnoughMoneyOne());
             return true;
         }
 

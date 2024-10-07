@@ -15,6 +15,7 @@ import pl.pavetti.rockpaperscissors.commands.RpsReloadCommand;
 import pl.pavetti.rockpaperscissors.commands.RpsTabCompleter;
 import pl.pavetti.rockpaperscissors.commands.TestCommand;
 import pl.pavetti.rockpaperscissors.game.RequestManager;
+import pl.pavetti.rockpaperscissors.game.gui.findenemygui.FindEnemyGui;
 import pl.pavetti.rockpaperscissors.listener.InventoryClickListener;
 import pl.pavetti.rockpaperscissors.listener.InventoryCloseListener;
 import pl.pavetti.rockpaperscissors.waitingroom.WaitingRoomManager;
@@ -31,6 +32,7 @@ public final class Main extends JavaPlugin {
     private final int bStatsPluginID = 22697;
     private boolean vault = true;
     private BukkitAudiences bukkitAdventure;
+    private FindEnemyGui findEnemyGui;
 
     @Override
     public void onEnable() {
@@ -43,6 +45,7 @@ public final class Main extends JavaPlugin {
         instance = this;
         this.bukkitAdventure = BukkitAudiences.create(this);
         initConfiguration();
+        initGuis();
         initMangers();
         registerListener();
         registerCommand();
@@ -75,6 +78,9 @@ public final class Main extends JavaPlugin {
         return this.bukkitAdventure;
     }
 
+    private void initGuis(){
+        findEnemyGui = new FindEnemyGui();
+    }
 
     private void initConfiguration() {
         getConfig().options().copyDefaults(true);
@@ -97,7 +103,7 @@ public final class Main extends JavaPlugin {
     }
 
     private void registerCommand(){
-        this.getCommand("rps").setExecutor(new RpsCommand(economy,requestManager,vault));
+        this.getCommand("rps").setExecutor(new RpsCommand(economy,requestManager,vault,findEnemyGui));
         this.getCommand("rpsreload").setExecutor(new RpsReloadCommand());
         this.getCommand("rpstest").setExecutor(new TestCommand());
     }
