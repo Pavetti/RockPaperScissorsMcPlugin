@@ -6,7 +6,10 @@ import net.kyori.adventure.text.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import pl.pavetti.rockpaperscissors.config.file.GuiConfig;
+import pl.pavetti.rockpaperscissors.config.model.GuiItemModel;
 import pl.pavetti.rockpaperscissors.util.PlayerUtil;
+import pl.pavetti.rockpaperscissors.util.TextUtil;
 import xyz.xenondevs.inventoryaccess.component.AdventureComponentWrapper;
 import xyz.xenondevs.inventoryaccess.component.ComponentWrapper;
 import xyz.xenondevs.invui.gui.Gui;
@@ -22,47 +25,44 @@ import xyz.xenondevs.invui.window.Window;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class FindEnemyGui {
 
+    private final GuiConfig guiConfig;
+
+    public FindEnemyGui(GuiConfig guiConfig) {
+        this.guiConfig = guiConfig;
+    }
+
     public void openGui(Player player) {
         Window.single()
                 .setViewer(player)
-                .setTitle(  wrapComponent( "found enemy" ) )
+                .setTitle(  TextUtil.wrapTextToXenoComponent( guiConfig.getFindEnemyGuiModel().title() ) )
                 .setGui(buildGui())
                 .build()
                 .open();
     }
 
-    public AdventureComponentWrapper wrapComponent(String text) {
-        return new AdventureComponentWrapper( MineDown.parse(text));
-    }
-
-
-
     private Gui buildGui() {
-        Item border = new SimpleItem( new ItemBuilder( Material.BLACK_STAINED_GLASS_PANE ).setDisplayName( " " ) );
+        Map<String, GuiItemModel> items = guiConfig.getFindEnemyGuiModel().items();
+        Item border = new SimpleItem(
+                new ItemBuilder(
+                        items.get( "fillItem" ).material() ).setDisplayName( " " ) );
 
         return PagedGui.items()
-                .setStructure(
-                        "# # # # # # # # #",
-                        "# x x x x x x x #",
-                        "# x x x x x x x #",
-                        "# # # < # > # # #")
+                .setStructure(guiConfig.getFindEnemyGuiModel().structure().toArray(new String[0]))
                 .addIngredient('x', Markers.CONTENT_LIST_SLOT_HORIZONTAL) // where paged items should be put
                 .addIngredient('#', border)
-                .addIngredient('<', new PageBackItem())
-                .addIngredient('>', new ForwardPageItem())
-                .setContent(getPlayersHeads())
+                .addIngredient('<', new PageBackItem(guiConfig))
+                .addIngredient('>', new PageForwardItem(guiConfig))
+                .setContent(getPlayersHeads(items))
                 .build();
     }
 
-    private List<Item> getPlayersHeads(){
 
-        TextComponent lore = (TextComponent) Component.text("click to challenge");
-        List<ComponentWrapper> loreList = new ArrayList<>();
-        loreList.add(new AdventureComponentWrapper( lore ));
+    private List<Item> getPlayersHeads(Map<String, GuiItemModel> items){
 
         List<Player> players = Bukkit.getOnlinePlayers().stream()
                 .filter( player -> !PlayerUtil.isVanished( player ) )
@@ -71,17 +71,20 @@ public class FindEnemyGui {
         List<Item> playerHeads = new ArrayList<>();
         for (Player player : players) {
 
-            SimpleItem item = null;
             try {
-                item = new SimpleItem(
+                SimpleItem item = new SimpleItem(
                         new SkullBuilder( player.getName() )
-                                .setDisplayName( player.getName() )
-                                .setLore( loreList )
+                                .setDisplayName( TextUtil.wrapTextToXenoComponent( items.get("playerHead").name()
+                                        .replace( "{PLAYER}",player.getName() ))
+                                )
+                                .setLore( TextUtil.wrapTextListToXenoComponentList(
+                                        items.get("playerHead").lore() )
+                                )
                 );
+                playerHeads.add( item );
             } catch (MojangApiUtils.MojangApiException | IOException e) {
                 throw new RuntimeException( e );
             }
-            playerHeads.add( item );
         }
         return playerHeads;
     }

@@ -9,4 +9,3 @@ commands:
   rps:
   rpsreload:
     permission: rps.admin
-  rpstest:

@@ -13,7 +13,8 @@ import pl.pavetti.rockpaperscissors.api.Metrics;
 import pl.pavetti.rockpaperscissors.commands.RpsCommand;
 import pl.pavetti.rockpaperscissors.commands.RpsReloadCommand;
 import pl.pavetti.rockpaperscissors.commands.RpsTabCompleter;
-import pl.pavetti.rockpaperscissors.commands.TestCommand;
+import pl.pavetti.rockpaperscissors.config.FileManager;
+import pl.pavetti.rockpaperscissors.config.file.GuiConfig;
 import pl.pavetti.rockpaperscissors.game.RequestManager;
 import pl.pavetti.rockpaperscissors.game.gui.findenemygui.FindEnemyGui;
 import pl.pavetti.rockpaperscissors.listener.InventoryClickListener;
@@ -33,6 +34,8 @@ public final class Main extends JavaPlugin {
     private boolean vault = true;
     private BukkitAudiences bukkitAdventure;
     private FindEnemyGui findEnemyGui;
+    private FileManager fileManager;
+    private GuiConfig guiConfig;
 
     @Override
     public void onEnable() {
@@ -79,12 +82,14 @@ public final class Main extends JavaPlugin {
     }
 
     private void initGuis(){
-        findEnemyGui = new FindEnemyGui();
+        findEnemyGui = new FindEnemyGui(guiConfig);
     }
 
     private void initConfiguration() {
         getConfig().options().copyDefaults(true);
         saveConfig();
+        fileManager = new FileManager(this);
+        guiConfig = new GuiConfig(fileManager);
 
     }
 
@@ -105,7 +110,6 @@ public final class Main extends JavaPlugin {
     private void registerCommand(){
         this.getCommand("rps").setExecutor(new RpsCommand(economy,requestManager,vault,findEnemyGui));
         this.getCommand("rpsreload").setExecutor(new RpsReloadCommand());
-        this.getCommand("rpstest").setExecutor(new TestCommand());
     }
 
     private boolean setupEconomy() {

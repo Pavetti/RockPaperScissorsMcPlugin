@@ -3,12 +3,16 @@ package pl.pavetti.rockpaperscissors.util;
 import de.themoep.minedown.adventure.MineDown;
 import lombok.experimental.UtilityClass;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import org.bukkit.ChatColor;
 import pl.pavetti.rockpaperscissors.config.Settings;
+import xyz.xenondevs.inventoryaccess.component.AdventureComponentWrapper;
+import xyz.xenondevs.inventoryaccess.component.ComponentWrapper;
+
+import java.util.List;
 
 @UtilityClass
 public class TextUtil {
-
 
     public static String formatMessageLegacy(String text) {
         return ChatColor.translateAlternateColorCodes('&', text);
@@ -28,5 +32,15 @@ public class TextUtil {
             message = message.replace(placeholders[i], placeholders[i + 1]);
         }
         return message;
+    }
+
+    public static ComponentWrapper wrapTextToXenoComponent(String text){
+        return new AdventureComponentWrapper( MineDown.parse( text ) );
+    }
+
+    public static List<ComponentWrapper> wrapTextListToXenoComponentList(List<String> textList){
+        return textList.stream()
+                .map(TextUtil::wrapTextToXenoComponent)
+                .toList();
     }
 }

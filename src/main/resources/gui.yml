@@ -1,0 +1,54 @@
+gui:
+  game:
+    # Warning! MineDown format for items name and titles
+    # is only available if your server has paper engine or other based on it. (not for spigot)
+    # All names of materials witch you can use for section 'material' you will find here
+    # https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+    title: "&8Rock Paper Scissors"
+    rock:
+      material: COBBLESTONE
+      name: "&8&lRock"
+    paper:
+      material: PAPER
+      name: "&f&lPaper"
+    scissors:
+      material: SHEARS
+      name: "&c&lScissors"
+    fillItem:
+      material: GRAY_STAINED_GLASS_PANE
+      name: " "
+
+  findEnemy:
+    # "x" - player head | "<" - page back | ">" - page forward | "#" - fill item
+    structure:
+      - "# # # # # # # # #"
+      - "# x x x x x x x #"
+      - "# x x x x x x x #"
+      - "# x x x x x x x #"
+      - "# x x x x x x x #"
+      - "# # # < # > # # #"
+    title: "&8Find enemy"
+    item:
+      pageForward:
+        material: ARROW
+        name: "&7Next page"
+        hasNextPageLore:
+          - "&7Go to page {CURRENT}/{MAX}"
+        hasNotNextPageLore:
+          - "&7There are no more pages" #{CURRENT} , {MAX}
+      pageBack:
+        material: ARROW
+        name: "&7Previous page"
+        hasNextPageLore:
+          - "&7Go to page {CURRENT}/{MAX}"
+        hasNotNextPageLore:
+          - "&7You can't go further back" #{CURRENT} , {MAX}
+      fillItem:
+        material: GRAY_STAINED_GLASS_PANE
+        name: " "
+        lore:
+      playerHead:
+        # material always is PLAYER_HEAD
+        name: "&7{PLAYER}"
+        lore:
+          - "&7Click to invite player to game"

@@ -35,8 +35,8 @@ settings:
   gui:
     main:
       # Warning! MineDown format for items name and titles
-      # is only available if your server has paper engine or some forks of it.
-      # All names of materials witch you can use for section 'item' you will find here
+      # is only available if your server has paper engine or other based on it. (not for spigot)
+      # All names of materials witch you can use for section 'material' you will find here
       # https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
       title: "&8Rock Paper Scissors"
       rock:
@@ -51,6 +51,7 @@ settings:
       fillItem:
         material: GRAY_STAINED_GLASS_PANE
         name: " "
+
 
   messages:
     # Warning! Placeholders are created for specific messages.

@@ -11,27 +11,27 @@ import xyz.xenondevs.invui.item.builder.ItemBuilder;
 import xyz.xenondevs.invui.item.impl.controlitem.PageItem;
 
 import java.util.List;
-import java.util.Map;
 
-public class PageBackItem extends PageItem {
+public class PageForwardItem extends PageItem {
 
     private final GuiConfig guiConfig;
 
-    public PageBackItem(GuiConfig guiConfig) {
-        super(false);
+    public PageForwardItem(GuiConfig guiConfig) {
+        super(true);
         this.guiConfig = guiConfig;
     }
 
     @Override
     public ItemProvider getItemProvider(PagedGui<?> gui) {
-        GuiItemModel pageBackItemModel = guiConfig.getFindEnemyGuiModel().items().get( "pageBack" );
-        ItemBuilder builder = new ItemBuilder(pageBackItemModel.material());
-        builder.setDisplayName(TextUtil.wrapTextToXenoComponent( pageBackItemModel.name() ));
-        if( gui.hasPreviousPage() ){
-            builder.setLore( getPageItemLoreFrom( pageBackItemModel.hasNextPageLore(), gui ) );
+        GuiItemModel pageForwardItemModel = guiConfig.getFindEnemyGuiModel().items().get( "pageForward" );
+        ItemBuilder builder = new ItemBuilder(pageForwardItemModel.material());
+        builder.setDisplayName(TextUtil.wrapTextToXenoComponent( pageForwardItemModel.name() ));
+        if( gui.hasNextPage() ){
+            builder.setLore( getPageItemLoreFrom( pageForwardItemModel.hasNextPageLore(), gui ) );
         } else {
-            builder.setLore( getPageItemLoreFrom( pageBackItemModel.hasNotNextPageLore(), gui ) );
+            builder.setLore( getPageItemLoreFrom( pageForwardItemModel.hasNotNextPageLore(), gui ) );
         }
+
 
         return builder;
     }
@@ -40,7 +40,7 @@ public class PageBackItem extends PageItem {
         lore.forEach( line -> line
                 .replace( "{CURRENT}", String.valueOf( gui.getCurrentPage() ) )
                 .replace( "{MAX}", String.valueOf( gui.getPageAmount() ) )
-            );
+        );
         return lore.stream().map( TextUtil::wrapTextToXenoComponent ).toList();
     }
 
