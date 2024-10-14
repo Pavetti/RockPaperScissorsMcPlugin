@@ -42,6 +42,11 @@ public class RpsGameSubCommand implements SubCommand {
 
         Player initiator = (Player) sender;
 
+        if(!initiator.hasPermission(  "rps.player.invite")){
+            PlayerUtil.sendPrefixedMessage(initiator, settings.getNoPermission());
+            return true;
+        }
+
         //check if initiator in game
         if(rpsGameManager.isPlayerInGame(initiator)){
             PlayerUtil.sendPrefixedMessage(initiator, settings.getCmdPerformWhileGame());
@@ -73,11 +78,14 @@ public class RpsGameSubCommand implements SubCommand {
             }
 
             //check if player has blocked invitations
-            if ( rpsGameManager.isPlayerBlockingInvitation( opponent.getUniqueId().toString() ) ) {
+            if ( rpsGameManager.isPlayerBlockingInvitation( opponent.getUniqueId().toString() )
+                    || opponent.hasPermission( "rps.noinclude" ))
+            {
                 PlayerUtil.sendPrefixedMessage( initiator, settings.getBlockedInvitationMessage()
                         , "{NAME}", opponent.getName() );
                 return true;
             }
+
 
             //check if already invite
             boolean[] hasInvitationArray = {false};

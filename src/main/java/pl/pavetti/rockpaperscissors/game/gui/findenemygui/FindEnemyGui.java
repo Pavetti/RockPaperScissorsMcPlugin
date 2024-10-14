@@ -1,18 +1,13 @@
 package pl.pavetti.rockpaperscissors.game.gui.findenemygui;
 
-import de.themoep.minedown.adventure.MineDown;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
+
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import pl.pavetti.rockpaperscissors.config.file.GuiConfig;
 import pl.pavetti.rockpaperscissors.config.model.GuiItemModel;
 import pl.pavetti.rockpaperscissors.util.PlayerUtil;
 import pl.pavetti.rockpaperscissors.util.TextUtil;
-import xyz.xenondevs.inventoryaccess.component.AdventureComponentWrapper;
-import xyz.xenondevs.inventoryaccess.component.ComponentWrapper;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.gui.PagedGui;
 import xyz.xenondevs.invui.gui.structure.Markers;
@@ -44,12 +39,12 @@ public class FindEnemyGui {
         Window.single()
                 .setViewer(player)
                 .setTitle(  TextUtil.wrapTextToXenoComponent( guiConfig.getFindEnemyGuiModel().title() ) )
-                .setGui(buildGui(gameBet))
+                .setGui(buildGui(player,gameBet))
                 .build()
                 .open();
     }
 
-    private Gui buildGui(double gameBet) {
+    private Gui buildGui(Player player,double gameBet) {
         Map<String, GuiItemModel> items = guiConfig.getFindEnemyGuiModel().items();
         Item border = new SimpleItem(
                 new ItemBuilder(
@@ -61,17 +56,18 @@ public class FindEnemyGui {
                 .addIngredient('#', border)
                 .addIngredient('<', new PageBackItem(guiConfig))
                 .addIngredient('>', new PageForwardItem(guiConfig))
-                .setContent(getPlayersHeads(items, gameBet))
+                .setContent(getPlayersHeads(items,player, gameBet))
                 .build();
     }
 
 
-    private List<Item> getPlayersHeads(Map<String, GuiItemModel> items,double gameBet){
+    private List<Item> getPlayersHeads(Map<String, GuiItemModel> items,Player playerTo,double gameBet){
 
         List<Player> players = Bukkit.getOnlinePlayers().stream()
                 .filter( player -> !PlayerUtil.isVanished( player ) )
-                .filter( player -> player.hasPermission( "rps.playerslist.noinclude" ) )
+                .filter( player -> !player.hasPermission( "rps.noinclude" ) )
                 .filter( player -> economy.getBalance( player ) >= gameBet )
+                .filter( player -> !PlayerUtil.compare( player,playerTo ) )
                 .collect( Collectors.toList() );
         List<Item> playerHeads = new ArrayList<>();
         for (Player player : players) {

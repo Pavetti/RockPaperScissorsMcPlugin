@@ -35,6 +35,11 @@ public class RpsAcceptSubCommand implements SubCommand {
         Player acceptor = (Player) sender;
         Settings settings = Settings.getInstance();
 
+        if(!acceptor.hasPermission(  "rps.player.accept")){
+            PlayerUtil.sendPrefixedMessage(acceptor, settings.getNoPermission());
+            return true;
+        }
+
         //check if acceptor in game
         if(rpsGameManager.isPlayerInGame(acceptor)){
             PlayerUtil.sendPrefixedMessage(acceptor, settings.getCmdPerformWhileGame());

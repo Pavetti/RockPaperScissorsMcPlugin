@@ -41,6 +41,7 @@ public class GuiConfig {
 
     public void load(){
         findEnemyGuiModel = loadGui( "findEnemy", List.of("fillItem", "playerHead","pageForward", "pageBack") );
+        loadGameGui();
     }
 
     private GuiModel loadGui(String guiPathName, List<String> itemsPathNames){

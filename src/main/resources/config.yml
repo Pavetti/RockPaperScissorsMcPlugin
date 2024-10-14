@@ -60,7 +60,7 @@ settings:
     - ''
     - '&7~~--[-------~~&r &2RPS Commands &7~~-------]--~~'
     - ''
-    - ' &f/&2rps game &f<player> <bet> &7- Sends an invitation to play rock paper scissors'
+    - ' &f/&2rps game &f<bet> <player> &7- Sends an invitation to play rock paper scissors'
     - ' &f/&2rps accept &f<player> &7- Accepts an invitation to play rock paper scissors'
     - ' &f/&2rps toggle &7- Toggle the ability to send invitations'
     - ''

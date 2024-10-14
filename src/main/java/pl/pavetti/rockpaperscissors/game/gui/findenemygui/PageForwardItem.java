@@ -1,6 +1,5 @@
 package pl.pavetti.rockpaperscissors.game.gui.findenemygui;
 
-import org.bukkit.Material;
 import pl.pavetti.rockpaperscissors.config.file.GuiConfig;
 import pl.pavetti.rockpaperscissors.config.model.GuiItemModel;
 import pl.pavetti.rockpaperscissors.util.TextUtil;

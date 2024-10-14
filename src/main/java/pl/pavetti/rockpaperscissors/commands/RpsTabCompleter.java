@@ -23,18 +23,21 @@ public class RpsTabCompleter implements TabCompleter {
             completes = Arrays.asList("game","accept","toggle");
         }
         else if (args.length == 2 && args[0].equals("game")) {
-            for (Player player : Bukkit.getOnlinePlayers()) {
-                if(PlayerUtil.isVanished(player)) continue;
-                completes.add(player.getName());
-            }
+            completes.add("<bet>");
         } else if (args.length == 2 && args[0].equals("accept")) {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 if(PlayerUtil.isVanished(player)) continue;
                 completes.add(player.getName());
             }
         } else if (args.length == 3 && args[0].equals("game")) {
-            completes.add("<bet>");
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                if(PlayerUtil.isVanished(player)) continue;
+                if(player.hasPermission( "rps.noinclude" )) continue;
+                if(PlayerUtil.compare((Player) sender, player )) continue;
+                completes.add(player.getName());
+            }
         }
+
         return completes;
     }
 }

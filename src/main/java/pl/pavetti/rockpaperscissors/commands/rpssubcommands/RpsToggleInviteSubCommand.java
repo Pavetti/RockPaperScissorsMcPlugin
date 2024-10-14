@@ -23,6 +23,10 @@ public class RpsToggleInviteSubCommand implements SubCommand {
         if(!vault) return true;
 
         Player player = (Player) sender;
+        if(!player.hasPermission( "rps.player.toggle" )){
+            PlayerUtil.sendPrefixedMessage(player, settings.getNoPermission());
+            return false;
+        }
 
         boolean result = rpsGameManager.toggleBlockingInvitationToPlayer(player.getUniqueId().toString());
         // result true = added to no attend set

@@ -22,7 +22,7 @@ public class RpsReloadCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
-        if(sender.hasPermission("rps.admin")){
+        if(sender.hasPermission("rps.admin.reload")){
             fileManager.reload();
             settings.load();
             RpsGameManager.getInstance().reloadResources();
