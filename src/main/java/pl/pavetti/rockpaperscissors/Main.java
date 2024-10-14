@@ -82,7 +82,7 @@ public final class Main extends JavaPlugin {
     }
 
     private void initGuis(){
-        findEnemyGui = new FindEnemyGui(guiConfig);
+        findEnemyGui = new FindEnemyGui(guiConfig,economy);
     }
 
     private void initConfiguration() {
@@ -109,7 +109,7 @@ public final class Main extends JavaPlugin {
 
     private void registerCommand(){
         this.getCommand("rps").setExecutor(new RpsCommand(economy,requestManager,vault,findEnemyGui));
-        this.getCommand("rpsreload").setExecutor(new RpsReloadCommand());
+        this.getCommand("rpsreload").setExecutor(new RpsReloadCommand(fileManager));
     }
 
     private boolean setupEconomy() {

@@ -60,7 +60,7 @@ public class RpsGameSubCommand implements SubCommand {
                 return true;
             }
 
-            findEnemyGui.openGui( initiator );
+            findEnemyGui.openGui( initiator,bet );
         }
         else {
 

@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import pl.pavetti.rockpaperscissors.Main;
 import pl.pavetti.rockpaperscissors.config.FileManager;
 import pl.pavetti.rockpaperscissors.config.model.GuiItemModel;
 import pl.pavetti.rockpaperscissors.config.model.GuiModel;
@@ -18,9 +19,24 @@ public class GuiConfig {
 
     private GuiModel findEnemyGuiModel;
 
+    //gui
+    private String guiGameTitle;
+    private String guiGameFillItemName;
+    private Material guiGameFillMaterial;
+    private String guiGameRockName;
+    private Material guiGameRockMaterial;
+    private String guiGamePaperName;
+    private Material guiGamePaperMaterial;
+    private String guiGameScissorsName;
+    private Material guiGameScissorsMaterial;
+
     public GuiConfig(FileManager fileManger ) {
         this.fileManager = fileManger;
         load();
+    }
+
+    public Object getByPath(String path){
+        return fileManager.getGuiYaml().get(path);
     }
 
     public void load(){
@@ -42,6 +58,22 @@ public class GuiConfig {
         );
     }
 
+    private void loadGameGui(){
+        YamlConfiguration yamlConfiguration = fileManager.getGuiYaml();
+        ConfigurationSection section = yamlConfiguration.getConfigurationSection("gui.game");
+
+        assert section != null : "Section gui.game in gui.yml not found";
+
+        guiGameTitle = section.getString("title");
+        guiGameFillItemName = section.getString("fillItem.name");
+        guiGameFillMaterial = ItemUtil.getMaterialOf( section.getString("fillItem.material") );
+        guiGameRockName = section.getString("rock.name");
+        guiGameRockMaterial = ItemUtil.getMaterialOf( section.getString("rock.material") );
+        guiGamePaperName = section.getString("paper.name");
+        guiGamePaperMaterial = ItemUtil.getMaterialOf( section.getString("paper.material") );
+        guiGameScissorsName = section.getString("scissors.name");
+        guiGameScissorsMaterial = ItemUtil.getMaterialOf( section.getString("scissors.material") );
+    }
 
     private GuiItemModel loadItem(ConfigurationSection section, String pathItemName){
         Material material = Material.BARRIER;

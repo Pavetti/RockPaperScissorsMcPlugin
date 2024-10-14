@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import pl.pavetti.rockpaperscissors.config.Settings;
+import pl.pavetti.rockpaperscissors.config.file.GuiConfig;
 import pl.pavetti.rockpaperscissors.inventoryholder.RpsMenuInventoryHolder;
 import pl.pavetti.rockpaperscissors.util.TextUtil;
 import pl.pavetti.rockpaperscissors.util.ItemUtil;
@@ -15,7 +16,7 @@ import pl.pavetti.rockpaperscissors.util.ServerUtil;
 
 public class GameGUI {
 
-    private final Settings settings = Settings.getInstance();
+    private final GuiConfig guiConfig;
 
     @Getter
     private Inventory gameInventory;
@@ -26,7 +27,8 @@ public class GameGUI {
     private ItemStack fillItem;
 
 
-    public GameGUI() {
+    public GameGUI(GuiConfig guiConfig) {
+        this.guiConfig = guiConfig;
         load();
     }
 
@@ -57,11 +59,11 @@ public class GameGUI {
 
     private ItemStack loadItemStack(String itemConfigOptionName){
         Material material = ItemUtil.getMaterialOf(
-                (String)settings.getByPath("settings.gui.main." + itemConfigOptionName + ".material"));
+                (String)guiConfig.getByPath("gui.game." + itemConfigOptionName + ".material"));
         ItemStack itemStack = new ItemStack(material,1);
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        setNameDependsOnEngine(itemMeta, (String)settings.getByPath("settings.gui.main." + itemConfigOptionName + ".name"));
+        setNameDependsOnEngine(itemMeta, (String)guiConfig.getByPath("gui.game." + itemConfigOptionName + ".name"));
         itemStack.setItemMeta(itemMeta);
         return itemStack;
     }
@@ -76,10 +78,10 @@ public class GameGUI {
     private Inventory createInventoryDependsOnEngine(){
         if(ServerUtil.isPaper())
             return Bukkit.createInventory(new RpsMenuInventoryHolder(),27,
-                    TextUtil.formatMessage(settings.getGuiMainTitle()));
+                    TextUtil.formatMessage(guiConfig.getGuiGameTitle()));
         else
             return Bukkit.createInventory(new RpsMenuInventoryHolder(),27,
-                TextUtil.formatMessageLegacy(settings.getGuiMainTitle()));
+                TextUtil.formatMessageLegacy(guiConfig.getGuiGameTitle()));
     }
 
 }

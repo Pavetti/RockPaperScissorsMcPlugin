@@ -33,7 +33,7 @@ public class RpsGameManager {
      * Private constructor for singleton pattern.
      */
     private RpsGameManager(){
-        gameGUI = new GameGUI();
+        gameGUI = new GameGUI(Main.getInstance().getGuiConfig() );
         economy = Main.getInstance().getEconomy();
         waitingRoomManager = Main.getInstance().getWaitingRoomManager();
     }

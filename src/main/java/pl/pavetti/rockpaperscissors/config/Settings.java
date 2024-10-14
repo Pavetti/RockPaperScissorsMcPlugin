@@ -26,16 +26,7 @@ public class  Settings {
     private boolean globalGameResultEnable;
     private double globalGameResultMinBet;
 
-    //gui
-    private String guiMainTitle;
-    private String guiMainFillItemName;
-    private Material guiMainFillItem;
-    private String guiRockName;
-    private Material guiRockItem;
-    private String guiPaperName;
-    private Material guiPaperItem;
-    private String guiScissorsName;
-    private Material guiScissorsItem;
+
     //messages
     private List<String> descriptionCommand;
     private List<String> globalGameResultMessage;
@@ -105,17 +96,7 @@ public class  Settings {
         //global game result
         globalGameResultEnable = gameConfig.getBoolean("globalGameResult.enable");
         globalGameResultMinBet = gameConfig.getDouble("globalGameResult.minBet");
-        //gui
-        assert mainGui != null : "gui.main section in config.yml is missing";
-        guiMainTitle = mainGui.getString("title");
-        guiMainFillItem = ItemUtil.getMaterialOf(mainGui.getString("fillItem.material"));
-        guiMainFillItemName = mainGui.getString("fillItem.name");
-        guiRockItem = ItemUtil.getMaterialOf(mainGui.getString("rock.material"));
-        guiRockName = mainGui.getString("rock.name");
-        guiPaperItem = ItemUtil.getMaterialOf(mainGui.getString(".paper.material"));
-        guiPaperName = mainGui.getString("paper.name");
-        guiScissorsItem = ItemUtil.getMaterialOf(mainGui.getString("scissors.material"));
-        guiScissorsName = mainGui.getString("scissors.name");
+
 
         //messages
         assert messages != null : "messages section in config.yml is missing";
